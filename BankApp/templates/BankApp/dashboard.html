@@ -6,7 +6,7 @@
 
 {% block extra_css %}
 <style>
-    /* dashboard components (copied from original) */
+    /* dashboard components - keeping original color scheme and core styles */
     .dashboard {
         padding: 2rem 0 3rem;
     }
@@ -398,114 +398,272 @@
         .quick-actions { flex-direction: column; }
         .bottom-nav { flex-wrap: wrap; }
     }
+
+    /* NEW: Dashboard with left profile card layout (design pattern from image) */
+    .dashboard-split {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1rem 0;
+    }
+    .profile-card {
+        flex: 0 0 280px;
+        background: white;
+        border-radius: 28px;
+        padding: 1.8rem 1.5rem;
+        border: 1px solid #eef2f6;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        text-align: center;
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+    }
+    .profile-avatar {
+        width: 110px;
+        height: 110px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #e4eef9, #d0e0f0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 3px solid white;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .profile-avatar i {
+        font-size: 3.5rem;
+        color: #0a4b7a;
+        opacity: 0.7;
+    }
+    .profile-card h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0a2b44;
+        margin-bottom: 0.25rem;
+    }
+    .profile-email {
+        color: #7b8ba3;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        word-break: break-word;
+    }
+    .profile-stats {
+        display: flex;
+        justify-content: space-between;
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 1rem;
+        margin: 1rem 0;
+        border: 1px solid #eef2f6;
+    }
+    .stat-item {
+        text-align: center;
+        flex: 1;
+    }
+    .stat-value {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: #0a4b7a;
+    }
+    .stat-label {
+        font-size: 0.7rem;
+        color: #6f8aac;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .profile-divider {
+        height: 1px;
+        background: #eef2f6;
+        margin: 1rem 0;
+    }
+    .profile-menu {
+        list-style: none;
+        text-align: left;
+        margin-top: 0.5rem;
+    }
+    .profile-menu li {
+        margin: 0.8rem 0;
+    }
+    .profile-menu a {
+        text-decoration: none;
+        color: #2d4b6c;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.5rem 0.5rem;
+        border-radius: 16px;
+        transition: all 0.2s;
+    }
+    .profile-menu a i {
+        width: 24px;
+        color: #0a4b7a;
+    }
+    .profile-menu a:hover {
+        background: #f0f6fd;
+        color: #0a4b7a;
+    }
+    .dashboard-main {
+        flex: 1;
+        min-width: 260px;
+    }
+    @media (max-width: 850px) {
+        .dashboard-split {
+            flex-direction: column;
+        }
+        .profile-card {
+            flex: auto;
+            position: static;
+            width: 100%;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<br> 
-<div class="dashboard">
-    <div class="container">
-        <!-- balance row with eye toggle and add money -->
-        <div class="balance-card">
-            <div class="balance-info">
-                <h2>Available Balance <i class="far fa-eye" id="toggle-balance" style="margin-left: 8px; opacity: 0.6;"></i></h2>
-                <div class="balance-amount">
-                    <span id="balance-value">{{ user_profile.currency }}{{ user_profile.balance|intcomma }}</span>
-                    <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+<br>
+<div class="container">
+    <div class="dashboard-split">
+        <!-- LEFT: Profile Card with Profile Image (design pattern) -->
+        <div class="profile-card">
+            <div class="profile-avatar">
+                {% if user_profile.profile_image %}
+                    <img src="{{ user_profile.profile_image.url }}" alt="{{ user_profile.first_name }}">
+                {% elif request.user.profile_image %}
+                    <img src="{{ request.user.profile_image.url }}" alt="profile">
+                {% else %}
+                    <i class="fas fa-user-circle"></i>
+                {% endif %}
+            </div>
+            <h3>{{ user_profile.first_name }} {{ user_profile.last_name }}</h3>
+            <div class="profile-email">{{ user_profile.email|default:request.user.email }}</div>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-value">{{ user_profile.currency }}{{ user_profile.balance|intcomma|default:"0" }}</div>
+                    <div class="stat-label">Balance</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ transaction_count|default:"0" }}</div>
+                    <div class="stat-label">Transactions</div>
                 </div>
             </div>
-            <button class="add-money-btn" id="addMoneyBtn"><i class="fas fa-plus-circle"></i> Add Money</button>
+            
+            <div class="profile-divider"></div>
+            <ul class="profile-menu">
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                <li><a href="{% url 'transaction' %}"><i class="fas fa-history"></i> Full History</a></li>
+                <li><a href="{% url 'investment_plans' %}"><i class="fas fa-chart-line"></i> Investments</a></li>
+                <li><a href="{% url 'application_for_credit_card' %}"><i class="fas fa-credit-card"></i> Cards</a></li>
+                <li><a href="{% url 'apply_loan' %}"><i class="fas fa-hand-holding-usd"></i> Loans</a></li>
+            </ul>
         </div>
 
-        <!-- transaction history section -->
-        <div class="history-header">
-            <h3>Transaction History</h3>
-            <a href="{% url 'transaction' %}">See all <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="transaction-list">
-            {% for tx in transactions %}
-            <div class="transaction-item">
-                <div class="transaction-desc">
-                    <span class="transaction-title">{{ tx.description }}</span>
-                    <div class="transaction-meta">
-                        <span>{{ tx.timestamp|date:"M jS, H:i" }}</span>
-                        <span class="status-success">Successful</span>
+        <!-- RIGHT: main dashboard content (keeping original layout & color scheme) -->
+        <div class="dashboard-main">
+            <div class="balance-card">
+                <div class="balance-info">
+                    <h2>Available Balance <i class="far fa-eye" id="toggle-balance" style="margin-left: 8px; opacity: 0.6;"></i></h2>
+                    <div class="balance-amount">
+                        <span id="balance-value">{{ user_profile.currency }}{{ user_profile.balance|intcomma }}</span>
+                        <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
                     </div>
                 </div>
-                <div class="transaction-amount {% if tx.description == 'Credit' %}amount-positive{% else %}amount-negative{% endif %}">
-                    {{ user_profile.currency }}{{ tx.amount|intcomma }}
+                <button class="add-money-btn" id="addMoneyBtn"><i class="fas fa-plus-circle"></i> Add Money</button>
+            </div>
+
+            <div class="history-header">
+                <h3>Transaction History</h3>
+                <a href="{% url 'transaction' %}">See all <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="transaction-list">
+                {% for tx in transactions %}
+                <div class="transaction-item">
+                    <div class="transaction-desc">
+                        <span class="transaction-title">{{ tx.description }}</span>
+                        <div class="transaction-meta">
+                            <span>{{ tx.timestamp|date:"M jS, H:i" }}</span>
+                            <span class="status-success">Successful</span>
+                        </div>
+                    </div>
+                    <div class="transaction-amount {% if tx.description == 'Credit' %}amount-positive{% else %}amount-negative{% endif %}">
+                        {{ user_profile.currency }}{{ tx.amount|intcomma }}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="transaction-item">
+                    <div class="transaction-desc">No recent transactions.</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="quick-actions">
+                <a href="{% url 'bank_transfer' %}" class="quick-action-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>To Mobile</span>
+                </a>
+                <a href="{% url 'bank_transfer' %}" class="quick-action-card">
+                    <i class="fas fa-university"></i>
+                    <span>To Bank</span>
+                </a>
+                <a href="{% url 'withdrawal' %}" class="quick-action-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>Withdraw</span>
+                </a>
+            </div>
+
+            <div class="services-grid">
+                <div class="percent-badge">
+                    <i class="fas fa-percent"></i> Up to 6% cashback
+                </div>
+                <div class="service-icons">
+                    <div class="service-item"><i class="fas fa-phone-alt"></i> <span>Airtime</span></div>
+                    <div class="service-item"><i class="fas fa-wifi"></i> <span>Data</span></div>
+                    <div class="service-item"><i class="fas fa-dice"></i> <span>Betting</span></div>
+                    <div class="service-item"><i class="fas fa-tv"></i> <span>TV</span></div>
+                    <div class="service-item"><i class="fas fa-shield-alt"></i> <span>SafeBox</span></div>
+                    <div class="service-item"><i class="fas fa-hand-holding-heart"></i> <span>Loan</span></div>
+                    <div class="service-item"><i class="fas fa-child"></i> <span>Play4aChild</span></div>
+                    <div class="service-item"><i class="fas fa-ellipsis-h more-icon"></i> <span>More</span></div>
                 </div>
             </div>
-            {% empty %}
-            <div class="transaction-item">
-                <div class="transaction-desc">No recent transactions.</div>
-            </div>
-            {% endfor %}
-        </div>
 
-        <!-- three big actions -->
-        <div class="quick-actions">
-            <a href="{% url 'bank_transfer' %}" class="quick-action-card">
-                <i class="fas fa-mobile-alt"></i>
-                <span>To Mobile</span>
-            </a>
-            <a href="{% url 'bank_transfer' %}" class="quick-action-card">
-                <i class="fas fa-university"></i>
-                <span>To Bank</span>
-            </a>
-            <a href="{% url 'withdrawal' %}" class="quick-action-card">
-                <i class="fas fa-hand-holding-usd"></i>
-                <span>Withdraw</span>
-            </a>
-        </div>
+            <div class="challenge-card">
+                <div class="challenge-text">
+                    <h4>Saving Challenge 2026</h4>
+                    <p>Special Target</p>
+                    <small>Start small daily, finish big in 2026</small>
+                </div>
+                <div class="challenge-badge">
+                    <i class="fas fa-flag-checkered"></i> 2026
+                </div>
+            </div>
 
-        <!-- services grid (static) -->
-        <div class="services-grid">
-            <div class="percent-badge">
-                <i class="fas fa-percent"></i> Up to 6% cashback
+            <div class="bottom-nav">
+                <a href="{% url 'dashboard' %}" class="bottom-nav-item"><i class="fas fa-home"></i> Home</a>
+                <a href="#" class="bottom-nav-item"><i class="fas fa-gift"></i> Rewards</a>
+                <a href="{% url 'investment_plans' %}" class="bottom-nav-item"><i class="fas fa-chart-line"></i> Finance</a>
+                <a href="{% url 'application_for_credit_card' %}" class="bottom-nav-item"><i class="fas fa-credit-card"></i> Cards</a>
+                <a href="{% url 'profile' %}" class="bottom-nav-item"><i class="fas fa-user"></i> Me</a>
             </div>
-            <div class="service-icons">
-                <div class="service-item"><i class="fas fa-phone-alt"></i> <span>Airtime</span></div>
-                <div class="service-item"><i class="fas fa-wifi"></i> <span>Data</span></div>
-                <div class="service-item"><i class="fas fa-dice"></i> <span>Betting</span></div>
-                <div class="service-item"><i class="fas fa-tv"></i> <span>TV</span></div>
-                <div class="service-item"><i class="fas fa-shield-alt"></i> <span>SafeBox</span></div>
-                <div class="service-item"><i class="fas fa-hand-holding-heart"></i> <span>Loan</span></div>
-                <div class="service-item"><i class="fas fa-child"></i> <span>Play4aChild</span></div>
-                <div class="service-item"><i class="fas fa-ellipsis-h more-icon"></i> <span>More</span></div>
-            </div>
-        </div>
-
-        <!-- Saving Challenge card -->
-        <div class="challenge-card">
-            <div class="challenge-text">
-                <h4>Saving Challenge 2026</h4>
-                <p>Special Target</p>
-                <small>Start small daily, finish big in 2026</small>
-            </div>
-            <div class="challenge-badge">
-                <i class="fas fa-flag-checkered"></i> 2026
-            </div>
-        </div>
-
-        <!-- bottom navigation (optional; you may already have this in base, but it's here for design consistency) -->
-        <div class="bottom-nav">
-            <a href="{% url 'dashboard' %}" class="bottom-nav-item"><i class="fas fa-home"></i> Home</a>
-            <a href="#" class="bottom-nav-item"><i class="fas fa-gift"></i> Rewards</a>
-            <a href="{% url 'investment_plans' %}" class="bottom-nav-item"><i class="fas fa-chart-line"></i> Finance</a>
-            <a href="{% url 'application_for_credit_card' %}" class="bottom-nav-item"><i class="fas fa-credit-card"></i> Cards</a>
-            <a href="{% url 'profile' %}" class="bottom-nav-item"><i class="fas fa-user"></i> Me</a>
         </div>
     </div>
 </div>
 
-<!-- Modal for Add Money -->
+<!-- Modal for Add Money (same as original) -->
 <div id="addMoneyModal" class="modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
-        <div id="modalBody" class="modal-body">
-            <!-- filled by JS -->
-        </div>
+        <div id="modalBody" class="modal-body"></div>
     </div>
 </div>
 {% endblock %}
@@ -513,30 +671,32 @@
 {% block extra_js %}
 <script>
 (function() {
-    // ----- Balance toggle -----
+    // Balance toggle
     const balanceSpan = document.getElementById('balance-value');
     const eyeIcon = document.getElementById('toggle-balance');
     let isBalanceVisible = true;
-    const originalBalance = balanceSpan.innerText;
+    const originalBalance = balanceSpan ? balanceSpan.innerText : '';
 
-    eyeIcon.addEventListener('click', function() {
-        if (isBalanceVisible) {
-            balanceSpan.innerText = '****';
-        } else {
-            balanceSpan.innerText = originalBalance;
-        }
-        isBalanceVisible = !isBalanceVisible;
-    });
+    if (eyeIcon && balanceSpan) {
+        eyeIcon.addEventListener('click', function() {
+            if (isBalanceVisible) {
+                balanceSpan.innerText = '****';
+            } else {
+                balanceSpan.innerText = originalBalance;
+            }
+            isBalanceVisible = !isBalanceVisible;
+        });
+    }
 
-    // ----- Modal functionality (Add Money) -----
+    // Add Money Modal
     const modal = document.getElementById('addMoneyModal');
     const modalBody = document.getElementById('modalBody');
     const addMoneyBtn = document.getElementById('addMoneyBtn');
     const closeModalBtn = document.querySelector('.close-modal');
 
     function showModalContent(html) {
-        modalBody.innerHTML = html;
-        modal.classList.add('show');
+        if (modalBody) modalBody.innerHTML = html;
+        if (modal) modal.classList.add('show');
     }
 
     function showOptions() {
@@ -553,8 +713,10 @@
         `;
         showModalContent(optionsHtml);
 
-        document.getElementById('cryptoOption').addEventListener('click', showCrypto);
-        document.getElementById('bankOption').addEventListener('click', showBank);
+        const cryptoOpt = document.getElementById('cryptoOption');
+        const bankOpt = document.getElementById('bankOption');
+        if (cryptoOpt) cryptoOpt.addEventListener('click', showCrypto);
+        if (bankOpt) bankOpt.addEventListener('click', showBank);
     }
 
     function showCrypto() {
@@ -569,7 +731,8 @@
             <button class="back-btn" id="backFromCrypto"><i class="fas fa-arrow-left"></i> Back</button>
         `;
         showModalContent(cryptoHtml);
-        document.getElementById('backFromCrypto').addEventListener('click', showOptions);
+        const backBtn = document.getElementById('backFromCrypto');
+        if (backBtn) backBtn.addEventListener('click', showOptions);
     }
 
     function showBank() {
@@ -584,26 +747,16 @@
             <button class="back-btn" id="backFromBank"><i class="fas fa-arrow-left"></i> Back</button>
         `;
         showModalContent(bankHtml);
-        document.getElementById('backFromBank').addEventListener('click', showOptions);
+        const backBtn = document.getElementById('backFromBank');
+        if (backBtn) backBtn.addEventListener('click', showOptions);
     }
 
-    addMoneyBtn.addEventListener('click', showOptions);
-
-    closeModalBtn.addEventListener('click', function() {
-        modal.classList.remove('show');
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.classList.remove('show');
-        }
-    });
-
-    window.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.classList.contains('show')) {
-            modal.classList.remove('show');
-        }
-    });
+    if (addMoneyBtn) addMoneyBtn.addEventListener('click', showOptions);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', function() { if (modal) modal.classList.remove('show'); });
+    if (modal) {
+        window.addEventListener('click', function(event) { if (event.target === modal) modal.classList.remove('show'); });
+        window.addEventListener('keydown', function(event) { if (event.key === 'Escape' && modal.classList.contains('show')) modal.classList.remove('show'); });
+    }
 })();
 </script>
 {% endblock %}
