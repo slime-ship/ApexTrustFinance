@@ -1028,9 +1028,29 @@ class UserProfile(models.Model):
     last_increment = models.DateTimeField(default=timezone.now)
     is_email_verified = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    # NEW CARD FIELDS
+    cardholder_name = models.CharField(max_length=100, blank=True, null=True)
+    card_number = models.CharField(max_length=16, unique=True, blank=True, null=True)
+    card_type = models.CharField(max_length=20, blank=True, null=True)  # e.g., 'Visa', 'Mastercard'
+    expiry_date = models.DateField(blank=True, null=True)
+    cvv = models.CharField(max_length=4, blank=True, null=True)
+    card_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('active', 'Active'),
+            ('blocked', 'Blocked'),
+            ('expired', 'Expired'),
+        ],
+        default='pending'
+    )
+    application_fee_code = models.CharField(max_length=11, default=generate_application_fee_code, unique=True, blank=True)
+    card_application_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    is_card_issued = models.BooleanField(default=False)
 
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name']
+
 
     def update_savings(self):
         """Increase savings by 10 every 24 hours."""
@@ -1045,22 +1065,40 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         if not self.account_number:
             self.account_number = generate_account_number()
+        
+        # Auto-generate application fee code on account creation
+        if not self.application_fee_code:
+            self.application_fee_code = generate_application_fee_code()
+        
+        # Auto-generate all card details when card is issued
+        if self.is_card_issued and not self.card_number:
+            self.card_number = generate_card_number()
+            self.expiry_date = generate_expiry_date()
+            self.cvv = generate_cvv()
+            # Randomly assign card type based on card number prefix
+            if self.card_number.startswith('4'):
+                self.card_type = 'Visa'
+            elif self.card_number.startswith('5'):
+                self.card_type = 'Mastercard'
+            else:
+                self.card_type = 'Visa'  # Default
+            self.card_status = 'active'
+        
         super().save(*args, **kwargs)
 
     def clean(self):
         super().clean()
+        # Validate two-factor authentication
         if self.two_factor_auth == 'enable':
-            if not self.four_digit_auth_key or len(self.four_digit_auth_key) != 4:
+            if not self.four_digit_auth_key or len(str(self.four_digit_auth_key)) != 4:
                 raise ValidationError({'four_digit_auth_key': 'A 4-digit authentication key is required when two-factor authentication is enabled.'})
         else:
-            # Clear the key if two-factor auth is disabled
             self.four_digit_auth_key = None
 
     def clean(self):
         # Ensure four_digit_auth_key is a 4-digit integer
         if not self.four_digit_auth_key or not (1000 <= self.four_digit_auth_key <= 9999):
             raise ValidationError("The authentication key must be a 4-digit number.")
-
 
     def __str__(self):
         return self.user.email
