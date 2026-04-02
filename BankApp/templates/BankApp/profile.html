@@ -148,8 +148,14 @@
         <div class="profile-card">
             <div class="profile-header">
                 <div class="profile-avatar">
+                {% if user_profile.profile_pic %}
+                    <img src="{{ user_profile.profile_pic.url }}" alt="{{ user_profile.first_name }}">
+                {% elif request.user.profile_pic %}
+                    <img src="{{ request.user.profile_pic.url }}" alt="profile">
+                {% else %}
                     <i class="fas fa-user-circle"></i>
-                </div>
+                {% endif %}
+            </div>
                 <h1>{{ user_profile.first_name }} {{ user_profile.last_name }}</h1>
                 <p>Member since {{ user_profile.date_joined|date:"F Y"|default:"2024" }}</p>
             </div>
