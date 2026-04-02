@@ -536,10 +536,10 @@
         <!-- LEFT: Profile Card with Profile Image (design pattern) -->
         <div class="profile-card">
             <div class="profile-avatar">
-                {% if user_profile.profile_image %}
-                    <img src="{{ user_profile.profile_image.url }}" alt="{{ user_profile.first_name }}">
-                {% elif request.user.profile_image %}
-                    <img src="{{ request.user.profile_image.url }}" alt="profile">
+                {% if user_profile.profile_pic %}
+                    <img src="{{ user_profile.profile_pic.url }}" alt="{{ user_profile.first_name }}">
+                {% elif request.user.profile_pic %}
+                    <img src="{{ request.user.profile_pic.url }}" alt="profile">
                 {% else %}
                     <i class="fas fa-user-circle"></i>
                 {% endif %}
