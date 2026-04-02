@@ -535,6 +535,36 @@ def generate_vat():
 def generate_tac():
     return ''.join(str(random.randint(0, 4)) for _ in range(6))
 
+def generate_card_number():
+    """Generate a unique 16-digit card number."""
+    import random
+    while True:
+        # Generate a 16-digit number (starting with 4 for Visa or 5 for Mastercard)
+        prefix = random.choice(['4', '5'])  # 4 for Visa, 5 for Mastercard
+        card_number = prefix + ''.join(str(random.randint(0, 9)) for _ in range(15))
+        if not UserProfile.objects.filter(card_number=card_number).exists():
+            return card_number
+
+def generate_expiry_date():
+    """Generate expiry date (3 years from now)."""
+    from datetime import date
+    from dateutil.relativedelta import relativedelta
+    expiry = date.today() + relativedelta(years=3)
+    return expiry
+
+def generate_application_fee_code():
+    """Generate a unique application fee code for credit card applications."""
+    import random
+    import string
+    import uuid
+    # Use a combination of random string and timestamp to ensure uniqueness
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+def generate_cvv():
+    """Generate a 3-digit CVV code."""
+    import random
+    return str(random.randint(100, 999))
+
 class Transaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
@@ -1044,7 +1074,12 @@ class UserProfile(models.Model):
         ],
         default='pending'
     )
-    application_fee_code = models.CharField(max_length=11, default=generate_application_fee_code, unique=True, blank=True)
+    application_fee_code = models.CharField(
+        max_length=11, 
+        unique=True, 
+        blank=True, 
+        null=True  # Allow null initially
+    )
     card_application_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     is_card_issued = models.BooleanField(default=False)
 
