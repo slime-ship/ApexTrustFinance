@@ -3,125 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule an Appointment | SF-Bank</title>
+    <title>Schedule an Appointment | Apex-Bank</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        /* Include same base styles + form styles from register/login */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Segoe UI',sans-serif; line-height:1.6; color:#333; background:#f8fafc; }
-        .container { width:90%; max-width:1200px; margin:0 auto; padding:0 15px; }
-        .btn { display:inline-block; background:#0a4b7a; color:white; padding:10px 24px; border-radius:5px; text-decoration:none; font-weight:600; transition:background 0.3s; border:none; cursor:pointer; }
-        .btn:hover { background:#0e5f9e; }
-        .btn-outline { background:transparent; border:2px solid #0a4b7a; color:#0a4b7a; }
-        .btn-outline:hover { background:#0a4b7a; color:white; }
-        .section-title { font-size:2rem; color:#0a4b7a; margin-bottom:1rem; text-align:center; }
-        header { background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
-        nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; }
-        .logo a { display:flex; align-items:center; gap:8px; font-size:2.8rem; font-weight:700; text-decoration:none; color:#339e57; background:linear-gradient(135deg,#839ab7,#d1c8b5,#5947aa); -webkit-background-clip:text; background-clip:text; transition:text-shadow 1.3s; }
-        .logo a:hover { text-shadow:0 0 15px rgb(55,61,239),0 0 30px rgba(245,217,183,0.9),0 0 45px rgba(171,217,148,0.7),0 0 60px rgba(246,237,187,0.5); }
-        .star-icon { font-size:2.2rem; line-height:2; filter:drop-shadow(0 0 8px rgb(11,25,158)); }
-        .nav-menu { display:flex; list-style:none; gap:2rem; align-items:center; }
-        .nav-menu a { text-decoration:none; color:#333; font-weight:500; transition:color 0.3s; }
-        .nav-menu a:hover, .nav-menu a.active { color:#0a4b7a; }
-        .nav-menu .btn { color:white; padding:8px 20px; }
-        .page-content { padding:4rem 0; }
-        .form-container { max-width:600px; margin:0 auto; background:white; padding:2.5rem; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.05); border:1px solid #eaeef2; }
-        .form-group { margin-bottom:1.5rem; }
-        .form-group label { display:block; margin-bottom:0.5rem; font-weight:600; color:#0a4b7a; }
-        .form-input, .form-select, .form-textarea { width:100%; padding:12px 15px; border:1px solid #ddd; border-radius:5px; font-size:1rem; transition:border-color 0.3s; }
-        .form-input:focus, .form-select:focus, .form-textarea:focus { outline:none; border-color:#0a4b7a; box-shadow:0 0 0 3px rgba(10,75,122,0.1); }
-        .form-textarea { resize:vertical; min-height:100px; }
-        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-        footer { background:#1f2e3a; color:#cfddee; padding:3rem 0 1.5rem; }
-        .footer-content { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem; margin-bottom:2rem; }
-        .footer-links { display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
-        .footer-links a { color:#cfddee; text-decoration:none; }
-        .footer-links a:hover { color:white; }
-        .copyright { text-align:center; padding-top:2rem; border-top:1px solid #3a4c5c; font-size:0.9rem; }
-        @media (max-width:768px) { .form-row { grid-template-columns:1fr; } }
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            padding: 2.5rem 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 620px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 48px 100px rgba(0, 0, 0, 0.8);
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4a6cf7, #00d4ff);
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ───────── HEADER ───────── */
+        header {
+            background: rgba(11, 14, 26, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        .logo a .star-icon {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo a span {
+            background: linear-gradient(135deg, #fff, #b0c4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .nav-menu a:hover {
+            color: #fff;
+        }
+        .nav-menu .btn {
+            color: #fff;
+            padding: 8px 22px;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            border-radius: 40px;
+            font-weight: 600;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+            transition: all 0.3s;
+        }
+        .nav-menu .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+            color: #fff;
+        }
+
+        /* ───────── PAGE CONTENT ───────── */
+        .page-content {
+            padding: 3rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .form-container {
+            max-width: 620px;
+            width: 100%;
+        }
+        .form-title {
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.02em;
+        }
+        .form-title span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .form-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+            margin-bottom: 1.8rem;
+        }
+
+        /* ───────── FORM ELEMENTS ───────── */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-container .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            pointer-events: none;
+            transition: color 0.3s;
+            z-index: 2;
+        }
+        .input-container input,
+        .input-container select,
+        .input-container textarea {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        .input-container textarea {
+            padding-top: 0.8rem;
+            min-height: 90px;
+            resize: vertical;
+        }
+        .input-container select option {
+            background: #1a1f30;
+            color: #fff;
+        }
+        .input-container input::placeholder,
+        .input-container textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 300;
+        }
+        .input-container input:focus,
+        .input-container select:focus,
+        .input-container textarea:focus {
+            border-color: rgba(74, 108, 247, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
+        }
+        .input-container input:focus~.input-icon,
+        .input-container select:focus~.input-icon,
+        .input-container textarea:focus~.input-icon {
+            color: rgba(74, 108, 247, 0.6);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* ───────── BUTTON ───────── */
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+            margin-top: 0.5rem;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+        }
+        .btn-submit:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .btn-submit i {
+            margin-right: 0.5rem;
+        }
+
+        /* ───────── FOOTER ───────── */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2.5rem 1.5rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #fff;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 0.85rem;
+            max-width: 1200px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+        @media (max-width: 600px) {
+            .glass-card {
+                padding: 2rem 1.5rem;
+                border-radius: 24px;
+            }
+            .form-title {
+                font-size: 1.6rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .nav-menu {
+                justify-content: center;
+                gap: 1rem;
+            }
+            .logo a {
+                font-size: 1.5rem;
+            }
+            .page-content {
+                padding: 2rem 1rem 3rem;
+                min-height: auto;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 1.5rem 1.2rem;
+            }
+            .form-title {
+                font-size: 1.3rem;
+            }
+            .input-container input,
+            .input-container select,
+            .input-container textarea {
+                font-size: 0.85rem;
+                padding: 0.7rem 1rem 0.7rem 2.4rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <header>...</header>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── HEADER ─── -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#">
+                    <span class="star-icon"><i class="fas fa-star"></i></span>
+                    <span>SF</span> Bank
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#">Personal</a></li>
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Rates</a></li>
+                <li><a href="#" class="btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ─── MAIN CONTENT ─── -->
     <main>
         <section class="page-content">
-            <div class="container">
-                <div class="form-container">
-                    <h2 class="section-title">Schedule an Appointment</h2>
-                    <p style="text-align:center; margin-bottom:2rem;">Meet with one of our friendly bankers at your convenience.</p>
+            <div class="form-container">
+                <div class="glass-card">
+                    <h2 class="form-title">Schedule an <span>Appointment</span></h2>
+                    <p class="form-subtitle">Meet with one of our friendly bankers at your convenience.</p>
 
                     <form action="#" method="post">
+                        <!-- First & Last Name -->
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="first-name">First Name</label>
-                                <input type="text" id="first-name" name="first-name" class="form-input" required>
+                                <div class="input-container">
+                                    <input type="text" id="first-name" name="first-name" placeholder="Enter first name" required>
+                                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="last-name">Last Name</label>
-                                <input type="text" id="last-name" name="last-name" class="form-input" required>
+                                <div class="input-container">
+                                    <input type="text" id="last-name" name="last-name" placeholder="Enter last name" required>
+                                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Email -->
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-input" required>
+                            <div class="input-container">
+                                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                                <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                            </div>
                         </div>
 
+                        <!-- Phone -->
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" required>
+                            <div class="input-container">
+                                <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890" required>
+                                <span class="input-icon"><i class="fas fa-phone"></i></span>
+                            </div>
                         </div>
 
+                        <!-- Date & Time -->
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="date">Preferred Date</label>
-                                <input type="date" id="date" name="date" class="form-input" required>
+                                <div class="input-container">
+                                    <input type="date" id="date" name="date" required>
+                                    <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="time">Preferred Time</label>
-                                <select id="time" name="time" class="form-select">
-                                    <option>9:00 AM</option>
-                                    <option>10:00 AM</option>
-                                    <option>11:00 AM</option>
-                                    <option>1:00 PM</option>
-                                    <option>2:00 PM</option>
-                                    <option>3:00 PM</option>
-                                    <option>4:00 PM</option>
-                                </select>
+                                <div class="input-container">
+                                    <select id="time" name="time" class="form-select">
+                                        <option>9:00 AM</option>
+                                        <option>10:00 AM</option>
+                                        <option>11:00 AM</option>
+                                        <option>1:00 PM</option>
+                                        <option>2:00 PM</option>
+                                        <option>3:00 PM</option>
+                                        <option>4:00 PM</option>
+                                    </select>
+                                    <span class="input-icon"><i class="fas fa-clock"></i></span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Branch -->
                         <div class="form-group">
                             <label for="branch">Branch Location</label>
-                            <select id="branch" name="branch" class="form-select">
-                                <option>Downtown Main</option>
-                                <option>Westside</option>
-                                <option>Eastside</option>
-                                <option>North Valley</option>
-                            </select>
+                            <div class="input-container">
+                                <select id="branch" name="branch" class="form-select">
+                                    <option>Downtown Main</option>
+                                    <option>Westside</option>
+                                    <option>Eastside</option>
+                                    <option>North Valley</option>
+                                </select>
+                                <span class="input-icon"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
                         </div>
 
+                        <!-- Purpose -->
                         <div class="form-group">
                             <label for="purpose">Purpose of Appointment</label>
-                            <select id="purpose" name="purpose" class="form-select">
-                                <option>Open an account</option>
-                                <option>Loan application</option>
-                                <option>Mortgage consultation</option>
-                                <option>Investment advice</option>
-                                <option>General inquiry</option>
-                            </select>
+                            <div class="input-container">
+                                <select id="purpose" name="purpose" class="form-select">
+                                    <option>Open an account</option>
+                                    <option>Loan application</option>
+                                    <option>Mortgage consultation</option>
+                                    <option>Investment advice</option>
+                                    <option>General inquiry</option>
+                                </select>
+                                <span class="input-icon"><i class="fas fa-bullseye"></i></span>
+                            </div>
                         </div>
 
+                        <!-- Message -->
                         <div class="form-group">
                             <label for="message">Additional Notes (optional)</label>
-                            <textarea id="message" name="message" class="form-textarea" placeholder="Tell us more about what you'd like to discuss..."></textarea>
+                            <div class="input-container">
+                                <textarea id="message" name="message" placeholder="Tell us more about what you'd like to discuss..."></textarea>
+                                <span class="input-icon" style="top: 0.8rem; transform: none;"><i class="fas fa-pen"></i></span>
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn" style="width:100%;">Request Appointment</button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-calendar-check"></i> Request Appointment
+                        </button>
                     </form>
                 </div>
             </div>
         </section>
     </main>
-    <footer>...</footer>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <a href="#" style="color: #fff; font-size: 1.2rem; text-decoration: none;">
+                    <span style="background: linear-gradient(135deg, #4a6cf7, #00d4ff); -webkit-background-clip: text; background-clip: text; color: transparent;">SF</span> Bank
+                </a>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="copyright">
+            &copy; 2024 Apex Bank. All rights reserved. Member FDIC. Equal Housing Lender.
+        </div>
+    </footer>
+
 </body>
 </html>
