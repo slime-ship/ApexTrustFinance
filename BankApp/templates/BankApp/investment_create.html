@@ -5,12 +5,32 @@
 
 {% block extra_css %}
 <style>
+    /* ───────── RESET & BASE ───────── */
     .investment-container {
         max-width: 900px;
         margin: 0 auto;
         padding: 2rem 1rem;
+        position: relative;
+        z-index: 1;
     }
-    /* Wizard Steps */
+
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px) saturate(1.4);
+        -webkit-backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        padding: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ───────── WIZARD STEPS ───────── */
     .wizard-steps {
         display: flex;
         justify-content: space-between;
@@ -24,7 +44,7 @@
         left: 0;
         right: 0;
         height: 2px;
-        background: #E1E8ED;
+        background: rgba(255, 255, 255, 0.06);
         z-index: 0;
     }
     .wizard-step {
@@ -33,14 +53,14 @@
         align-items: center;
         position: relative;
         z-index: 1;
-        background: white;
+        background: transparent;
         padding: 0 1rem;
     }
     .step-circle {
         width: 3rem;
         height: 3rem;
-        background: white;
-        border: 2px solid #E1E8ED;
+        background: rgba(255, 255, 255, 0.04);
+        border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -49,26 +69,28 @@
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
         transition: all 0.3s;
+        color: rgba(255, 255, 255, 0.3);
     }
     .wizard-step.active .step-circle {
-        background: #2A6EBB;
-        border-color: #2A6EBB;
-        color: white;
-        box-shadow: 0 0 0 4px rgba(42,110,187,0.2);
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        border-color: #4a6cf7;
+        color: #fff;
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
     }
     .step-label {
         font-size: 0.85rem;
         font-weight: 500;
-        color: #7F8C8D;
+        color: rgba(255, 255, 255, 0.3);
     }
     .wizard-step.active .step-label {
-        color: #2A6EBB;
+        color: #4a6cf7;
         font-weight: 600;
     }
-    /* Progress bar */
+
+    /* ───────── PROGRESS BAR ───────── */
     .progress-bar {
         height: 6px;
-        background: #E1E8ED;
+        background: rgba(255, 255, 255, 0.06);
         border-radius: 3px;
         overflow: hidden;
         margin-bottom: 2rem;
@@ -76,28 +98,33 @@
     .progress-fill {
         width: 33%;
         height: 100%;
-        background: #2A6EBB;
+        background: linear-gradient(90deg, #4a6cf7, #00d4ff);
         transition: width 0.4s ease;
+        border-radius: 3px;
     }
-    /* Balance card */
+
+    /* ───────── BALANCE CARD ───────── */
     .balance-card {
-        background: linear-gradient(135deg, #1A4A7A 0%, #2A6EBB 100%);
+        background: linear-gradient(135deg, rgba(74, 108, 247, 0.15), rgba(0, 212, 255, 0.05));
+        border: 1px solid rgba(74, 108, 247, 0.1);
         border-radius: 1rem;
         padding: 1.5rem;
-        color: white;
+        color: #fff;
         margin-bottom: 2rem;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
     .balance-card .label {
         font-size: 0.85rem;
-        opacity: 0.9;
+        opacity: 0.6;
         text-transform: uppercase;
         letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.5);
     }
     .balance-amount {
         font-size: 2rem;
         font-weight: 700;
         margin: 0.5rem 0;
+        color: #fff;
     }
     .balance-info {
         display: flex;
@@ -105,7 +132,7 @@
         gap: 1rem;
         margin-top: 1rem;
         padding-top: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.2);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
     .balance-item {
         text-align: center;
@@ -113,109 +140,152 @@
     }
     .balance-item .small {
         font-size: 0.75rem;
-        opacity: 0.8;
+        opacity: 0.5;
+        color: rgba(255, 255, 255, 0.4);
     }
     .balance-item .value {
         font-weight: 600;
         font-size: 1rem;
+        color: #fff;
     }
-    /* Form */
+
+    /* ───────── FORM ELEMENTS ───────── */
     .form-group {
         margin-bottom: 1.5rem;
     }
     .form-label {
-        font-weight: 600;
-        color: #1A4A7A;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        font-size: 0.95rem;
     }
     .form-label i {
-        color: #2A6EBB;
+        color: #4a6cf7;
     }
     .form-control, select.form-control {
         width: 100%;
         padding: 0.8rem 1rem;
-        border: 1px solid #E1E8ED;
-        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        color: #fff;
         transition: all 0.3s;
         font-size: 1rem;
+        font-family: 'Inter', sans-serif;
     }
     .form-control:focus {
-        border-color: #2A6EBB;
-        box-shadow: 0 0 0 3px rgba(42,110,187,0.1);
+        border-color: rgba(74, 108, 247, 0.4);
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
         outline: none;
+        background: rgba(255, 255, 255, 0.06);
     }
-    /* Plan details card */
+    .form-control option {
+        background: #1a1f30;
+        color: #fff;
+    }
+    .text-muted {
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-size: 0.85rem;
+        display: block;
+        margin-top: 0.3rem;
+    }
+
+    /* ───────── PLAN DETAILS CARD ───────── */
     .plan-details-card {
-        background: #F5F7FA;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 1rem;
         padding: 1.5rem;
         margin: 1.5rem 0;
-        border-left: 4px solid #2A6EBB;
+        border-left: 4px solid #4a6cf7;
         display: none;
     }
     .plan-details-card h5 {
-        color: #1A4A7A;
+        color: #fff;
         margin-bottom: 1rem;
         font-size: 1.2rem;
         font-weight: 600;
     }
+    .plan-details-card h5 i {
+        color: #4a6cf7;
+        margin-right: 0.5rem;
+    }
     .detail-item {
         display: flex;
         justify-content: space-between;
-        padding: 0.8rem 0;
-        border-bottom: 1px solid #E1E8ED;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.6);
     }
     .detail-item:last-child {
         border-bottom: none;
     }
     .detail-item strong {
-        color: #1A4A7A;
+        color: rgba(255, 255, 255, 0.8);
     }
     #expected-return-value {
-        color: #27AE60;
+        color: #5ee0ff;
         font-weight: 600;
     }
-    /* Buttons */
+    #expected-return-value div {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 400;
+    }
+
+    /* ───────── BUTTONS ───────── */
     .btn-submit {
         width: 100%;
         padding: 1rem;
-        background: linear-gradient(135deg, #2A6EBB, #4A90E2);
-        color: white;
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
         border: none;
-        border-radius: 0.5rem;
+        border-radius: 14px;
         font-weight: 600;
         font-size: 1rem;
-        transition: all 0.3s;
-        margin-top: 1rem;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-top: 0.5rem;
         cursor: pointer;
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
     }
     .btn-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(42,110,187,0.3);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+    }
+    .btn-submit:active {
+        transform: translateY(0) scale(0.98);
     }
     .btn-secondary {
-        background: white;
-        border: 2px solid #2A6EBB;
-        color: #2A6EBB;
-        margin-top: 1rem;
-        display: inline-block;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 0.8rem;
+        display: block;
         text-align: center;
         text-decoration: none;
+        padding: 0.9rem;
+        border-radius: 14px;
+        font-weight: 500;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s;
     }
     .btn-secondary:hover {
-        background: #F5F7FA;
-        transform: none;
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
     }
     .loading-spinner {
         display: inline-block;
         width: 1rem;
         height: 1rem;
-        border: 2px solid rgba(255,255,255,0.3);
-        border-top-color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
         margin-right: 0.5rem;
@@ -223,39 +293,53 @@
     @keyframes spin {
         to { transform: rotate(360deg); }
     }
-    /* Alerts (from Django messages) */
+
+    /* ───────── ALERTS ───────── */
     .alert {
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 0.8rem 1.2rem;
+        border-radius: 14px;
         margin-bottom: 1rem;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 0.9rem;
     }
     .alert-success {
-        background: #d4edda;
-        color: #155724;
-        border-left: 4px solid #28a745;
+        background: rgba(0, 212, 255, 0.06);
+        color: #5ee0ff;
+        border-color: rgba(0, 212, 255, 0.08);
     }
     .alert-error {
-        background: #f8d7da;
-        color: #721c24;
-        border-left: 4px solid #dc3545;
+        background: rgba(255, 71, 87, 0.06);
+        color: #ff6b7a;
+        border-color: rgba(255, 71, 87, 0.08);
     }
     .alert-info {
-        background: #d1ecf1;
-        color: #0c5460;
-        border-left: 4px solid #17a2b8;
+        background: rgba(74, 108, 247, 0.06);
+        color: #4a6cf7;
+        border-color: rgba(74, 108, 247, 0.08);
     }
     .alert-warning {
-        background: #fff3cd;
-        color: #856404;
-        border-left: 4px solid #ffc107;
+        background: rgba(245, 158, 11, 0.06);
+        color: #f59e0b;
+        border-color: rgba(245, 158, 11, 0.08);
     }
+    .alert ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    .alert i {
+        margin-top: 0.15rem;
+    }
+
+    /* ───────── RESPONSIVE ───────── */
     @media (max-width: 768px) {
         .wizard-steps { gap: 0.5rem; }
         .step-circle { width: 2.2rem; height: 2.2rem; font-size: 1rem; }
         .balance-info { flex-wrap: wrap; }
+        .glass-card { padding: 1.5rem; }
+        .balance-amount { font-size: 1.6rem; }
     }
 </style>
 {% endblock %}
@@ -306,85 +390,90 @@
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">
                 <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
-                {{ message|safe }}
+                <div>{{ message|safe }}</div>
             </div>
         {% endfor %}
     {% endif %}
 
-    <!-- Form errors (if any) -->
+    <!-- Form errors -->
     {% if form.errors %}
     <div class="alert alert-error">
         <i class="fas fa-exclamation-triangle"></i>
-        <strong>Please correct the errors below:</strong>
-        <ul style="margin:0; padding-left:1rem;">
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <li>{{ field.label }}: {{ error }}</li>
+        <div>
+            <strong>Please correct the errors below:</strong>
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     {% endif %}
 
-    <form method="post" action="{% url 'create_investment' %}" id="investmentForm">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.investment_plan.id_for_label }}" class="form-label">
-                <i class="fas fa-chart-pie"></i> Investment Plan
-            </label>
-            {{ form.investment_plan }}
-            <small class="text-muted">Select a plan that matches your financial goals</small>
-        </div>
+    <div class="glass-card">
+        <form method="post" action="{% url 'create_investment' %}" id="investmentForm">
+            {% csrf_token %}
 
-        <div class="form-group">
-            <label for="{{ form.amount_invested.id_for_label }}" class="form-label">
-                <i class="fas fa-money-bill-wave"></i> Investment Amount ({{ user_profile.currency }})
-            </label>
-            {{ form.amount_invested }}
-            <small class="text-muted">Enter the amount you wish to invest</small>
-        </div>
+            <div class="form-group">
+                <label for="{{ form.investment_plan.id_for_label }}" class="form-label">
+                    <i class="fas fa-chart-pie"></i> Investment Plan
+                </label>
+                {{ form.investment_plan }}
+                <small class="text-muted">Select a plan that matches your financial goals</small>
+            </div>
 
-        <!-- Dynamic plan details card -->
-        <div class="plan-details-card" id="plan-details">
-            <h5><i class="fas fa-file-alt"></i> Plan Details</h5>
-            <div class="detail-item">
-                <strong>Minimum Investment:</strong> <span id="min-amount-value">$0.00</span>
+            <div class="form-group">
+                <label for="{{ form.amount_invested.id_for_label }}" class="form-label">
+                    <i class="fas fa-money-bill-wave"></i> Investment Amount ({{ user_profile.currency }})
+                </label>
+                {{ form.amount_invested }}
+                <small class="text-muted">Enter the amount you wish to invest</small>
             </div>
-            <div class="detail-item">
-                <strong>Maximum Investment:</strong> <span id="max-amount-value">$0.00</span>
-            </div>
-            <div class="detail-item">
-                <strong>Profit Range:</strong> <span id="profit-range-value">0% - 0%</span>
-            </div>
-            <div class="detail-item">
-                <strong>Duration:</strong> <span id="duration-value">0 days</span>
-            </div>
-            <div class="detail-item">
-                <strong>Investment Type:</strong> <span id="investment-type-value">N/A</span>
-            </div>
-            <div class="detail-item">
-                <strong>Plan Type:</strong> <span id="plan-type-value">N/A</span>
-            </div>
-            <div class="detail-item">
-                <strong>Expected Returns:</strong> <span id="expected-return-value">Enter amount to calculate</span>
-            </div>
-        </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">
-            <i class="fas fa-lock"></i> Confirm Investment
-        </button>
+            <!-- Dynamic plan details card -->
+            <div class="plan-details-card" id="plan-details">
+                <h5><i class="fas fa-file-alt"></i> Plan Details</h5>
+                <div class="detail-item">
+                    <strong>Minimum Investment:</strong> <span id="min-amount-value">$0.00</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Maximum Investment:</strong> <span id="max-amount-value">$0.00</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Profit Range:</strong> <span id="profit-range-value">0% - 0%</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Duration:</strong> <span id="duration-value">0 days</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Investment Type:</strong> <span id="investment-type-value">N/A</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Plan Type:</strong> <span id="plan-type-value">N/A</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Expected Returns:</strong> <span id="expected-return-value">Enter amount to calculate</span>
+                </div>
+            </div>
 
-        <a href="{% url 'investment_plans' %}" class="btn-submit btn-secondary" style="display: block; text-align: center; text-decoration: none;">
-            <i class="fas fa-arrow-left"></i> Back to Investment Plans
-        </a>
-    </form>
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <i class="fas fa-lock"></i> Confirm Investment
+            </button>
+
+            <a href="{% url 'investment_plans' %}" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Investment Plans
+            </a>
+        </form>
+    </div>
 </div>
 
 <script>
-    // Populate plan data from Django form's queryset
+    // ─── Plan Data ───
     const plans = {
         {% for plan in form.fields.investment_plan.queryset %}
         "{{ plan.id }}": {
@@ -406,11 +495,9 @@
 
     function updateWizardStep(step) {
         document.querySelectorAll('.wizard-step').forEach((el, idx) => {
-            if (idx + 1 === step) el.classList.add('active');
-            else el.classList.remove('active');
+            el.classList.toggle('active', idx + 1 === step);
         });
-        const progress = (step / totalSteps) * 100;
-        document.getElementById('investment-progress').style.width = `${progress}%`;
+        document.getElementById('investment-progress').style.width = `${(step / totalSteps) * 100}%`;
         currentStep = step;
     }
 
@@ -430,11 +517,10 @@
         planDetails.style.display = 'block';
         updateWizardStep(2);
 
-        // Update displayed values
         document.getElementById('min-amount-value').textContent = `$${plan.min_amount.toLocaleString(undefined, {minimumFractionDigits:2})}`;
         document.getElementById('max-amount-value').textContent = `$${plan.max_amount.toLocaleString(undefined, {minimumFractionDigits:2})}`;
         document.getElementById('profit-range-value').textContent = `${plan.min_profit}% - ${plan.max_profit}%`;
-        // Duration
+
         let durationText = `${plan.duration_days} days`;
         if (plan.investment_type === 'SHORT_TERM' && plan.interval_hours > 0) {
             durationText = `${plan.interval_hours} hours`;
@@ -446,21 +532,18 @@
             durationText += ')';
         }
         document.getElementById('duration-value').textContent = durationText;
-        // Investment type display
+
         const invTypeMap = { 'SHORT_TERM': 'Short Term Trading', 'LONG_TERM': 'Long Term Investment' };
         document.getElementById('investment-type-value').textContent = invTypeMap[plan.investment_type] || plan.investment_type;
-        // Plan type display
+
         const planTypeMap = { 'STARTER': 'Starter Plan', 'PRO': 'Pro Plan', 'ELITE': 'Elite Plan' };
         document.getElementById('plan-type-value').textContent = planTypeMap[plan.plan_type] || plan.plan_type;
 
-        // Update min/max on balance card
         document.getElementById('min-investment').textContent = `$${plan.min_amount.toLocaleString(undefined, {minimumFractionDigits:2})}`;
         document.getElementById('max-investment').textContent = `$${plan.max_amount.toLocaleString(undefined, {minimumFractionDigits:2})}`;
 
-        // Set input attributes
         amountInput.min = plan.min_amount;
         amountInput.max = plan.max_amount;
-        // Pre-fill amount with min if empty or below min
         let currentAmount = parseFloat(amountInput.value);
         if (isNaN(currentAmount) || currentAmount < plan.min_amount) {
             amountInput.value = plan.min_amount;
@@ -475,12 +558,8 @@
         if (!selectedId || !plans[selectedId]) return;
         const plan = plans[selectedId];
         let amount = parseFloat(amountInput.value);
-        if (isNaN(amount) || amount < plan.min_amount) {
-            amount = plan.min_amount;
-        }
-        if (amount > plan.max_amount) {
-            amount = plan.max_amount;
-        }
+        if (isNaN(amount) || amount < plan.min_amount) amount = plan.min_amount;
+        if (amount > plan.max_amount) amount = plan.max_amount;
 
         if (amount > 0) {
             updateWizardStep(3);
@@ -491,7 +570,6 @@
             const avgProfit = (minProfit + maxProfit) / 2;
             const format = (val) => val.toLocaleString(undefined, {minimumFractionDigits:2});
 
-            // Calculate daily/monthly profit
             let dailyProfit = 0, monthlyProfit = 0;
             if (plan.investment_type === 'SHORT_TERM' && plan.interval_hours > 0) {
                 const hourlyProfit = avgProfit / plan.interval_hours;
@@ -541,7 +619,7 @@
         return true;
     }
 
-    // Event listeners
+    // ─── Event Listeners ───
     document.addEventListener('DOMContentLoaded', function() {
         updateWizardStep(1);
         if (planSelect) {
@@ -549,7 +627,6 @@
                 updatePlanDetails();
                 updateExpectedReturn();
             });
-            // Trigger initial load if a plan is preselected (e.g., from URL)
             if (planSelect.value && plans[planSelect.value]) {
                 updatePlanDetails();
             }
@@ -583,7 +660,6 @@
             });
         }
 
-        // Pre-select plan from URL parameter (if any)
         const urlParams = new URLSearchParams(window.location.search);
         const planId = urlParams.get('plan_id');
         if (planId && plans[planId] && planSelect) {
