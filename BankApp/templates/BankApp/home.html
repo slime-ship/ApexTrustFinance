@@ -3,375 +3,495 @@
 
 {% block title %}Apex Bank - Personal Banking{% endblock %}
 
-{% block content %}
 {% block extra_css %}
 <style>
-        /* === Modern CSS Reset & Base Styles === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* ───────── RESET & BASE ───────── */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8fafc;
-        }
+    body {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        background: #0b0e1a;
+        background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+        min-height: 100vh;
+        color: #fff;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
 
-        /* === Reusable Utility Classes === */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
+    /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+    .bg-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .bg-orbs span {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.20;
+        animation: orbFloat 25s ease-in-out infinite alternate;
+    }
+    .bg-orbs .orb1 {
+        width: 600px;
+        height: 600px;
+        background: #2d4bff;
+        top: -200px;
+        left: -200px;
+        animation-duration: 18s;
+    }
+    .bg-orbs .orb2 {
+        width: 500px;
+        height: 500px;
+        background: #00b8d4;
+        bottom: -150px;
+        right: -150px;
+        animation-duration: 22s;
+        animation-delay: 2s;
+    }
+    .bg-orbs .orb3 {
+        width: 300px;
+        height: 300px;
+        background: #7c4dff;
+        top: 40%;
+        left: 60%;
+        animation-duration: 26s;
+        animation-delay: 4s;
+        opacity: 0.12;
+    }
 
-        .btn {
-            display: inline-block;
-            background-color: #0a4b7a;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
+    @keyframes orbFloat {
+        0% {
+            transform: translate(0, 0) scale(1);
         }
-
-        .btn:hover {
-            background-color: #0e5f9e;
+        100% {
+            transform: translate(80px, -60px) scale(1.2);
         }
+    }
 
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid #0a4b7a;
-            color: #0a4b7a;
-        }
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px) saturate(1.4);
+        -webkit-backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
 
-        .btn-outline:hover {
-            background-color: #0a4b7a;
-            color: white;
-        }
+    /* ───────── CONTAINER ───────── */
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        position: relative;
+        z-index: 1;
+    }
 
-        .section-title {
-            font-size: 2rem;
-            color: #0a4b7a;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+    /* ───────── BUTTONS ───────── */
+    .btn {
+        display: inline-block;
+        padding: 10px 28px;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: none;
+        cursor: pointer;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+        color: #fff;
+    }
+    .btn-outline {
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        transform: translateY(-2px);
+    }
 
-        .section-subtitle {
-            text-align: center;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto 3rem auto;
-        }
+    /* ───────── SECTION TITLES ───────── */
+    .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+    .section-title span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .section-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+        max-width: 700px;
+        margin: 0 auto 2.5rem auto;
+        font-size: 1.05rem;
+    }
 
-   
-        /* === Hero Section === */
-        .hero {
-            background: linear-gradient(135deg, #e6f0f9 0%, #ffffff 100%);
-            padding: 4rem 0;
-        }
+    /* ───────── HERO SECTION ───────── */
+    .hero {
+        padding: 4rem 0 3rem;
+        position: relative;
+    }
+    .hero-content {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+    .hero-text {
+        flex: 1;
+        min-width: 280px;
+    }
+    .hero-text h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.8rem;
+        letter-spacing: -0.02em;
+    }
+    .hero-text h1 span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .hero-text p {
+        font-size: 1.15rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 1.8rem;
+        max-width: 550px;
+    }
+    .hero-image {
+        flex: 1;
+        min-width: 280px;
+        text-align: center;
+    }
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+        max-height: 350px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
 
+    /* ───────── PRODUCTS GRID ───────── */
+    .products {
+        padding: 4rem 0;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .product-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 1.8rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+    .product-card:hover {
+        transform: translateY(-6px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(74, 108, 247, 0.15);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+    .product-icon {
+        font-size: 2rem;
+        margin-bottom: 0.6rem;
+        display: block;
+    }
+    .product-card h3 {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
+    }
+    .product-card p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.5;
+    }
+    .card-link {
+        text-decoration: none;
+        font-weight: 600;
+        color: #4a6cf7;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.3s;
+        font-size: 0.9rem;
+    }
+    .card-link:hover {
+        color: #00d4ff;
+    }
+
+    /* ───────── FEATURES SECTION ───────── */
+    .features {
+        padding: 4rem 0;
+        position: relative;
+    }
+    .features-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .feature-item {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+    }
+    .feature-item:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(74, 108, 247, 0.15);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    .feature-item h3 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.6rem;
+        margin-bottom: 0.6rem;
+    }
+    .feature-item p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .feature-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 768px) {
         .hero-content {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
+            flex-direction: column;
+            text-align: center;
         }
-
-        .hero-text {
-            flex: 1;
-        }
-        .bank-load {
-            height: 350px;
-        }
-
-        .hero-text h1 {
-            font-size: 2.5rem;
-            color: #0a4b7a;
-            margin-bottom: 1rem;
-        }
-
         .hero-text p {
-            font-size: 1.2rem;
-            color: #444;
-            margin-bottom: 2rem;
+            max-width: 100%;
         }
-
-        .hero-image {
-            background-image: url("/static/logo.avif");
-            flex: 1;
-            text-align: center;
-        }
-
-        /* === Products Grid Section === */
-        .products {
-            padding: 4rem 0;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 1.8rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #eaeef2;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .product-icon {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-card h3 {
-            color: #0a4b7a;
-            margin-bottom: 0.8rem;
-            font-size: 1.4rem;
-        }
-
-        .product-card p {
-            color: #555;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .card-link {
-            text-decoration: none;
-            font-weight: 600;
-            color: #0a4b7a;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .card-link:hover {
-            text-decoration: underline;
-        }
-
-        /* === Features Section (Online & Mobile Banking) === */
-        .features {
-            background-color: #eef3f8;
-            padding: 4rem 0;
-        }
-
         .features-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
         }
-
-        .feature-item {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .hero-text h1 {
+            font-size: 2.2rem;
         }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-item h3 {
-            color: #0a4b7a;
+        .section-title {
             font-size: 1.8rem;
-            margin-bottom: 1rem;
         }
-
-        .feature-item p {
-            color: #555;
-            margin-bottom: 2rem;
+        .products-grid {
+            grid-template-columns: 1fr 1fr;
         }
-
-        .feature-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+        .products-grid {
+            grid-template-columns: 1fr;
         }
-
-        
-        /* === Responsive Design === */
-        @media (max-width: 768px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .nav-menu {
-                gap: 1rem;
-            }
-
-            .features-container {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
+        .hero-text h1 {
+            font-size: 1.8rem;
         }
-    </style>
+        .feature-item {
+            padding: 1.8rem 1.2rem;
+        }
+    }
+</style>
 {% endblock %}
-    
-</head>
-<body>
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container hero-content">
-                <div class="hero-text">
-                    <h1>Personal Banking Solutions from Apex Bank</h1>
-                    <p>Find the right account for your needs from our wide selection of Personal Banking products! Our friendly, knowledgeable staff are here to help.</p>
-                    <a href="schedule.html" class="btn">Schedule an appointment →</a>
+
+{% block content %}
+<main>
+
+    <!-- ─── HERO SECTION ─── -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Personal Banking Solutions from <span>Apex Bank</span></h1>
+                <p>Find the right account for your needs from our wide selection of Personal Banking products! Our friendly, knowledgeable staff are here to help.</p>
+                <a href="schedule.html" class="btn btn-primary">Schedule an appointment →</a>
+            </div>
+            <div class="hero-image">
+                <img class="bank-load" src="{% static 'img/bank-load.png' %}" alt="Banking Solutions">
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PRODUCTS GRID ─── -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Personal deposit and <span>lending products</span></h2>
+            <p class="section-subtitle">From a top Connecticut bank with 150 years of foundation, responsible banking, and a drive to innovate.</p>
+
+            <div class="products-grid">
+                <!-- Checking -->
+                <div class="product-card">
+                    <span class="product-icon">💳</span>
+                    <h3>Checking</h3>
+                    <p>Maximize your money and get great services with our Checking accounts!</p>
+                    <a href="#" class="card-link">Explore Checking →</a>
                 </div>
-                <div>
-                    <img class="bank-load" src="{% static 'img/bank-load.png' %}" alt="">
+
+                <!-- Savings -->
+                <div class="product-card">
+                    <span class="product-icon">💰</span>
+                    <h3>Savings</h3>
+                    <p>Whether for a rainy day, school, or retirement—we've got accounts with rates you'll enjoy.</p>
+                    <a href="#" class="card-link">Get Ascend Bank Savings →</a>
+                </div>
+
+                <!-- CD -->
+                <div class="product-card">
+                    <span class="product-icon">📜</span>
+                    <h3>Certificate of Deposit</h3>
+                    <p>Earn a great fixed interest rate over a specific period to reach your financial goals.</p>
+                    <a href="#" class="card-link">Explore CDs →</a>
+                </div>
+
+                <!-- IRA -->
+                <div class="product-card">
+                    <span class="product-icon">🏛️</span>
+                    <h3>IRA</h3>
+                    <p>Take advantage of tax savings and prepare for retirement with an individual retirement account.</p>
+                    <a href="#" class="card-link">Learn About IRAs →</a>
+                </div>
+
+                <!-- HSA -->
+                <div class="product-card">
+                    <span class="product-icon">⚕️</span>
+                    <h3>HSA</h3>
+                    <p>Be prepared for future medical expenses with a Health Savings Account.</p>
+                    <a href="#" class="card-link">Explore HSAs →</a>
+                </div>
+
+                <!-- Debit Card -->
+                <div class="product-card">
+                    <span class="product-icon">💳</span>
+                    <h3>Debit Card</h3>
+                    <p>All Checking account holders get a VISA debit card with access to Ascend Bank Rewards.</p>
+                    <a href="#" class="card-link">Learn About Debit →</a>
+                </div>
+
+                <!-- Deposit Rates -->
+                <div class="product-card">
+                    <span class="product-icon">📈</span>
+                    <h3>Deposit Rates</h3>
+                    <p>Competitive rates on Checking, Savings, Money Market, and CDs.</p>
+                    <a href="#" class="card-link">See Our Deposit Rates →</a>
+                </div>
+
+                <!-- Mortgages -->
+                <div class="product-card">
+                    <span class="product-icon">🏠</span>
+                    <h3>Mortgages</h3>
+                    <p>Turn dreams into reality with prompt, efficient service from local lending experts.</p>
+                    <a href="#" class="card-link">Explore Mortgage Options →</a>
+                </div>
+
+                <!-- Home Equity -->
+                <div class="product-card">
+                    <span class="product-icon">🔑</span>
+                    <h3>Home Equity</h3>
+                    <p>Great for home updates, a vacation, or a quick source of funds.</p>
+                    <a href="#" class="card-link">Learn About Home Equity →</a>
+                </div>
+
+                <!-- Personal Loans -->
+                <div class="product-card">
+                    <span class="product-icon">💵</span>
+                    <h3>Personal Loans</h3>
+                    <p>Designed to work for you when you need additional funds.</p>
+                    <a href="#" class="card-link">See Personal Loans →</a>
+                </div>
+
+                <!-- Lending Rates -->
+                <div class="product-card">
+                    <span class="product-icon">📊</span>
+                    <h3>Lending Rates</h3>
+                    <p>Great, competitive rates with the flexibility to suit your needs.</p>
+                    <a href="#" class="card-link">Explore Lending Rates →</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Products Grid Section -->
-        <section class="products">
-            <div class="container">
-                <h2 class="section-title">Personal deposit and lending products</h2>
-                <p class="section-subtitle">From a top Connecticut bank with 150 years of foundation, responsible banking, and a drive to innovate.</p>
-                
-                <div class="products-grid">
-                    <!-- Checking -->
-                    <div class="product-card">
-                        <div class="product-icon">💳</div>
-                        <h3>Checking</h3>
-                        <p>Maximize your money and get great services with our Checking accounts!</p>
-                        <a href="#" class="card-link">Explore Checking →</a>
+    <!-- ─── FEATURES SECTION ─── -->
+    <section class="features">
+        <div class="container">
+            <div class="features-container">
+                <!-- Online Banking -->
+                <div class="feature-item">
+                    <span class="feature-icon">💻</span>
+                    <h3>Online Banking Where You Are</h3>
+                    <p>Open an account, add new services, speak to someone who can help, or access a variety of helpful financial tools and resources.</p>
+                    <div class="feature-actions">
+                        <a href="#" class="btn btn-primary">Visit Self Service Center</a>
                     </div>
+                </div>
 
-                    <!-- Savings -->
-                    <div class="product-card">
-                        <div class="product-icon">💰</div>
-                        <h3>Savings</h3>
-                        <p>Whether for a rainy day, school, or retirement—we've got accounts with rates you'll enjoy.</p>
-                        <a href="#" class="card-link">Get Ascend Bank Savings →</a>
-                    </div>
-
-                    <!-- CD -->
-                    <div class="product-card">
-                        <div class="product-icon">📜</div>
-                        <h3>Certificate of Deposit</h3>
-                        <p>Earn a great fixed interest rate over a specific period to reach your financial goals.</p>
-                        <a href="#" class="card-link">Explore CDs →</a>
-                    </div>
-
-                    <!-- IRA -->
-                    <div class="product-card">
-                        <div class="product-icon">🏛️</div>
-                        <h3>IRA</h3>
-                        <p>Take advantage of tax savings and prepare for retirement with an individual retirement account.</p>
-                        <a href="#" class="card-link">Learn About IRAs →</a>
-                    </div>
-
-                    <!-- HSA -->
-                    <div class="product-card">
-                        <div class="product-icon">⚕️</div>
-                        <h3>HSA</h3>
-                        <p>Be prepared for future medical expenses with a Health Savings Account.</p>
-                        <a href="#" class="card-link">Explore HSAs →</a>
-                    </div>
-
-                    <!-- Debit Card -->
-                    <div class="product-card">
-                        <div class="product-icon">💳</div>
-                        <h3>Debit Card</h3>
-                        <p>All Checking account holders get a VISA debit card with access to Ascend Bank Rewards.</p>
-                        <a href="#" class="card-link">Learn About Debit →</a>
-                    </div>
-
-                    <!-- Deposit Rates -->
-                    <div class="product-card">
-                        <div class="product-icon">📈</div>
-                        <h3>Deposit Rates</h3>
-                        <p>Competitive rates on Checking, Savings, Money Market, and CDs.</p>
-                        <a href="#" class="card-link">See Our Deposit Rates →</a>
-                    </div>
-
-                    <!-- Home Lending & Mortgages -->
-                    <div class="product-card">
-                        <div class="product-icon">🏠</div>
-                        <h3>Mortgages</h3>
-                        <p>Turn dreams into reality with prompt, efficient service from local lending experts.</p>
-                        <a href="#" class="card-link">Explore Mortgage Options →</a>
-                    </div>
-
-                    <!-- Home Equity -->
-                    <div class="product-card">
-                        <div class="product-icon">🔑</div>
-                        <h3>Home Equity</h3>
-                        <p>Great for home updates, a vacation, or a quick source of funds.</p>
-                        <a href="#" class="card-link">Learn About Home Equity →</a>
-                    </div>
-
-                    <!-- Personal Loans -->
-                    <div class="product-card">
-                        <div class="product-icon">💵</div>
-                        <h3>Personal Loans</h3>
-                        <p>Designed to work for you when you need additional funds.</p>
-                        <a href="#" class="card-link">See Personal Loans →</a>
-                    </div>
-
-                    <!-- Lending Rates -->
-                    <div class="product-card">
-                        <div class="product-icon">📊</div>
-                        <h3>Lending Rates</h3>
-                        <p>Great, competitive rates with the flexibility to suit your needs.</p>
-                        <a href="#" class="card-link">Explore Lending Rates →</a>
+                <!-- Mobile Banking -->
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <h3>Powerful Mobile Banking</h3>
+                    <p>View statements, pay bills, transfer funds, and manage transactions from anywhere, anytime with the Apex Trust Bank app.</p>
+                    <div class="feature-actions">
+                        <a href="#" class="btn btn-outline">Download our app</a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Features: Online & Mobile Banking -->
-        <section class="features">
-            <div class="container">
-                <div class="features-container">
-                    <!-- Online Banking -->
-                    <div class="feature-item">
-                        <div class="feature-icon">💻</div>
-                        <h3>Online Banking Where You Are</h3>
-                        <p>Open an account, add new services, speak to someone who can help, or access a variety of helpful financial tools and resources.</p>
-                        <div class="feature-actions">
-                            <a href="#" class="btn">Visit Self Service Center</a>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Banking -->
-                    <div class="feature-item">
-                        <div class="feature-icon">📱</div>
-                        <h3>Powerful Mobile Banking</h3>
-                        <p>View statements, pay bills, transfer funds, and manage transactions from anywhere, anytime with the Apex Trust Bank app.</p>
-                        <div class="feature-actions">
-                            <a href="#" class="btn btn-outline">Download our app</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+</main>
 {% endblock %}
