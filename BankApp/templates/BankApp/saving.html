@@ -3,73 +3,255 @@
 
 {% block title %}Apex Trust Bank - Savings{% endblock %}
 
-{% block content %}
-
-    {% block extra_css %}
+{% block extra_css %}
 <style>
-        .container { width:90%; max-width:1200px; margin:0 auto; padding:0 15px; }
-        .btn { display:inline-block; background:#0a4b7a; color:white; padding:10px 24px; border-radius:5px; text-decoration:none; font-weight:600; transition:background 0.3s; border:none; cursor:pointer; }
-        .btn:hover { background:#0e5f9e; }
-        .btn-outline { background:transparent; border:2px solid #0a4b7a; color:#0a4b7a; }
-        .btn-outline:hover { background:#0a4b7a; color:white; }
-        .section-title { font-size:2rem; color:#0a4b7a; margin-bottom:1rem; text-align:center; }
-        .section-subtitle { text-align:center; color:#555; max-width:700px; margin:0 auto 3rem auto; }
-       
-        .page-content { padding:4rem 0; }
-        .content-card { background:white; border-radius:10px; padding:2rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #eaeef2; margin-bottom:2rem; }
-        .content-card h2 { color:#0a4b7a; margin-bottom:1rem; }
-        .content-card ul, .content-card ol { margin-left:1.5rem; margin-bottom:1rem; }
-        .feature-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:2rem; margin:2rem 0; }
-        .feature-item { text-align:center; padding:1.5rem; background:#f8fafc; border-radius:8px; }
-        .feature-item .feature-icon { font-size:2.5rem; margin-bottom:1rem; }
-        
-    </style>
+    /* ───────── RESET & BASE ───────── */
+    .page-content {
+        padding: 4rem 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px) saturate(1.4);
+        -webkit-backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        padding: 2rem 2.2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ───────── SECTION TITLES ───────── */
+    .section-title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0.3rem;
+        letter-spacing: -0.02em;
+    }
+    .section-title span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .section-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+        max-width: 700px;
+        margin: 0 auto 2.5rem auto;
+        font-size: 1.05rem;
+    }
+
+    /* ───────── CONTENT CARD ───────── */
+    .content-card h2 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+        letter-spacing: -0.02em;
+    }
+    .content-card h2 i {
+        color: #4a6cf7;
+        margin-right: 10px;
+    }
+    .content-card h3 {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+    .content-card p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    .content-card ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.95rem;
+    }
+    .content-card li {
+        margin-bottom: 0.5rem;
+    }
+    .content-card li strong {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ───────── FEATURE GRID ───────── */
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+    .feature-item {
+        text-align: center;
+        padding: 1.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 16px;
+        transition: all 0.3s ease;
+    }
+    .feature-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-4px);
+        border-color: rgba(74, 108, 247, 0.15);
+    }
+    .feature-item .feature-icon {
+        font-size: 2.8rem;
+        margin-bottom: 0.8rem;
+        display: block;
+    }
+    .feature-item h3 {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.4rem;
+    }
+    .feature-item p {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* ───────── BUTTONS ───────── */
+    .btn {
+        display: inline-block;
+        padding: 10px 28px;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: none;
+        cursor: pointer;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+        color: #fff;
+    }
+    .btn-outline {
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+    .btn-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+    }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 1.8rem;
+        }
+        .glass-card {
+            padding: 1.5rem;
+        }
+        .feature-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        .btn-group {
+            flex-direction: column;
+        }
+        .btn-group .btn {
+            text-align: center;
+            width: 100%;
+        }
+        .content-card h2 {
+            font-size: 1.3rem;
+        }
+    }
+    @media (max-width: 480px) {
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+        .section-title {
+            font-size: 1.5rem;
+        }
+        .glass-card {
+            padding: 1.2rem;
+        }
+    }
+</style>
 {% endblock %}
-   
 
-    <main>
-        <section class="page-content">
-            <div class="container">
-                <h1 class="section-title">Savings Accounts</h1>
-                <p class="section-subtitle">Grow your money for the future with competitive rates and flexible options.</p>
+{% block content %}
+<main>
+    <section class="page-content">
+        <div class="container">
+            <h1 class="section-title">Savings <span>Accounts</span></h1>
+            <p class="section-subtitle">Grow your money for the future with competitive rates and flexible options.</p>
 
-                <div class="content-card">
-                    <h2>Start Saving Today</h2>
-                    <p>Whether you're building an emergency fund, saving for a home, or planning for retirement, Apex Trust Finance Bank has the right savings account to meet your goals.</p>
+            <div class="glass-card content-card">
+                <h2><i class="fas fa-piggy-bank"></i> Start Saving Today</h2>
+                <p>Whether you're building an emergency fund, saving for a home, or planning for retirement, Apex Trust Finance Bank has the right savings account to meet your goals.</p>
 
-                    <div class="feature-grid">
-                        <div class="feature-item">
-                            <div class="feature-icon">🏦</div>
-                            <h3>Regular Savings</h3>
-                            <p>No monthly fee with low minimum balance. Easy access to your funds.</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">📈</div>
-                            <h3>High-Yield Savings</h3>
-                            <p>Earn higher interest on larger balances. Great for growing your savings faster.</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">🎓</div>
-                            <h3>Youth Savings</h3>
-                            <p>Teach kids about money with no fees and fun educational tools.</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">💰</div>
-                            <h3>Money Market</h3>
-                            <p>Higher interest rates with check-writing privileges. Ideal for larger balances.</p>
-                        </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🏦</span>
+                        <h3>Regular Savings</h3>
+                        <p>No monthly fee with low minimum balance. Easy access to your funds.</p>
                     </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📈</span>
+                        <h3>High-Yield Savings</h3>
+                        <p>Earn higher interest on larger balances. Great for growing your savings faster.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎓</span>
+                        <h3>Youth Savings</h3>
+                        <p>Teach kids about money with no fees and fun educational tools.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💰</span>
+                        <h3>Money Market</h3>
+                        <p>Higher interest rates with check-writing privileges. Ideal for larger balances.</p>
+                    </div>
+                </div>
 
-                    <h3>Additional Savings Options</h3>
-                    <ul>
-                        <li><strong>Certificates of Deposit (CDs):</strong> Lock in a fixed rate for terms from 6 months to 5 years.</li>
-                        <li><strong>IRAs:</strong> Traditional and Roth IRA savings for retirement with tax advantages.</li>
-                        <li><strong>HSAs:</strong> Health Savings Accounts to save for medical expenses tax-free.</li>
-                    </ul>
+                <h3>Additional Savings Options</h3>
+                <ul>
+                    <li><strong>Certificates of Deposit (CDs):</strong> Lock in a fixed rate for terms from 6 months to 5 years.</li>
+                    <li><strong>IRAs:</strong> Traditional and Roth IRA savings for retirement with tax advantages.</li>
+                    <li><strong>HSAs:</strong> Health Savings Accounts to save for medical expenses tax-free.</li>
+                </ul>
 
-                    <p style="margin-top: 2rem;"><a href="#" class="btn">Open a Savings Account</a> <a href="{% url 'schedule' %}" class="btn btn-outline">Speak with a Specialist</a></p>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-primary"><i class="fas fa-plus-circle mr-2"></i>Open a Savings Account</a>
+                    <a href="{% url 'schedule' %}" class="btn btn-outline"><i class="fas fa-calendar-alt mr-2"></i>Speak with a Specialist</a>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 {% endblock %}
