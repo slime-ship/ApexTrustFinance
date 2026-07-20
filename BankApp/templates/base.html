@@ -5,52 +5,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Apex Trust Bank | Personal Banking{% endblock %}</title>
+
     <!-- Font Awesome (for icons) -->
-     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
     <link rel="manifest" href="{{ manifest_path }}">
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cb625ecfacab1c39445bca/1jl17gh81';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Tawk.to Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/69cb625ecfacab1c39445bca/1jl17gh81';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+
     <meta name="theme-color" content="{{ theme_color }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* === Modern CSS Reset & Base Styles === */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Segoe UI',sans-serif; line-height:1.6; color:#333; background:#f8fafc; }
-        .container { width:90%; max-width:1200px; margin:0 auto; padding:0 15px; }
-        .btn { display:inline-block; background:#0a4b7a; color:white; padding:10px 24px; border-radius:5px; text-decoration:none; font-weight:600; transition:background 0.3s; border:none; cursor:pointer; }
-        .btn:hover { background:#0e5f9e; }
-        .btn-outline { background:transparent; border:2px solid #0a4b7a; color:#0a4b7a; }
-        .btn-outline:hover { background:#0a4b7a; color:white; }
-        .section-title { font-size:2rem; color:#0a4b7a; margin-bottom:1rem; text-align:center; }
-        .section-subtitle { text-align:center; color:#555; max-width:700px; margin:0 auto 3rem auto; }
 
-        /* === Header & Navigation === */
+    <style>
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── CONTAINER ───────── */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ───────── BUTTONS ───────── */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+            font-size: 0.95rem;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+            color: #fff;
+        }
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            font-size: 1.05rem;
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ───────── HEADER & NAV ───────── */
         header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            background: rgba(11, 14, 26, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: 0.8rem 0;
         }
 
         /* redesigned logo */
@@ -58,60 +214,62 @@ s0.parentNode.insertBefore(s1,s0);
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             text-decoration: none;
-            color: #1a3b5c;
-            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
         }
         .logo-icon {
-            background: linear-gradient(145deg, #1e4b7a, #0a2f4f);
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
             color: white;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 10px rgba(0,40,80,0.2);
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(74, 108, 247, 0.3);
+            flex-shrink: 0;
         }
         .logo-text {
-            background: linear-gradient(135deg, #1e3b5c, #2b5a8c);
+            background: linear-gradient(135deg, #fff, #b0c4ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        /* desktop toggle (visible on desktop) */
+        /* ───────── MENU TOGGLES ───────── */
         .desktop-menu-toggle {
+            display: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            background: none;
+            border: none;
+            padding: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        .desktop-menu-toggle:hover {
+            color: #fff;
+        }
+
+        .mobile-menu-toggle {
             display: none;
             font-size: 1.8rem;
             cursor: pointer;
-            color: #0a4b7a;
+            color: rgba(255, 255, 255, 0.6);
             background: none;
             border: none;
             padding: 0 0.5rem;
-        }
-        .desktop-menu-toggle:hover {
-            color: #0e5f9e;
-        }
-
-        /* mobile toggle (hidden on desktop) */
-        .mobile-menu-toggle {
-            display: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #0a4b7a;
-            background: none;
-            border: none;
-            padding: 0 0.5rem;
+            transition: color 0.3s;
         }
         .mobile-menu-toggle:hover {
-            color: #0e5f9e;
+            color: #fff;
         }
 
-        /* Sidebar overlay (hidden by default) */
+        /* ───────── SIDEBAR ───────── */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -119,23 +277,25 @@ s0.parentNode.insertBefore(s1,s0);
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             z-index: 999;
         }
         .sidebar-overlay.active {
             display: block;
         }
 
-        /* Slide-out menu (right side) – used for both desktop and mobile */
         .sidebar-menu {
             position: fixed;
             top: 0;
             right: -300px;
             width: 280px;
             height: 100%;
-            background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            transition: right 0.3s ease;
+            background: rgba(11, 14, 26, 0.95);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1000;
             padding: 2rem 1.5rem;
             overflow-y: auto;
@@ -144,40 +304,53 @@ s0.parentNode.insertBefore(s1,s0);
             right: 0;
         }
         .sidebar-menu .close-btn {
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-align: right;
             cursor: pointer;
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s;
             margin-bottom: 2rem;
-            color: #0a4b7a;
+        }
+        .sidebar-menu .close-btn:hover {
+            color: #fff;
         }
         .sidebar-menu ul {
             list-style: none;
         }
         .sidebar-menu li {
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.3rem;
         }
         .sidebar-menu a {
             text-decoration: none;
-            color: #333;
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 500;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             display: block;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eaeef2;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            transition: all 0.3s;
         }
         .sidebar-menu a:hover {
-            color: #0a4b7a;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .sidebar-menu a.active {
+            color: #4a6cf7;
+            background: rgba(74, 108, 247, 0.08);
         }
         .sidebar-menu .btn {
             display: block;
             text-align: center;
-            margin: 1rem 0;
+            margin: 0.8rem 0;
         }
 
-        /* === Footer === */
+        /* ───────── FOOTER ───────── */
         footer {
-            background-color: #1f2e3a;
-            color: #cfddee;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding: 3rem 0 1.5rem;
             margin-top: 4rem;
         }
@@ -189,6 +362,10 @@ s0.parentNode.insertBefore(s1,s0);
             gap: 2rem;
             margin-bottom: 2rem;
         }
+        .footer-content .logo a {
+            color: #fff;
+            font-size: 1.2rem;
+        }
         .footer-links {
             display: flex;
             gap: 2rem;
@@ -196,53 +373,68 @@ s0.parentNode.insertBefore(s1,s0);
             flex-wrap: wrap;
         }
         .footer-links a {
-            color: #cfddee;
+            color: rgba(255, 255, 255, 0.4);
             text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
         .footer-links a:hover {
-            color: white;
+            color: #fff;
         }
         .copyright {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #3a4c5c;
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.2);
         }
 
-        /* === Responsive toggles === */
+        /* ───────── RESPONSIVE ───────── */
         @media (min-width: 769px) {
             .desktop-menu-toggle {
-                display: block;   /* show desktop toggle on desktop */
+                display: block;
             }
             .mobile-menu-toggle {
-                display: none;    /* hide mobile toggle on desktop */
+                display: none;
             }
         }
+
         @media (max-width: 768px) {
             .desktop-menu-toggle {
-                display: none;    /* hide desktop toggle on mobile */
+                display: none;
             }
             .mobile-menu-toggle {
-                display: block;   /* show mobile toggle on mobile */
-            }
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .features-container {
-                grid-template-columns: 1fr;
+                display: block;
             }
             .footer-content {
                 flex-direction: column;
                 text-align: center;
             }
+            .footer-links {
+                justify-content: center;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .glass-card {
+                padding: 1.5rem;
+            }
         }
 
-        /* Extra block for page-specific styles */
+        /* ───────── EXTRA BLOCK ───────── */
         {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── HEADER ─── -->
     <header>
         <div class="container">
             <nav>
@@ -260,37 +452,42 @@ s0.parentNode.insertBefore(s1,s0);
                 </button>
 
                 <!-- Mobile toggle (visible on mobile) -->
-                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
         </div>
     </header>
 
-    <!-- Slide-out sidebar (right side) – used for both desktop and mobile -->
+    <!-- ─── SIDEBAR ─── -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar-menu" id="sidebarMenu">
-        <div class="close-btn" id="closeBtn">✕</div>
+        <div class="close-btn" id="closeBtn"><i class="fas fa-times"></i></div>
         <ul>
-            <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
-            <li><a href="{% url 'checking' %}" class="{% if request.resolver_match.url_name == 'checking' %}active{% endif %}">Checking</a></li>
-            <li><a href="{% url 'saving' %}" class="{% if request.resolver_match.url_name == 'saving' %}active{% endif %}">Savings</a></li>
-            <li><a href="{% url 'lending' %}" class="{% if request.resolver_match.url_name == 'lending' %}active{% endif %}">Lending</a></li>
-            <li><a href="{% url 'rates' %}" class="{% if request.resolver_match.url_name == 'rates' %}active{% endif %}">Rates</a></li>
-            <li><a href="{% url 'register' %}" class="btn" style="margin:1rem 0;">Register</a></li>
-            <li><a href="{% url 'user_login' %}" class="btn btn-outline">Login</a></li>
+            <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><i class="fas fa-home mr-2"></i>Home</a></li>
+            <li><a href="{% url 'checking' %}" class="{% if request.resolver_match.url_name == 'checking' %}active{% endif %}"><i class="fas fa-wallet mr-2"></i>Checking</a></li>
+            <li><a href="{% url 'saving' %}" class="{% if request.resolver_match.url_name == 'saving' %}active{% endif %}"><i class="fas fa-piggy-bank mr-2"></i>Savings</a></li>
+            <li><a href="{% url 'lending' %}" class="{% if request.resolver_match.url_name == 'lending' %}active{% endif %}"><i class="fas fa-hand-holding-usd mr-2"></i>Lending</a></li>
+            <li><a href="{% url 'rates' %}" class="{% if request.resolver_match.url_name == 'rates' %}active{% endif %}"><i class="fas fa-chart-line mr-2"></i>Rates</a></li>
+            <li style="margin-top: 1rem;"><a href="{% url 'register' %}" class="btn" style="margin:0;">Register</a></li>
+            <li><a href="{% url 'user_login' %}" class="btn btn-outline" style="margin:0.5rem 0;">Login</a></li>
         </ul>
     </div>
-<br><br>
-    <!-- Main content area -->
+
+    <!-- ─── MAIN CONTENT ─── -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
+    <!-- ─── FOOTER ─── -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="logo">
-                    <a href="{% url 'home' %}" style="color: white;">Apex Trust Bank</a>
+                    <a href="{% url 'home' %}" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 1.2rem;">
+                        <span style="background: linear-gradient(135deg, #4a6cf7, #00d4ff); -webkit-background-clip: text; background-clip: text; color: transparent;">Apex</span> Trust Bank
+                    </a>
                 </div>
                 <ul class="footer-links">
                     <li><a href="{% url 'about' %}">About Us</a></li>
@@ -306,7 +503,7 @@ s0.parentNode.insertBefore(s1,s0);
         </div>
     </footer>
 
-    <!-- JavaScript for menus -->
+    <!-- ─── SCRIPTS ─── -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mobileToggle = document.getElementById('mobileMenuToggle');
@@ -331,9 +528,15 @@ s0.parentNode.insertBefore(s1,s0);
             if (desktopToggle) desktopToggle.addEventListener('click', openMenu);
             if (closeBtn) closeBtn.addEventListener('click', closeMenu);
             if (overlay) overlay.addEventListener('click', closeMenu);
+
+            // Close sidebar on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeMenu();
+            });
         });
     </script>
 
     {% block extra_js %}{% endblock %}
+
 </body>
 </html>
