@@ -6,784 +6,918 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investment Plans - Apex Trust Bank</title>
-    
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
-    
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="{{ manifest_path }}">
     <meta name="theme-color" content="{{ theme_color }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
-        :root {
-            --primary-color: #004080;
-            --secondary-color: #002b59;
-            --light-bg: #f5f7fa;
-            --white: #ffffff;
-            --text-dark: #333333;
-            --text-muted: #6c757d;
-            --starter-color: #3498db;
-            --pro-color: #2ecc71;
-            --elite-color: #9b59b6;
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
             min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
 
-        /* Header Styles */
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ───────── HEADER ───────── */
         .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
+            background: rgba(11, 14, 26, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 14px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
         .brand-logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .brand-logo h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            font-weight: 700;
+        .brand-logo i {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-
+        .brand-logo h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        .brand-logo h1 span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
-        .user-avatar {
+        .user-info .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: var(--secondary-color);
-            position: fixed;
-            right: -250px;
-            top: 0;
-            transition: right 0.4s ease;
             color: #fff;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .user-info .user-details {
+            display: none;
+        }
+        .user-info .user-details .name {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .user-info .user-details .email {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+        }
+        .user-info i {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .user-info i:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
         }
 
+        /* ───────── SIDEBAR ───────── */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: rgba(11, 14, 26, 0.95);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
+            position: fixed;
+            right: -280px;
+            top: 0;
+            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: #fff;
+            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
         .sidebar.open {
             right: 0;
         }
-
-        .sidebar-header, .user-details, .sidebar ul li {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--primary-color);
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
+        .sidebar-header h2 {
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .sidebar-header button {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-header button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .user-details-sidebar {
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .user-details-sidebar p {
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .user-details-sidebar strong {
+            color: #fff;
+        }
         .sidebar ul {
             list-style: none;
-            padding: 0;
+            padding: 12px 0;
             margin: 0;
         }
-
+        .sidebar ul li {
+            margin: 0 12px 4px;
+            border-radius: 12px;
+        }
         .sidebar ul li a {
-            color: white;
+            color: rgba(255, 255, 255, 0.6);
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-radius: 12px;
         }
-
         .sidebar ul li a:hover {
-            background-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+        }
+        .sidebar ul li a i {
+            width: 22px;
+            color: rgba(74, 108, 247, 0.5);
+        }
+        .sidebar ul li.active a {
+            background: rgba(74, 108, 247, 0.08);
+            color: #4a6cf7;
+        }
+        .sidebar ul li.active a i {
+            color: #4a6cf7;
         }
 
-        /* Main Content */
+        /* ───────── MARQUEE ───────── */
+        .marquee-wrap {
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+        }
+        .marquee-wrap .marquee-content {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            font-weight: 400;
+            animation: scrollLeft 30s linear infinite;
+            padding-left: 100%;
+        }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ───────── MAIN CONTENT ───────── */
         .main-content {
-            padding: 30px 20px;
+            padding: 30px 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
-            width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Welcome Section */
+        /* ───────── WELCOME SECTION ───────── */
         .welcome-section {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.5rem;
         }
-
         .welcome-section h2 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 2px;
         }
-
+        .welcome-section h2 span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .welcome-section .sub {
+            color: rgba(255, 255, 255, 0.4);
+        }
         .balance-section {
             text-align: center;
-            margin: 20px 0;
+            margin: 1.5rem 0;
         }
-
         .balance-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-
         .balance-amount {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #fff;
         }
-
         .account-number {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+            margin-top: 4px;
         }
 
-        /* Services Grid */
+        /* ───────── SERVICES GRID ───────── */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin: 25px 0;
+            gap: 12px;
+            margin: 1.5rem 0;
         }
-
         .service-item {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 12px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-            cursor: pointer;
+            transition: all 0.3s ease;
+            cursor: default;
         }
-
         .service-item:hover {
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+            border-color: rgba(74, 108, 247, 0.1);
         }
-
         .service-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 8px;
+            font-size: 1.3rem;
+            color: #4a6cf7;
+            margin-bottom: 4px;
         }
-
         .service-name {
-            font-size: 0.85rem;
-            color: var(--text-dark);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
             font-weight: 500;
         }
 
-        /* Page Header */
+        /* ───────── PAGE HEADER ───────── */
         .page-header {
             margin-bottom: 30px;
+            text-align: center;
         }
-
         .page-header h1 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
         }
-
+        .page-header h1 span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .page-header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.05rem;
         }
 
-        /* Plan Categories */
+        /* ───────── PLAN CATEGORIES ───────── */
         .plan-category {
             margin-bottom: 40px;
         }
-
         .plan-category h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             padding-bottom: 10px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+        .plan-category h2 i {
+            color: #4a6cf7;
         }
 
-        /* Plans Grid */
+        /* ───────── PLAN CARDS ───────── */
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
-            margin-bottom: 40px;
         }
-
         .plan-card {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
             overflow: hidden;
-            transition: transform 0.3s ease;
-            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
-
         .plan-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(74, 108, 247, 0.15);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
-
         .plan-header {
-            color: white;
-            padding: 25px;
+            padding: 24px 20px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .plan-header .plan-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
         }
-
-        .profit-range-display {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 15px 0;
+        .plan-header .profit-range-display {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 8px 0;
         }
-
-        .plan-type {
+        .plan-header .plan-type {
             display: inline-block;
-            padding: 5px 15px;
+            padding: 4px 14px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.7);
         }
-
+        .plan-header .profit-range {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(0, 212, 255, 0.08);
+            color: #5ee0ff;
+            margin-top: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.06);
+        }
         .plan-body {
-            padding: 25px;
+            padding: 20px 24px;
         }
-
         .plan-feature {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            color: #495057;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
         }
-
         .plan-feature i {
-            color: var(--primary-color);
-            margin-right: 10px;
+            color: #4a6cf7;
             width: 20px;
+            text-align: center;
         }
-
+        .example-calculation {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid #4a6cf7;
+            padding: 10px 14px;
+            margin: 14px 0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .example-calculation i {
+            color: #4a6cf7;
+            margin-right: 6px;
+        }
         .btn-invest {
             width: 100%;
             padding: 12px;
-            color: white;
             border: none;
-            border-radius: 6px;
-            font-weight: bold;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-decoration: none;
             display: block;
             text-align: center;
+            margin-top: 16px;
         }
-
         .btn-invest:hover {
-            color: white;
+            transform: translateY(-2px);
+            color: #fff;
             text-decoration: none;
-            opacity: 0.9;
+        }
+        .btn-invest.starter {
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+        }
+        .btn-invest.starter:hover {
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+        }
+        .btn-invest.pro {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.25);
+        }
+        .btn-invest.pro:hover {
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.35);
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .btn-invest.elite {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 8px 28px rgba(139, 92, 246, 0.25);
+        }
+        .btn-invest.elite:hover {
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.35);
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
         }
 
-        /* Investments Section */
+        /* ───────── INVESTMENTS TABLE ───────── */
         .investments-section {
             margin-top: 50px;
         }
-
+        .investments-section .card-header {
+            background: rgba(74, 108, 247, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 20px 24px;
+            border-radius: 24px 24px 0 0;
+        }
+        .investments-section .card-header h2 {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+        .investments-section .card-header h2 i {
+            color: #4a6cf7;
+            margin-right: 10px;
+        }
         .table-container {
             overflow-x: auto;
+            padding: 0;
         }
-
         .investments-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.9rem;
         }
-
         .investments-table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px;
+            padding: 14px 16px;
             text-align: left;
-            font-weight: bold;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 500;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
-
         .investments-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e9ecef;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.7);
         }
-
+        .investments-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
         .status-badge {
-            padding: 6px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-
         .status-active {
-            background-color: #d4edda;
-            color: #155724;
+            color: #5ee0ff;
+            background: rgba(0, 212, 255, 0.04);
+            border-color: rgba(0, 212, 255, 0.06);
         }
-
         .status-completed {
-            background-color: #e2e3e5;
-            color: #383d41;
+            color: #4a6cf7;
+            background: rgba(74, 108, 247, 0.04);
+            border-color: rgba(74, 108, 247, 0.06);
+        }
+        .status-pending {
+            color: #ffb900;
+            background: rgba(255, 185, 0, 0.04);
+            border-color: rgba(255, 185, 0, 0.06);
         }
 
-        /* Bottom Navigation */
+        /* ───────── BOTTOM NAV ───────── */
         .bottom-nav {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-            margin-top: 20px;
-        }
-
-        .nav-items {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(11, 14, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             justify-content: space-around;
+            padding: 0.6rem 0 0.8rem;
         }
-
-        .nav-item {
+        .bottom-nav .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.3s;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+        }
+        .bottom-nav .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
+        }
+        .bottom-nav .nav-item:hover,
+        .bottom-nav .nav-item.active {
+            color: #4a6cf7;
         }
 
-        .nav-item.active {
-            color: var(--primary-color);
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        /* Marquee */
-        .marquee {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-weight: bold;
-            padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .marquee-content {
-            display: inline-block;
-            animation: scrollLeft 10s linear infinite;
-        }
-
-        @keyframes scrollLeft {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* Telegram Floating Icon */
+        /* ───────── TELEGRAM FLOAT ───────── */
         .telegram-float {
             position: fixed;
             left: 20px;
-            bottom: 20px;
+            bottom: 90px;
             z-index: 1000;
             animation: float 3s ease-in-out infinite;
         }
-
         .telegram-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: #0088cc;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #0088cc, #006699);
             border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.35);
             transition: all 0.3s ease;
             text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-
         .telegram-link:hover {
-            background: #0077b5;
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.45);
         }
-
         .telegram-icon {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             filter: brightness(0) invert(1);
         }
-
         .telegram-tooltip {
             position: absolute;
             left: 70px;
             background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 14px;
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
             white-space: nowrap;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s;
             pointer-events: none;
         }
-
         .telegram-link:hover .telegram-tooltip {
             opacity: 1;
         }
-
         @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        /* Example Calculation */
-        .example-calculation {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
-            padding: 10px 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        /* ───────── EMPTY STATE ───────── */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.05);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .empty-state h3 {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .empty-state p {
+            margin: 0;
         }
 
-        /* Investment Type Badge */
-        .investment-type-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-
-        .badge-short-term {
-            background-color: var(--starter-color);
-            color: white;
-        }
-
-        .badge-long-term {
-            background-color: var(--pro-color);
-            color: white;
-        }
-
-        /* Profit Range Display */
-        .profit-range {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-
-        /* Media Queries */
-        @media (max-width: 1200px) {
-            .main-content {
-                padding: 25px 15px;
-            }
-        }
-
+        /* ───────── RESPONSIVE ───────── */
         @media (max-width: 992px) {
             .services-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
-
             .plans-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
         @media (max-width: 768px) {
-            .header-content {
-                padding: 0 15px;
-            }
-
-            .brand-logo h1 {
-                font-size: 1.3rem;
-            }
-
             .main-content {
-                padding: 20px 10px;
+                padding: 20px 16px 40px;
             }
-
             .page-header h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
-
-            .page-header p {
-                font-size: 1rem;
-            }
-
             .balance-amount {
                 font-size: 2rem;
             }
-
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .plans-grid {
                 grid-template-columns: 1fr;
             }
-
-            .nav-items {
-                flex-wrap: wrap;
+            .user-info .user-details {
+                display: none;
             }
-
-            .nav-item {
-                flex: 0 0 25%;
-                margin-bottom: 10px;
+            .sidebar {
+                width: 260px;
+                right: -260px;
             }
-
             .telegram-float {
-                left: 10px;
-                bottom: 10px;
+                left: 12px;
+                bottom: 80px;
             }
-
             .telegram-link {
-                width: 50px;
-                height: 50px;
+                width: 48px;
+                height: 48px;
             }
-
-            .telegram-icon {
-                width: 25px;
-                height: 25px;
+            .investments-table {
+                font-size: 0.8rem;
             }
-
-            .profit-range-display {
-                font-size: 2rem !important;
-            }
-
-            .plan-header {
-                padding: 20px !important;
-            }
-
-            .plan-body {
-                padding: 20px !important;
+            .investments-table th,
+            .investments-table td {
+                padding: 10px 12px;
             }
         }
-
-        @media (max-width: 576px) {
-            .header-content {
-                flex-direction: column;
-                gap: 10px;
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .service-item {
                 padding: 10px;
             }
-
-            .user-info {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
             .welcome-section {
-                padding: 20px 15px;
+                padding: 1.2rem;
             }
-
-            .balance-amount {
+            .plan-header .profit-range-display {
                 font-size: 1.8rem;
-            }
-
-            .nav-items {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-item {
-                flex-direction: row;
-                justify-content: center;
-                gap: 10px;
-            }
-
-            .nav-icon {
-                margin-bottom: 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Telegram Floating Icon -->
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── TELEGRAM FLOAT ─── -->
     <div class="telegram-float">
         <a href="https://" class="telegram-link" target="_blank">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="telegram-icon">
             <span class="telegram-tooltip">Join our Telegram group</span>
         </a>
     </div>
-    
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="brand-logo">
-                <i class="fas fa-university fa-2x"></i>
-                <h1>Skybride Bank</h1>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div>
-                    <div>{{ request.user }}</div>
-                    <div style="font-size: 0.8rem;">{{ user_profile.email }}</div>
-                </div>
-                <div class="notification-bell" onclick="toggleSidebar()">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="open-sidebar-btn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Sidebar -->
+    <!-- ─── HEADER ─── -->
+    <header class="header">
+        <div class="brand-logo">
+            <i class="fas fa-university"></i>
+            <h1><span>Skybridge</span> Bank</h1>
+        </div>
+        <div class="user-info">
+            <div class="user-avatar">{{ request.user|first|upper }}</div>
+            <div class="user-details">
+                <div class="name">{{ request.user }}</div>
+                <div class="email">{{ user_profile.email }}</div>
+            </div>
+            <i class="fas fa-bell" onclick="toggleSidebar()"></i>
+            <i class="fas fa-bars" onclick="toggleSidebar()"></i>
+        </div>
+    </header>
+
+    <!-- ─── SIDEBAR ─── -->
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
-            <h2>Account Menu</h2>
-            <button onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">
-                <i class="fas fa-times"></i>
-            </button>
+            <h2><i class="fas fa-user-circle"></i> Account Menu</h2>
+            <button onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
         </div>
-        <div class="user-details">
-           <p>Name: <strong>{{ user_profile.first_name }}, {{ user_profile.last_name }}</strong></p>
+        <div class="user-details-sidebar">
+            <p>Name: <strong>{{ user_profile.first_name }} {{ user_profile.last_name }}</strong></p>
             <p>Email: <strong>{{ user_profile.email }}</strong></p>
         </div>
         <ul>
             <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="{% url 'investment_plans' %}"><i class="fas fa-chart-line"></i> Investments</a></li>
+            <li class="active"><a href="{% url 'investment_plans' %}"><i class="fas fa-chart-line"></i> Investments</a></li>
             <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
             <li><a href="{% url 'LogOut' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
 
-    <!-- Marquee for Stock Market -->
-    <div class="marquee">
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
         <div class="marquee-content" id="stockMarquee">
             Loading stock market data...
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- ─── MAIN CONTENT ─── -->
     <div class="main-content">
+
         <!-- Welcome Section -->
-        <div class="welcome-section">
-            <h2>Welcome Back</h2>
-            <p>{{ request.user }}</p>
+        <div class="glass-card welcome-section">
+            <h2>Welcome Back, <span>{{ request.user }}</span></h2>
+            <p class="sub">Let's grow your wealth together</p>
 
             <div class="balance-section">
-                <div class="balance-label">AVAILABLE BALANCE</div>
+                <div class="balance-label">Available Balance</div>
                 <div class="balance-amount">${{ user_profile.balance|intcomma }}</div>
-                <div class="account-number">ACCOUNT NUMBER<br>${{ user_profile.accountnumber }}</div>
+                <div class="account-number">Account Number: {{ user_profile.accountnumber }}</div>
             </div>
 
             <div class="services-grid">
-                <div class="service-item">
-                    <div class="service-icon"><i class="fas fa-landmark"></i></div>
-                    <div class="service-name">Bank</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fab fa-bitcoin"></i></div>
-                    <div class="service-name">Crypto</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fab fa-paypal"></i></div>
-                    <div class="service-name">PayPal</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fas fa-money-check"></i></div>
-                    <div class="service-name">Skrill</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fab fa-google"></i></div>
-                    <div class="service-name">Google Pay</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fas fa-globe"></i></div>
-                    <div class="service-name">Wise</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fas fa-money-bill-transfer"></i></div>
-                    <div class="service-name">Western Union</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon"><i class="fas fa-credit-card"></i></div>
-                    <div class="service-name">Payoneer</div>
-                </div>
+                <div class="service-item"><div class="service-icon"><i class="fas fa-landmark"></i></div><div class="service-name">Bank</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fab fa-bitcoin"></i></div><div class="service-name">Crypto</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fab fa-paypal"></i></div><div class="service-name">PayPal</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fas fa-money-check"></i></div><div class="service-name">Skrill</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fab fa-google"></i></div><div class="service-name">Google Pay</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fas fa-globe"></i></div><div class="service-name">Wise</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fas fa-money-bill-transfer"></i></div><div class="service-name">Western Union</div></div>
+                <div class="service-item"><div class="service-icon"><i class="fas fa-credit-card"></i></div><div class="service-name">Payoneer</div></div>
             </div>
         </div>
 
         <!-- Page Header -->
         <div class="page-header">
-            <h1>Investment Plans</h1>
+            <h1>Investment <span>Plans</span></h1>
             <p>Grow your wealth with our carefully crafted investment plans</p>
         </div>
 
-        <!-- Balance Display -->
-        <div style="text-align: center; margin: 30px 0; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);">
-            <div class="balance-label">AVAILABLE BALANCE FOR INVESTMENT</div>
+        <!-- Balance Display for Investment -->
+        <div class="glass-card" style="text-align: center; padding: 1.5rem; margin-bottom: 2rem;">
+            <div class="balance-label">Available Balance for Investment</div>
             <div class="balance-amount">${{ user_profile.balance|intcomma }}</div>
         </div>
 
         <!-- STARTER PLANS -->
         <div class="plan-category">
-            <h2><i class="fas fa-rocket" style="margin-right: 10px;"></i>Starter Plans</h2>
+            <h2><i class="fas fa-rocket"></i> Starter Plans</h2>
             <div class="plans-grid">
                 {% for plan in starter_plans %}
                 <div class="plan-card">
-                    <div class="plan-header" style="background: linear-gradient(135deg, var(--starter-color), #2980b9);">
+                    <div class="plan-header" style="background: linear-gradient(135deg, rgba(74,108,247,0.15), rgba(59,93,231,0.05));">
                         <div class="plan-name">{{ plan.name }}</div>
-                        <div class="profit-range-display">
-                            {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range-display">{{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                         <div class="plan-type">
                             {% if plan.investment_type == 'SHORT_TERM' %}
                                 <i class="fas fa-clock"></i> {{ plan.interval_hours }} Hours
@@ -791,46 +925,25 @@
                                 <i class="fas fa-calendar-alt"></i> {{ plan.duration_days }} Days
                             {% endif %}
                         </div>
-                        <div class="profit-range">
-                            Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range">Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                     </div>
                     <div class="plan-body">
-                        <div class="plan-feature">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span>Minimum: ${{ plan.min_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Maximum: ${{ plan.max_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>
-                                {% if plan.investment_type == 'SHORT_TERM' %}
-                                    Duration: {{ plan.interval_hours }} Hours
-                                {% else %}
-                                    Duration: {{ plan.duration_days }} Days
-                                {% endif %}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Min Profit: ${{ plan.min_amount|floatformat:2 }}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Max Profit: ${{ plan.max_amount|floatformat:2 }}
-                            </span>
-                        </div>
+                        <div class="plan-feature"><i class="fas fa-dollar-sign"></i> <span>Minimum: ${{ plan.min_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-chart-line"></i> <span>Maximum: ${{ plan.max_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-calendar-alt"></i> <span>
+                            {% if plan.investment_type == 'SHORT_TERM' %}
+                                Duration: {{ plan.interval_hours }} Hours
+                            {% else %}
+                                Duration: {{ plan.duration_days }} Days
+                            {% endif %}
+                        </span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Min Profit: ${{ plan.min_amount|floatformat:2 }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Max Profit: ${{ plan.max_amount|floatformat:2 }}</span></div>
                         <div class="example-calculation">
                             <i class="fas fa-calculator"></i>
                             Example: Invest ${{ plan.min_amount|floatformat:2 }} → Return ${{ plan.max_amount|floatformat:2 }}
                         </div>
-                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest" style="background: var(--starter-color);">
+                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest starter">
                             <i class="fas fa-chart-line"></i> Invest Now
                         </a>
                     </div>
@@ -841,15 +954,13 @@
 
         <!-- PRO PLANS -->
         <div class="plan-category">
-            <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>Pro Plans</h2>
+            <h2><i class="fas fa-chart-line"></i> Pro Plans</h2>
             <div class="plans-grid">
                 {% for plan in pro_plans %}
                 <div class="plan-card">
-                    <div class="plan-header" style="background: linear-gradient(135deg, var(--pro-color), #27ae60);">
+                    <div class="plan-header" style="background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.05));">
                         <div class="plan-name">{{ plan.name }}</div>
-                        <div class="profit-range-display">
-                            {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range-display">{{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                         <div class="plan-type">
                             {% if plan.investment_type == 'SHORT_TERM' %}
                                 <i class="fas fa-clock"></i> {{ plan.interval_hours }} Hours
@@ -857,46 +968,25 @@
                                 <i class="fas fa-calendar-alt"></i> {{ plan.duration_days }} Days
                             {% endif %}
                         </div>
-                        <div class="profit-range">
-                            Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range">Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                     </div>
                     <div class="plan-body">
-                        <div class="plan-feature">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span>Minimum: ${{ plan.min_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Maximum: ${{ plan.max_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>
-                                {% if plan.investment_type == 'SHORT_TERM' %}
-                                    Duration: {{ plan.interval_hours }} Hours
-                                {% else %}
-                                    Duration: {{ plan.duration_days }} Days
-                                {% endif %}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Min Profit: ${{ plan.min_amount|floatformat:2 }}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Max Profit: ${{ plan.max_amount|floatformat:2 }}
-                            </span>
-                        </div>
+                        <div class="plan-feature"><i class="fas fa-dollar-sign"></i> <span>Minimum: ${{ plan.min_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-chart-line"></i> <span>Maximum: ${{ plan.max_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-calendar-alt"></i> <span>
+                            {% if plan.investment_type == 'SHORT_TERM' %}
+                                Duration: {{ plan.interval_hours }} Hours
+                            {% else %}
+                                Duration: {{ plan.duration_days }} Days
+                            {% endif %}
+                        </span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Min Profit: ${{ plan.min_amount|floatformat:2 }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Max Profit: ${{ plan.max_amount|floatformat:2 }}</span></div>
                         <div class="example-calculation">
                             <i class="fas fa-calculator"></i>
                             Example: Invest ${{ plan.min_amount|floatformat:2 }} → Return ${{ plan.max_amount|floatformat:2 }}
                         </div>
-                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest" style="background: var(--pro-color);">
+                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest pro">
                             <i class="fas fa-chart-line"></i> Invest Now
                         </a>
                     </div>
@@ -907,15 +997,13 @@
 
         <!-- ELITE PLANS -->
         <div class="plan-category">
-            <h2><i class="fas fa-crown" style="margin-right: 10px;"></i>Elite Plans</h2>
+            <h2><i class="fas fa-crown"></i> Elite Plans</h2>
             <div class="plans-grid">
                 {% for plan in elite_plans %}
                 <div class="plan-card">
-                    <div class="plan-header" style="background: linear-gradient(135deg, var(--elite-color), #8e44ad);">
+                    <div class="plan-header" style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(124,58,237,0.05));">
                         <div class="plan-name">{{ plan.name }}</div>
-                        <div class="profit-range-display">
-                            {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range-display">{{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                         <div class="plan-type">
                             {% if plan.investment_type == 'SHORT_TERM' %}
                                 <i class="fas fa-clock"></i> {{ plan.interval_hours }} Hours
@@ -923,46 +1011,25 @@
                                 <i class="fas fa-calendar-alt"></i> {{ plan.duration_days }} Days
                             {% endif %}
                         </div>
-                        <div class="profit-range">
-                            Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%
-                        </div>
+                        <div class="profit-range">Profit Range: {{ plan.min_profit_percentage }}% - {{ plan.max_profit_percentage }}%</div>
                     </div>
                     <div class="plan-body">
-                        <div class="plan-feature">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span>Minimum: ${{ plan.min_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Maximum: ${{ plan.max_amount|intcomma }}</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>
-                                {% if plan.investment_type == 'SHORT_TERM' %}
-                                    Duration: {{ plan.interval_hours }} Hours
-                                {% else %}
-                                    Duration: {{ plan.duration_days }} Days
-                                {% endif %}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Min Profit: ${{ plan.min_amount|floatformat:2 }}
-                            </span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>
-                                Max Profit: ${{ plan.max_amount|floatformat:2 }}
-                            </span>
-                        </div>
+                        <div class="plan-feature"><i class="fas fa-dollar-sign"></i> <span>Minimum: ${{ plan.min_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-chart-line"></i> <span>Maximum: ${{ plan.max_amount|intcomma }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-calendar-alt"></i> <span>
+                            {% if plan.investment_type == 'SHORT_TERM' %}
+                                Duration: {{ plan.interval_hours }} Hours
+                            {% else %}
+                                Duration: {{ plan.duration_days }} Days
+                            {% endif %}
+                        </span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Min Profit: ${{ plan.min_amount|floatformat:2 }}</span></div>
+                        <div class="plan-feature"><i class="fas fa-money-bill-wave"></i> <span>Max Profit: ${{ plan.max_amount|floatformat:2 }}</span></div>
                         <div class="example-calculation">
                             <i class="fas fa-calculator"></i>
                             Example: Invest ${{ plan.min_amount|floatformat:2 }} → Return ${{ plan.max_amount|floatformat:2 }}
                         </div>
-                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest" style="background: var(--elite-color);">
+                        <a href="{% url 'create_investment' %}?plan={{ plan.id }}" class="btn-invest elite">
                             <i class="fas fa-chart-line"></i> Invest Now
                         </a>
                     </div>
@@ -971,93 +1038,82 @@
             </div>
         </div>
 
-        <!-- Current Investments Section -->
+        <!-- Current Investments -->
         {% if user_investments %}
         <div class="investments-section">
-            <div class="card" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); margin-top: 50px;">
-                <div class="card-header" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border-radius: 12px 12px 0 0; padding: 20px;">
-                    <h2 style="margin: 0; font-size: 1.8rem;">
-                        <i class="fas fa-chart-bar" style="margin-right: 10px;"></i>Your Current Investments
-                    </h2>
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-bar"></i> Your Current Investments</h2>
                 </div>
-                <div class="card-body" style="padding: 30px;">
-                    <div class="table-container">
-                        <table class="investments-table">
-                            <thead>
-                                <tr>
-                                    <th>Plan</th>
-                                    <th>Amount Invested</th>
-                                    <th>Expected Return</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for investment in user_investments %}
-                                <tr>
-                                    <td>{{ investment.investment_plan.name }}</td>
-                                    <td>${{ investment.amount_invested|intcomma }}</td>
-                                    <td>
-                                        ${{ investment.min_expected_return|intcomma }} - ${{ investment.max_expected_return|intcomma }}
-                                    </td>
-                                    <td>{{ investment.start_date|date:"M d, Y" }}</td>
-                                    <td>{{ investment.end_date|date:"M d, Y" }}</td>
-                                    <td>
-                                        <span style="padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; 
-                                        {% if investment.status == 'ACTIVE' %}background-color: #d4edda; color: #155724;
-                                        {% elif investment.status == 'COMPLETED' %}background-color: #e2e3e5; color: #383d41;
-                                        {% elif investment.status == 'PENDING' %}background-color: #fff3cd; color: #856404;
-                                        {% else %}background-color: #f8d7da; color: #721c24;{% endif %}">
-                                            {{ investment.get_status_display }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-container">
+                    <table class="investments-table">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Amount Invested</th>
+                                <th>Expected Return</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for investment in user_investments %}
+                            <tr>
+                                <td>{{ investment.investment_plan.name }}</td>
+                                <td>${{ investment.amount_invested|intcomma }}</td>
+                                <td>${{ investment.min_expected_return|intcomma }} - ${{ investment.max_expected_return|intcomma }}</td>
+                                <td>{{ investment.start_date|date:"M d, Y" }}</td>
+                                <td>{{ investment.end_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ investment.status|lower }}">
+                                        {{ investment.get_status_display }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         {% else %}
-        <div style="text-align: center; padding: 40px; margin: 40px 0; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);">
-            <i class="fas fa-chart-line" style="font-size: 3rem; color: #6c757d; margin-bottom: 20px;"></i>
-            <h3 style="color: #495057;">No Active Investments</h3>
-            <p style="color: #6c757d;">Start your investment journey by selecting a plan above.</p>
+        <div class="glass-card" style="text-align: center; padding: 2.5rem;">
+            <div class="empty-state">
+                <i class="fas fa-chart-line"></i>
+                <h3>No Active Investments</h3>
+                <p>Start your investment journey by selecting a plan above.</p>
+            </div>
         </div>
         {% endif %}
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <div class="nav-items">
-                <a href="{% url 'dashboard' %}" class="nav-item">
-                    <i class="fas fa-home nav-icon"></i>
-                    <span>Home</span>
-                </a>
-                <a href="{% url 'investment_plans' %}" class="nav-item active">
-                    <i class="fas fa-chart-line nav-icon"></i>
-                    <span>Invest</span>
-                </a>
-                <a href="{% url 'bank_transfer' %}" class="nav-item">
-                    <i class="fas fa-exchange-alt nav-icon"></i>
-                    <span>Transfer</span>
-                </a>
-                <a href="{% url 'profile' %}" class="nav-item">
-                    <i class="fas fa-user nav-icon"></i>
-                    <span>Profile</span>
-                </a>
-            </div>
+            <a href="{% url 'dashboard' %}" class="nav-item">
+                <i class="fas fa-home"></i><span>Home</span>
+            </a>
+            <a href="{% url 'investment_plans' %}" class="nav-item active">
+                <i class="fas fa-chart-line"></i><span>Invest</span>
+            </a>
+            <a href="{% url 'bank_transfer' %}" class="nav-item">
+                <i class="fas fa-exchange-alt"></i><span>Transfer</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </a>
         </div>
+
     </div>
 
+    <!-- ─── SCRIPTS ─── -->
     <script>
+        // ─── Sidebar Toggle ───
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
 
-        // Stock Market Data
+        // ─── Stock Marquee ───
         const stockData = [
             { symbol: "AAPL", price: 178.23, change: "+1.2%" },
             { symbol: "GOOGL", price: 123.45, change: "-0.5%" },
@@ -1067,84 +1123,45 @@
             { symbol: "NVDA", price: 456.89, change: "+3.5%" }
         ];
 
-        // Update stock marquee dynamically
         function updateStockMarquee() {
             const marquee = document.getElementById("stockMarquee");
-            const stockText = stockData.map(stock => 
+            if (!marquee) return;
+            const stockText = stockData.map(stock =>
                 `${stock.symbol}: $${stock.price.toFixed(2)} ${stock.change}`
             ).join(" | ");
             marquee.innerHTML = "📈 LIVE MARKETS: " + stockText;
         }
 
-        // Calculate profit examples for each plan
-        function calculateProfitExamples() {
-            const planCards = document.querySelectorAll('.plan-card');
-            planCards.forEach(card => {
-                const minAmountText = card.querySelector('.plan-feature:nth-child(1) span').textContent;
-                const maxAmountText = card.querySelector('.plan-feature:nth-child(2) span').textContent;
-                
-                const minAmount = parseFloat(minAmountText.replace('Minimum: $', '').replace(',', ''));
-                const maxAmount = parseFloat(maxAmountText.replace('Maximum: $', '').replace(',', ''));
-                
-                const profitRangeText = card.querySelector('.profit-range').textContent;
-                const profitMatch = profitRangeText.match(/(\d+\.?\d*)% - (\d+\.?\d*)%/);
-                
-                if (profitMatch) {
-                    const minProfitPercent = parseFloat(profitMatch[1]);
-                    const maxProfitPercent = parseFloat(profitMatch[2]);
-                    
-                    // Calculate example returns
-                    const minInvestReturn = minAmount * (1 + minProfitPercent/100);
-                    const maxInvestReturn = maxAmount * (1 + maxProfitPercent/100);
-                    
-                    // Update example calculation
-                    const exampleDiv = card.querySelector('.example-calculation');
-                    if (exampleDiv) {
-                        exampleDiv.innerHTML = `
-                            <i class="fas fa-calculator"></i>
-                            Example: Invest $${minAmount.toFixed(2)} → Return $${minInvestReturn.toFixed(2)} to $${maxInvestReturn.toFixed(2)}
-                        `;
-                    }
-                }
-            });
-        }
-
-        // Call functions after the DOM is loaded
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(updateStockMarquee, 1000);
-            setTimeout(calculateProfitExamples, 1500);
-            
-            // Update marquee every 30 seconds
-            setInterval(updateStockMarquee, 30000);
-        });
-
-        // Add investment type badges
-        document.querySelectorAll('.plan-type').forEach(typeElement => {
-            const typeText = typeElement.textContent.toLowerCase();
-            if (typeText.includes('hours')) {
-                typeElement.classList.add('badge-short-term');
-            } else if (typeText.includes('days')) {
-                typeElement.classList.add('badge-long-term');
+        // ─── Close sidebar on outside click ───
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const openBtn = document.querySelector('.user-info .fa-bars');
+            if (sidebar.classList.contains('open') &&
+                !sidebar.contains(e.target) &&
+                !openBtn.contains(e.target)) {
+                toggleSidebar();
             }
         });
-    </script>
-    
-    <script>
-     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'sw.js' %}")
-        .then(registration => {
-            console.log('✅ Service Worker Registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker);
-            });
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
+
+        // ─── Service Worker ───
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'sw.js' %}")
+                .then(registration => {
+                    console.log('✅ Service Worker Registered:', registration);
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 New service worker found:', newWorker);
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker registration failed:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(updateStockMarquee, 1000);
+            setInterval(updateStockMarquee, 30000);
         });
-    }
     </script>
 </body>
-</html>
+                                                                                   </html>
