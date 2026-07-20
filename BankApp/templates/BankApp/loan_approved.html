@@ -1,38 +1,334 @@
 {% include 'base.html' with page_title="Loan Approved" %}
 
-<body>
-<div class="approved-container">
-    <div class="approved-card">
-        <h2>🎉 Loan Approved!</h2>
-        <p>Your loan request has been successfully approved.</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Approved - Apex Trust Bank</title>
 
-        <div class="approved-info">
-            <p><strong>Approved Amount:</strong> {{ currency }} {{ loan.amount }}</p>
-            <p><strong>Duration:</strong> {{ loan.duration }}</p>
-            <p><strong>Interest:</strong> {{ loan.interest }}%</p>
-            <p><strong>Total Payable:</strong> {{ currency }} {{ loan.total_payable }}</p>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            padding: 2.8rem 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 48px 100px rgba(0, 0, 0, 0.8);
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4a6cf7, #00d4ff);
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ───────── APPROVED CARD ───────── */
+        .approved-card {
+            text-align: center;
+        }
+
+        /* ───────── ICON ───────── */
+        .success-icon {
+            font-size: 4rem;
+            color: #5ee0ff;
+            background: rgba(0, 212, 255, 0.06);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 212, 255, 0.08);
+            animation: pulseIcon 2s ease-in-out infinite;
+        }
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* ───────── HEADER ───────── */
+        .approved-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.02em;
+        }
+        .approved-card h2 span {
+            background: linear-gradient(135deg, #5ee0ff, #4a6cf7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .approved-card .subtitle {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.05rem;
+            margin-bottom: 1.8rem;
+        }
+
+        /* ───────── INFO GRID ───────── */
+        .approved-info {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .approved-info .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.95rem;
+        }
+        .approved-info .info-row:last-child {
+            border-bottom: none;
+        }
+        .approved-info .info-row .label {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+        .approved-info .info-row .value {
+            color: #fff;
+            font-weight: 600;
+        }
+        .approved-info .info-row .value.highlight {
+            color: #5ee0ff;
+        }
+
+        /* ───────── BUTTON ───────── */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            color: #fff;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+            width: 100%;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+            color: #fff;
+        }
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+        @media (max-width: 600px) {
+            .glass-card {
+                padding: 2rem 1.5rem;
+                border-radius: 24px;
+            }
+            .approved-card h2 {
+                font-size: 1.6rem;
+            }
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 3rem;
+            }
+            .approved-info {
+                padding: 1.2rem;
+            }
+            .approved-info .info-row {
+                font-size: 0.85rem;
+                flex-wrap: wrap;
+                gap: 0.2rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 1.5rem 1rem;
+            }
+            .approved-card h2 {
+                font-size: 1.4rem;
+            }
+            .success-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="glass-card">
+
+        <div class="approved-card">
+
+            <!-- Success Icon -->
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+
+            <!-- Heading -->
+            <h2>Loan <span>Approved</span> 🎉</h2>
+            <p class="subtitle">Your loan request has been successfully approved.</p>
+
+            <!-- Loan Details -->
+            <div class="approved-info">
+                <div class="info-row">
+                    <span class="label">Approved Amount</span>
+                    <span class="value highlight">{{ currency }} {{ loan.amount }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Duration</span>
+                    <span class="value">{{ loan.duration }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Interest Rate</span>
+                    <span class="value">{{ loan.interest }}%</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Total Payable</span>
+                    <span class="value highlight">{{ currency }} {{ loan.total_payable }}</span>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <a href="/dashboard/" class="btn">
+                <i class="fas fa-arrow-right"></i> Go to Dashboard
+            </a>
+
         </div>
 
-        <a href="/dashboard/" class="btn">Go to Dashboard</a>
     </div>
-</div>
-</body>
 
-<style>
-.approved-container {
-    display:flex; justify-content:center;
-    padding-top:40px; background:#F0F9FF;
-    min-height:100vh;
-}
-.approved-card {
-    background:white; width:450px;
-    padding:30px; border-radius:10px;
-    box-shadow:0 5px 18px rgba(0,0,0,0.1);
-    text-align:center;
-}
-.btn {
-    display:inline-block; background:#1E3A8A;
-    color:white; padding:12px 20px;
-    border-radius:6px; margin-top:20px;
-}
-</style>
+</body>
+</html>
