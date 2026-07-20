@@ -4,43 +4,34 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Skyline - Skyline Finacial Bank</title>
+    <title>Skyline Bank - Free Quote</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
 
-    <!-- Favicon -->
-    <link href="{% static 'img/favicon.ico' %}" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-<!-- Begin of Chaport Live Chat code -->
-<script type="text/javascript">
-(function(w,d,v3){
-w.chaportConfig = {
-  appId : '698184ca2764117339b24bdd',
-};
-
-if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push(arguments)};v3.on=function(e,fn){if(!v3._l[e])v3._l[e]=[];v3._l[e].push(fn)};var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://app.chaport.com/javascripts/insert.js';var ss=d.getElementsByTagName('script')[0];ss.parentNode.insertBefore(s,ss)})(window, document);
-</script>
-<!-- End of Chaport Live Chat code -->
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
-    
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="{{ manifest_path }}">
     <meta name="theme-color" content="{{ theme_color }}">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Chaport Live Chat -->
+    <script type="text/javascript">
+        (function(w,d,v3){
+            w.chaportConfig = { appId : '698184ca2764117339b24bdd' };
+            if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push(arguments)};v3.on=function(e,fn){if(!v3._l[e])v3._l[e]=[];v3._l[e].push(fn)};var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://app.chaport.com/javascripts/insert.js';var ss=d.getElementsByTagName('script')[0];ss.parentNode.insertBefore(s,ss);
+        })(window, document);
+    </script>
+
     <!-- Libraries Stylesheet -->
     <link href="{% static 'lib/owlcarousel/assets/owl.carousels.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/animate/animates.min.css' %}" rel="stylesheet">
@@ -50,15 +41,422 @@ if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+    <style>
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ───────── BUTTONS ───────── */
+        .btn-primary {
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7) !important;
+            border: none !important;
+            border-radius: 40px !important;
+            padding: 10px 28px !important;
+            font-weight: 600 !important;
+            font-family: 'Inter', sans-serif !important;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25) !important;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35) !important;
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7) !important;
+        }
+        .btn-dark {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            color: #fff !important;
+            border-radius: 40px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s !important;
+        }
+        .btn-dark:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* ───────── NAVBAR ───────── */
+        .navbar {
+            background: rgba(11, 14, 26, 0.75) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            padding: 0.8rem 0 !important;
+        }
+        .navbar-brand {
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+        }
+        .navbar-brand h1 {
+            font-size: 1.4rem !important;
+            font-weight: 700 !important;
+            color: #fff !important;
+        }
+        .navbar-brand h1 i {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+        }
+        .navbar-brand h1 span {
+            background: linear-gradient(135deg, #fff, #b0c4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-weight: 500 !important;
+            transition: color 0.3s !important;
+            font-size: 0.95rem !important;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff !important;
+        }
+        .dropdown-menu {
+            background: rgba(11, 14, 26, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-radius: 16px !important;
+            padding: 0.5rem !important;
+        }
+        .dropdown-item {
+            color: rgba(255, 255, 255, 0.6) !important;
+            border-radius: 12px !important;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s !important;
+        }
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.04) !important;
+            color: #fff !important;
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        /* ───────── TOPBAR ───────── */
+        .container-fluid.bg-dark {
+            background: rgba(0, 0, 0, 0.3) !important;
+            backdrop-filter: blur(10px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+        }
+        .text-light {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* ───────── HERO HEADER ───────── */
+        .bg-header {
+            background: rgba(11, 14, 26, 0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            position: relative;
+            z-index: 1;
+        }
+        .bg-header h1 {
+            font-weight: 700 !important;
+        }
+        .bg-header a {
+            color: rgba(255, 255, 255, 0.6) !important;
+            text-decoration: none !important;
+            transition: color 0.3s !important;
+        }
+        .bg-header a:hover {
+            color: #fff !important;
+        }
+
+        /* ───────── SECTION TITLES ───────── */
+        .section-title h5 {
+            color: #4a6cf7 !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.05em !important;
+        }
+        .section-title h1 {
+            color: #fff !important;
+            font-weight: 700 !important;
+        }
+
+        /* ───────── QUOTE FORM ───────── */
+        .quote-form-wrapper {
+            background: rgba(74, 108, 247, 0.04);
+            border: 1px solid rgba(74, 108, 247, 0.06);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        .quote-form-wrapper .form-control {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 14px !important;
+            color: #fff !important;
+            padding: 0.9rem 1.2rem !important;
+            height: 55px !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: all 0.3s ease !important;
+        }
+        .quote-form-wrapper .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.2) !important;
+        }
+        .quote-form-wrapper .form-control:focus {
+            border-color: rgba(74, 108, 247, 0.4) !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06) !important;
+        }
+        .quote-form-wrapper textarea.form-control {
+            height: auto !important;
+            min-height: 120px;
+            resize: vertical;
+        }
+        .quote-form-wrapper select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        .quote-form-wrapper select.form-control option {
+            background: #1a1f30;
+            color: #fff;
+        }
+
+        /* ───────── VENDOR CAROUSEL ───────── */
+        .vendor-carousel img {
+            filter: brightness(0) invert(1) opacity(0.3);
+            transition: all 0.3s;
+            height: 60px;
+            object-fit: contain;
+            padding: 0 1rem;
+        }
+        .vendor-carousel img:hover {
+            opacity: 0.7;
+        }
+
+        /* ───────── FOOTER ───────── */
+        .container-fluid.bg-dark {
+            background: rgba(0, 0, 0, 0.3) !important;
+            backdrop-filter: blur(10px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+        }
+        .footer-about .bg-primary {
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7) !important;
+            border-radius: 24px !important;
+        }
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-size: 0.9rem !important;
+        }
+        .footer-about .input-group {
+            border-radius: 40px !important;
+            overflow: hidden !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+        }
+        .footer-about .form-control {
+            background: transparent !important;
+            border: none !important;
+            color: #fff !important;
+            padding: 0.8rem 1.2rem !important;
+            height: auto !important;
+        }
+        .footer-about .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3) !important;
+        }
+        .footer-about .btn-dark {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: none !important;
+            color: #fff !important;
+            padding: 0.8rem 1.5rem !important;
+            border-radius: 40px !important;
+            font-weight: 600 !important;
+        }
+        .footer-about .btn-dark:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+        .link-animated a {
+            color: rgba(255, 255, 255, 0.4) !important;
+            text-decoration: none !important;
+            transition: all 0.3s !important;
+            padding: 0.2rem 0 !important;
+        }
+        .link-animated a:hover {
+            color: #fff !important;
+            transform: translateX(5px) !important;
+        }
+
+        /* ───────── BACK TO TOP ───────── */
+        .back-to-top {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 99 !important;
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7) !important;
+            color: #fff !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25) !important;
+            transition: all 0.3s !important;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35) !important;
+            color: #fff !important;
+        }
+
+        /* ───────── SPINNER ───────── */
+        #spinner {
+            background: rgba(11, 14, 26, 0.9) !important;
+            backdrop-filter: blur(10px) !important;
+            z-index: 9999 !important;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            border-top: 4px solid #4a6cf7;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ───────── INSTALL PWA ───────── */
+        .btn-install-pwa {
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7) !important;
+            border: none !important;
+            border-radius: 40px !important;
+            color: #fff !important;
+            padding: 8px 20px !important;
+            font-weight: 600 !important;
+            font-family: 'Inter', sans-serif !important;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25) !important;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            font-size: 0.85rem !important;
+        }
+        .btn-install-pwa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35) !important;
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7) !important;
+            color: #fff !important;
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+        @media (max-width: 768px) {
+            .bg-header {
+                padding: 2rem 0 !important;
+            }
+            .bg-header h1 {
+                font-size: 2rem !important;
+            }
+            .quote-form-wrapper {
+                padding: 1.5rem;
+            }
+        }
+        @media (max-width: 992px) {
+            .quote-form-wrapper {
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner"></div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Topbar Start -->
     <div class="container-fluid bg-dark px-5 d-none d-lg-block">
@@ -83,12 +481,11 @@ if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push
     </div>
     <!-- Topbar End -->
 
-
     <!-- Navbar & Carousel Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
             <a href="{% url 'home' %}" class="navbar-brand p-0">
-                <h1 class="m-0"><i class="fa fa-user-tie me-2"></i>Skyline Bank</h1>
+                <h1 class="m-0"><i class="fa fa-user-tie me-2"></i><span>Skyline</span> Bank</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
@@ -118,9 +515,9 @@ if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push
                     <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 </div>
                 <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></butaton>
-                <button onclick="installPWA()" class="btn btn-primary py-2 px-4 ms-3 btn-install-pwa">
-    <i class="bi bi-download me-2"></i> Install App
-</button>
+                <button onclick="installPWA()" class="btn-install-pwa ms-3">
+                    <i class="bi bi-download me-2"></i> Install App
+                </button>
             </div>
         </nav>
 
@@ -136,7 +533,6 @@ if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push
         </div>
     </div>
     <!-- Navbar End -->
-
 
     <!-- Full Screen Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1">
@@ -156,336 +552,323 @@ if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push
     </div>
     <!-- Full Screen Search End -->
 
-
-<!-- Quote Start -->
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-7">
-                <div class="section-title position-relative pb-3 mb-5">
-                    <h5 class="fw-bold text-primary text-uppercase">Request A Quote</h5>
-                    <h1 class="mb-0">Get a Personalized Banking Solution Quote Today!</h1>
-                </div>
-                <div class="row gx-3">
-                    <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
-                        <h5 class="mb-4"><i class="fa fa-reply text-primary me-3"></i>Response within 24 hours</h5>
+    <!-- Quote Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">Request A Quote</h5>
+                        <h1 class="mb-0">Get a Personalized Banking Solution Quote Today!</h1>
                     </div>
-                    <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
-                        <h5 class="mb-4"><i class="fa fa-phone-alt text-primary me-3"></i>24/7 customer support</h5>
-                    </div>
-                </div>
-                <p class="mb-4">At Skyline Finacial Bank, we understand your unique financial needs. Whether you're looking for a loan, investment options, or personalized banking services, our team is here to assist you. We pride ourselves on providing tailored solutions that suit your financial goals. Reach out to us today, and let us help you navigate your banking journey with ease.</p>
-                <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
-                    <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                        <i class="fa fa-phone-alt text-white"></i>
-                    </div>
-                    <div class="ps-4">
-                        <h5 class="mb-2">Call to discuss your needs</h5>
-                        <h4 class="text-primary mb-0">+012 345 6789</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-xl-12">
-                                <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;" required>
-                            </div>
-                            <div class="col-12">
-                                <select class="form-select bg-light border-0" style="height: 55px;" required>
-                                    <option selected>Select A Service</option>
-                                    <option value="1">Personal Banking</option>
-                                    <option value="2">Investment Services</option>
-                                    <option value="3">Loan Solutions</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <textarea class="form-control bg-light border-0" rows="3" placeholder="Your Message" required></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-dark w-100 py-3" type="submit">Request A Quote</button>
-                            </div>
+                    <div class="row gx-3">
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                            <h5 class="mb-4" style="color: rgba(255,255,255,0.8);"><i class="fa fa-reply text-primary me-3"></i>Response within 24 hours</h5>
                         </div>
-                    </form>
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
+                            <h5 class="mb-4" style="color: rgba(255,255,255,0.8);"><i class="fa fa-phone-alt text-primary me-3"></i>24/7 customer support</h5>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: rgba(255,255,255,0.5);">At Skyline Financial Bank, we understand your unique financial needs. Whether you're looking for a loan, investment options, or personalized banking services, our team is here to assist you. We pride ourselves on providing tailored solutions that suit your financial goals. Reach out to us today, and let us help you navigate your banking journey with ease.</p>
+                    <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2" style="color: rgba(255,255,255,0.6);">Call to discuss your needs</h5>
+                            <h4 class="text-primary mb-0">+012 345 6789</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="quote-form-wrapper h-100 d-flex align-items-center p-4 wow zoomIn" data-wow-delay="0.9s">
+                        <form style="width: 100%;">
+                            <div class="row g-3">
+                                <div class="col-xl-12">
+                                    <input type="text" class="form-control" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="email" class="form-control" placeholder="Your Email" required>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-control" required>
+                                        <option value="" disabled selected>Select A Service</option>
+                                        <option value="1">Personal Banking</option>
+                                        <option value="2">Investment Services</option>
+                                        <option value="3">Loan Solutions</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" rows="3" placeholder="Your Message" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-dark w-100 py-3" type="submit">Request A Quote</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Quote End -->
+    <!-- Quote End -->
 
-
-
-  <!-- Vendor Start -->
-  <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container py-5 mb-5">
-        <div class="bg-white">
-            <div class="owl-carousel vendor-carousel">
-                <img src="{% static 'img/vendors-1.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-2.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-3.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-4.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-5.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-6.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-7.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-8.jpg' %}" alt="">
-                <img src="{% static 'img/vendor-9.jpg' %}" alt="">
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5 mb-5">
+            <div class="bg-white" style="background: rgba(255,255,255,0.02) !important; border-radius: 24px; padding: 2rem; border: 1px solid rgba(255,255,255,0.04);">
+                <div class="owl-carousel vendor-carousel">
+                    <img src="{% static 'img/vendors-1.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-2.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-3.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-4.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-5.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-6.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-7.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-8.jpg' %}" alt="">
+                    <img src="{% static 'img/vendor-9.jpg' %}" alt="">
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Vendor End -->
+    <!-- Vendor End -->
 
-
-<!-- Footer Start -->
-<div class="container-fluid bg-dark text-liurght mt-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container">
-        <div class="row gx-5">
-            <div class="col-lg-4 col-md-6 footer-about">
-                <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
-                    <a href="{% url 'home' %}" class="navbar-brand">
-                        <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>Skyline</h1>
-                    </a>
-                    <p class="mt-3 mb-4">At Skyline Finacial Bank, we understand the evolving landscape of banking and finance. With a decade of experience in providing innovative online banking solutions, we empower our clients to manage their finances efficiently and securely. Our services range from seamless account management to advanced security features, ensuring a user-friendly experience tailored to your needs. Join us on the journey towards financial empowerment and explore the future of banking with us.</p>
-                    <form action="">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-white p-3" placeholder="Your Email">
-                            <button class="btn btn-dark">Subscribe</button>
-                        </div>
-                    </form>
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-liurght mt-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row gx-5">
+                <div class="col-lg-4 col-md-6 footer-about">
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
+                        <a href="{% url 'home' %}" class="navbar-brand">
+                            <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>Skyline</h1>
+                        </a>
+                        <p class="mt-3 mb-4" style="color: rgba(255,255,255,0.7);">At Skyline Financial Bank, we understand the evolving landscape of banking and finance. With a decade of experience in providing innovative online banking solutions, we empower our clients to manage their finances efficiently and securely. Our services range from seamless account management to advanced security features, ensuring a user-friendly experience tailored to your needs. Join us on the journey towards financial empowerment and explore the future of banking with us.</p>
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control border-white p-3" placeholder="Your Email">
+                                <button class="btn btn-dark">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-8 col-md-6">
-                <div class="row gx-5">
-                    <div class="col-lg-4 col-md-12 pt-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Get In Touch</h3>
+                <div class="col-lg-8 col-md-6">
+                    <div class="row gx-5">
+                        <div class="col-lg-4 col-md-12 pt-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Get In Touch</h3>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>
+                                <p class="mb-0" style="color: rgba(255,255,255,0.5);">123 Street, New York, USA</p>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-envelope-open text-primary me-2"></i>
+                                <p class="mb-0" style="color: rgba(255,255,255,0.5);">info@example.com</p>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-telephone text-primary me-2"></i>
+                                <p class="mb-0" style="color: rgba(255,255,255,0.5);">+012 345 67890</p>
+                            </div>
+                            <div class="d-flex mt-4">
+                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                            </div>
                         </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-geo-alt text-primary me-2"></i>
-                            <p class="mb-0">123 Street, New York, USA</p>
+                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Quick Links</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
+                                <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                            </div>
                         </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-envelope-open text-primary me-2"></i>
-                            <p class="mb-0">info@example.com</p>
-                        </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-telephone text-primary me-2"></i>
-                            <p class="mb-0">+012 345 67890</p>
-                        </div>
-                        <div class="d-flex mt-4">
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Quick Links</h3>
-                        </div>
-                        <div class="link-animated d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
-                            <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Popular Links</h3>
-                        </div>
-                        <div class="link-animated d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
-                            <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Popular Links</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
+                                <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container-fluid text-white" style="background: #061429;">
-    <div class="container text-center">
-        <div class="row justify-content-end">
-            <div class="col-lg-8 col-md-6">
-                <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
-                    <p class="mb-0">&copy; <a class="text-white border-bottom" href="#">Skyline Finacial Bank</a>. All Rights Reserved. 
-                    
-                    
-                    Designed by <a class="text-white border-bottom" href="">Skyline developers team</a></p>
+    <div class="container-fluid text-white" style="background: #061429;">
+        <div class="container text-center">
+            <div class="row justify-content-end">
+                <div class="col-lg-8 col-md-6">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
+                        <p class="mb-0" style="color: rgba(255,255,255,0.3);">&copy; <a class="text-white border-bottom" href="#" style="color: rgba(255,255,255,0.4) !important;">Skyline Financial Bank</a>. All Rights Reserved. Designed by <a class="text-white border-bottom" href="" style="color: rgba(255,255,255,0.4) !important;">Skyline developers team</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Footer End -->
+    <!-- Footer End -->
 
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'lib/wow/wow.min.js' %}"></script>
-<script src="{% static 'lib/easing/easing.min.js' %}"></script>
-<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
-<script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
-<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
     <script>
-       let deferredPrompt;
-    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    let isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                       window.navigator.standalone ||
-                       document.referrer.includes('android-app://');
-    
-    // Hide button if already installed
-    if (isStandalone) {
-        document.querySelector('.btn-install-pwa').style.display = 'none';
-    }
-    
-    // Listen for beforeinstallprompt event (Android/Chrome)
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Show button for Android/Chrome
-        document.querySelector('.btn-install-pwa').style.display = 'block';
-    });
-    
-    // Check if it's iOS (which doesn't support beforeinstallprompt)
-    if (isIOS && !isStandalone) {
-        document.querySelector('.btn-install-pwa').style.display = 'block';
-    }
-    
-    function installPWA() {
-        // Check if already installed
+        let deferredPrompt;
+        let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        let isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                           window.navigator.standalone ||
+                           document.referrer.includes('android-app://');
+
         if (isStandalone) {
-            alert('App is already installed!');
-            return;
+            document.querySelector('.btn-install-pwa').style.display = 'none';
         }
-        
-        if (deferredPrompt) {
-            // Android/Chrome PWA installation
-            deferredPrompt.prompt();
-            
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('PWA installed successfully');
-                    document.querySelector('.btn-install-pwa').style.display = 'none';
-                    showSuccessMessage();
-                }
-                deferredPrompt = null;
-            });
-        } else if (isIOS) {
-            // iOS instructions
-            showIOSInstructions();
-        } else {
-            // Generic instructions for other browsers
-            showGenericInstructions();
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.querySelector('.btn-install-pwa').style.display = 'block';
+        });
+
+        if (isIOS && !isStandalone) {
+            document.querySelector('.btn-install-pwa').style.display = 'block';
         }
-    }
-    
-    function showIOSInstructions() {
-        const modalHTML = `
-            <div class="modal fade" id="iosModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Install on iOS</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body text-center">
-                            <i class="bi bi-phone display-1 text-primary mb-3"></i>
-                            <p>To install our app on iOS:</p>
-                            <ol class="text-start">
-                                <li>Tap the Share button <i class="bi bi-share"></i></li>
-                                <li>Scroll down and tap "Add to Home Screen"</li>
-                                <li>Tap "Add" in the top right corner</li>
-                            </ol>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        function installPWA() {
+            if (isStandalone) {
+                alert('App is already installed!');
+                return;
+            }
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installed successfully');
+                        document.querySelector('.btn-install-pwa').style.display = 'none';
+                        showSuccessMessage();
+                    }
+                    deferredPrompt = null;
+                });
+            } else if (isIOS) {
+                showIOSInstructions();
+            } else {
+                showGenericInstructions();
+            }
+        }
+
+        function showIOSInstructions() {
+            const modalHTML = `
+                <div class="modal fade" id="iosModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="background: #1a1f30; color: #fff; border: 1px solid rgba(255,255,255,0.04);">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title" style="color: #fff;">Install on iOS</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <i class="bi bi-phone display-1 text-primary mb-3"></i>
+                                <p style="color: rgba(255,255,255,0.6);">To install our app on iOS:</p>
+                                <ol class="text-start" style="color: rgba(255,255,255,0.7);">
+                                    <li>Tap the Share button <i class="bi bi-share"></i></li>
+                                    <li>Scroll down and tap "Add to Home Screen"</li>
+                                    <li>Tap "Add" in the top right corner</li>
+                                </ol>
+                            </div>
+                            <div class="modal-footer border-0">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.04);">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
-        
-        // Add modal to page if not already there
-        if (!document.getElementById('iosModal')) {
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            `;
+
+            if (!document.getElementById('iosModal')) {
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+            }
+
+            const iosModal = new bootstrap.Modal(document.getElementById('iosModal'));
+            iosModal.show();
         }
-        
-        // Show modal
-        const iosModal = new bootstrap.Modal(document.getElementById('iosModal'));
-        iosModal.show();
-    }
-    
-    function showGenericInstructions() {
-        alert('To install our app:\n\n' +
-              '1. Open this site in Chrome, Edge, or Safari\n' +
-              '2. Look for the install icon in the address bar\n' +
-              '3. Or use "Add to Home Screen" from the browser menu');
-    }
-    
-    function showSuccessMessage() {
-        const toastHTML = `
-            <div class="toast align-items-center text-bg-success border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <i class="bi bi-check-circle me-2"></i> App installed successfully!
+
+        function showGenericInstructions() {
+            alert('To install our app:\n\n' +
+                  '1. Open this site in Chrome, Edge, or Safari\n' +
+                  '2. Look for the install icon in the address bar\n' +
+                  '3. Or use "Add to Home Screen" from the browser menu');
+        }
+
+        function showSuccessMessage() {
+            const toastHTML = `
+                <div class="toast align-items-center text-bg-success border-0" role="alert" style="position: fixed; bottom: 100px; right: 20px; z-index: 9999;">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-check-circle me-2"></i> App installed successfully!
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                 </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', toastHTML);
-        const toast = new bootstrap.Toast(document.querySelector('.toast'));
-        toast.show();
-        
-        // Remove toast after hiding
-        document.querySelector('.toast').addEventListener('hidden.bs.toast', function() {
-            this.remove();
-        });
-    }
-    
-    // Detect when app is installed
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
-        document.querySelector('.btn-install-pwa').style.display = 'none';
-    });
-     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'sw.js' %}")
-        .then(registration => {
-            console.log('✅ Service Worker Registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker);
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', toastHTML);
+            const toast = new bootstrap.Toast(document.querySelector('.toast'));
+            toast.show();
+
+            document.querySelector('.toast').addEventListener('hidden.bs.toast', function() {
+                this.remove();
             });
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
+        }
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            document.querySelector('.btn-install-pwa').style.display = 'none';
         });
-    }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'sw.js' %}")
+                .then(registration => {
+                    console.log('✅ Service Worker Registered:', registration);
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 New service worker found:', newWorker);
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker registration failed:', error);
+                });
+        }
+
+        // Spinner
+        window.addEventListener('load', function() {
+            const spinner = document.getElementById('spinner');
+            if (spinner) {
+                setTimeout(() => {
+                    spinner.classList.remove('show');
+                    spinner.style.display = 'none';
+                }, 500);
+            }
+        });
     </script>
-<!-- Template Javascript -->
-<script src="{% static 'js/mains.js' %}"></script>
+    <!-- Template Javascript -->
+    <script src="{% static 'js/mains.js' %}"></script>
 </body>
 
-</html>
+                                                                        </html>
