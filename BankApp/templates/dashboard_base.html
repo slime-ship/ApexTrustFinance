@@ -7,102 +7,293 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Apex Trust Bank{% endblock %}</title>
-    <!-- Chart.js, Chaport, Font Awesome, Google Fonts, Bootstrap, PWA -->
+
+    <!-- Chart.js, Font Awesome, Google Fonts, Bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Tawk.to Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/69cb625ecfacab1c39445bca/1jl17gh81';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+
     <!-- PWA / Favicon -->
-     <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cb625ecfacab1c39445bca/1jl17gh81';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
     <link rel="manifest" href="{{ manifest_path }}">
     <meta name="theme-color" content="{{ theme_color }}">
+
     <style>
-        /* === base styles === */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Segoe UI',sans-serif; line-height:1.6; color:#333; background:#f8fafc; }
-        .container { width:90%; max-width:1200px; margin:0 auto; padding:0 15px; }
-        .btn { display:inline-block; background:#0a4b7a; color:white; padding:10px 24px; border-radius:5px; text-decoration:none; font-weight:600; transition:background 0.3s; border:none; cursor:pointer; font-size:0.95rem; }
-        .btn:hover { background:#0e5f9e; }
-        .btn-outline { background:transparent; border:2px solid #0a4b7a; color:#0a4b7a; }
-        .btn-outline:hover { background:#0a4b7a; color:white; }
-        .section-title { font-size:2rem; color:#0a4b7a; margin-bottom:1rem; text-align:center; }
-
-        /* header */
-        header { background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
-        nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; }
-
-        /* redesigned logo */
-        .logo a {
-            display:flex;
-            align-items:center;
-            gap:10px;
-            font-size:2rem;
-            font-weight:700;
-            text-decoration:none;
-            color:#1a3b5c;
-            font-family:'Montserrat',sans-serif;
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .logo-icon {
-            background: linear-gradient(145deg, #1e4b7a, #0a2f4f);
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 10px rgba(0,40,80,0.2);
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        .logo-text {
-            background: linear-gradient(135deg, #1e3b5c, #2b5a8c);
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── CONTAINER ───────── */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ───────── BUTTONS ───────── */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+            color: #fff;
+        }
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        /* desktop menu toggle (visible on desktop) */
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ───────── HEADER & NAV ───────── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 26, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+        }
+
+        /* redesigned logo */
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        .logo-icon {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(74, 108, 247, 0.3);
+            flex-shrink: 0;
+        }
+        .logo-text {
+            background: linear-gradient(135deg, #fff, #b0c4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ───────── MENU TOGGLES ───────── */
         .desktop-menu-toggle {
-            display: none; /* hidden on mobile, shown on desktop via media query */
-            font-size: 1.8rem;
+            display: none;
+            font-size: 1.6rem;
             cursor: pointer;
-            color: #0a4b7a;
+            color: rgba(255, 255, 255, 0.6);
             background: none;
             border: none;
             padding: 0 0.5rem;
+            transition: color 0.3s;
         }
         .desktop-menu-toggle:hover {
-            color: #0e5f9e;
+            color: #fff;
         }
 
-        /* desktop slide-out menu */
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            background: none;
+            border: none;
+            padding: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        .hamburger:hover {
+            color: #fff;
+        }
+
+        /* ───────── SIDEBAR MENUS ───────── */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 150;
+        }
+        .menu-overlay.active {
+            display: block;
+        }
+
+        /* Desktop menu (right side) */
         .desktop-menu {
             position: fixed;
             top: 0;
             right: -320px;
             width: 300px;
             height: 100%;
-            background: white;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-            transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: rgba(11, 14, 26, 0.95);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 200;
             padding: 2rem 1.5rem;
             overflow-y: auto;
@@ -112,139 +303,163 @@ s0.parentNode.insertBefore(s1,s0);
         }
         .desktop-menu .close-btn {
             text-align: right;
-            font-size: 2rem;
-            color: #7b8ba3;
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.4);
             cursor: pointer;
+            transition: color 0.3s;
             margin-bottom: 1.5rem;
         }
         .desktop-menu .close-btn:hover {
-            color: #0a1c2f;
+            color: #fff;
         }
         .desktop-menu ul {
             list-style: none;
         }
         .desktop-menu li {
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.3rem;
         }
         .desktop-menu a {
             text-decoration: none;
-            color: #1f3b5c;
-            font-weight: 600;
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            font-size: 1rem;
             display: block;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid #eef2f6;
-            transition: color 0.2s;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            transition: all 0.3s;
         }
         .desktop-menu a:hover {
-            color: #0a4b7a;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
         }
-        .desktop-menu .user-row {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid #eef2f6;
-        }
-        .desktop-menu .user-row i {
-            font-size: 1.8rem;
-            color: #0a4b7a;
-        }
-        .desktop-menu .user-row span {
-            font-weight: 600;
-        }
-        .desktop-menu .logout-btn {
-            background: #e4eef9;
-            color: #0a4b7a;
+        .desktop-menu a i {
+            margin-right: 0.6rem;
+            width: 1.4rem;
             text-align: center;
-            padding: 0.8rem;
-            border-radius: 40px;
-            margin-top: 1rem;
-            font-weight: 600;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-        }
-        .desktop-menu .logout-btn:hover {
-            background: #cde1f2;
         }
 
-        /* mobile menu (left) – unchanged */
+        /* Mobile menu (left side) */
         .mobile-menu {
             position: fixed;
             top: 0;
             left: -300px;
             width: 280px;
             height: 100%;
-            background: white;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
-            transition: left 0.3s;
+            background: rgba(11, 14, 26, 0.95);
+            backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+            transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 200;
             padding: 2rem 1.5rem;
             overflow-y: auto;
         }
-        .mobile-menu.open { left: 0; }
+        .mobile-menu.open {
+            left: 0;
+        }
         .mobile-menu .close-btn {
             text-align: right;
-            font-size: 2rem;
-            color: #7b8ba3;
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.4);
             cursor: pointer;
+            transition: color 0.3s;
             margin-bottom: 1.5rem;
         }
-        .mobile-menu .close-btn:hover { color: #0a1c2f; }
-        .mobile-menu ul { list-style: none; }
-        .mobile-menu li { margin-bottom: 1.2rem; }
+        .mobile-menu .close-btn:hover {
+            color: #fff;
+        }
+        .mobile-menu ul {
+            list-style: none;
+        }
+        .mobile-menu li {
+            margin-bottom: 0.3rem;
+        }
         .mobile-menu a {
             text-decoration: none;
-            color: #1f3b5c;
-            font-weight: 600;
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            font-size: 1rem;
             display: block;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eef2f6;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            transition: all 0.3s;
         }
-        .mobile-menu a:hover { color: #0a4b7a; }
-        .mobile-menu .user-row {
+        .mobile-menu a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .mobile-menu a i {
+            margin-right: 0.6rem;
+            width: 1.4rem;
+            text-align: center;
+        }
+
+        /* User row & logout */
+        .user-row {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             padding-top: 1rem;
-            border-top: 2px solid #eef2f6;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .mobile-menu .user-row i { font-size: 1.8rem; color: #0a4b7a; }
-        .mobile-menu .user-row span { font-weight: 600; }
-        .mobile-menu .logout-btn {
-            background: #e4eef9;
-            color: #0a4b7a;
+        .user-row i {
+            font-size: 1.6rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .user-row span {
+            font-weight: 500;
+            color: #fff;
+        }
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.6);
             text-align: center;
-            padding: 0.8rem;
+            padding: 0.7rem;
             border-radius: 40px;
-            margin-top: 1rem;
-            font-weight: 600;
-            border: none;
+            margin-top: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             width: 100%;
             cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+        .logout-btn:hover {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: rgba(255, 71, 87, 0.2);
+            color: #ff6b7a;
         }
 
-        /* overlay */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 150;
+        /* ───────── STAFF SECTION ───────── */
+        .staff-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .menu-overlay.active { display: block; }
+        .staff-header {
+            color: #4a6cf7;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            background: rgba(74, 108, 247, 0.08);
+            border-radius: 8px;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .staff-header i {
+            margin-right: 0.5rem;
+        }
 
-        /* footer */
+        /* ───────── FOOTER ───────── */
         footer {
-            background: #1f2e3a;
-            color: #cfddee;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding: 3rem 0 1.5rem;
             margin-top: 2rem;
         }
@@ -256,56 +471,99 @@ s0.parentNode.insertBefore(s1,s0);
             gap: 2rem;
             margin-bottom: 2rem;
         }
+        .footer-content .logo a {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .footer-content .logo a span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .footer-links {
             display: flex;
             gap: 2rem;
             list-style: none;
             flex-wrap: wrap;
         }
-        .footer-links a { color: #cfddee; text-decoration: none; }
-        .footer-links a:hover { color: white; }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #fff;
+        }
         .copyright {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #3a4c5c;
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .copyright i {
+            margin-left: 6px;
         }
 
-        /* responsive */
+        /* ───────── RESPONSIVE ───────── */
         @media (min-width: 769px) {
-            .hamburger { display: none; }          /* hide mobile hamburger on desktop */
-            .desktop-menu-toggle { display: block; } /* show desktop toggle */
+            .hamburger {
+                display: none;
+            }
+            .desktop-menu-toggle {
+                display: block;
+            }
         }
-        @media (max-width: 768px) {
-            .desktop-menu-toggle { display: none; } /* hide desktop toggle on mobile */
-            .hamburger { display: block;
-             font-size: 1.8rem;
-            cursor: pointer;
-            color: #0a4b7a;
-            background: none;
-            border: none;
-            padding: 0 0.5rem; }
-        }
-           /* Add to your CSS file */
-.staff-section {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px solid #2A6EBB;
-}
 
-.staff-header {
-    color: #2A6EBB;
-    font-weight: bold;
-    padding: 10px 15px;
-    background: rgba(42, 110, 187, 0.1);
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
+        @media (max-width: 768px) {
+            .desktop-menu-toggle {
+                display: none;
+            }
+            .hamburger {
+                display: block;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-links {
+                justify-content: center;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .glass-card {
+                padding: 1.5rem;
+            }
+            .desktop-menu {
+                width: 280px;
+                right: -280px;
+            }
+            .mobile-menu {
+                width: 260px;
+                left: -260px;
+            }
+        }
+
+        /* ───────── EXTRA BLOCKS ───────── */
         {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
-    <!-- Header -->
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── HEADER ─── -->
     <header>
         <div class="container">
             <nav>
@@ -317,47 +575,41 @@ s0.parentNode.insertBefore(s1,s0);
                     </a>
                 </div>
 
-                <!-- desktop toggle (visible on desktop) -->
+                <!-- Desktop toggle (visible on desktop) -->
                 <button class="desktop-menu-toggle" id="desktopMenuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
 
-                <!-- mobile hamburger (hidden on desktop) -->
-                <button class="hamburger" id="hamburgerBtn">☰</button>
+                <!-- Mobile hamburger (visible on mobile) -->
+                <button class="hamburger" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
         </div>
     </header>
 
-    <!-- DESKTOP slide-out menu (right side) -->
+    <!-- ─── DESKTOP SIDEBAR (right) ─── -->
     <div class="desktop-menu" id="desktopMenu">
-        <div class="close-btn" id="closeDesktopBtn">&times;</div>
+        <div class="close-btn" id="closeDesktopBtn"><i class="fas fa-times"></i></div>
         <ul>
-            <li><a href="{% url 'apply_loan' %}">Loans</a></li>
-            <li><a href="{% url 'application_for_credit_card' %}">Apply for Card</a></li>
-            <li><a href="{% url 'investment_dashboard' %}">Investments</a></li>
-            <li><a href="{% url 'create_investment' %}">Create investment</a></li>
-            <li><a href="{% url 'card_list' %}">Cards</a></li>
-
+            <li><a href="{% url 'apply_loan' %}"><i class="fas fa-hand-holding-usd"></i>Loans</a></li>
+            <li><a href="{% url 'application_for_credit_card' %}"><i class="fas fa-credit-card"></i>Apply for Card</a></li>
+            <li><a href="{% url 'investment_dashboard' %}"><i class="fas fa-chart-pie"></i>Investments</a></li>
+            <li><a href="{% url 'create_investment' %}"><i class="fas fa-plus-circle"></i>Create investment</a></li>
+            <li><a href="{% url 'card_list' %}"><i class="fas fa-credit-card"></i>Cards</a></li>
         </ul>
-         <!-- STAFF ONLY SECTION -->
+
+        <!-- STAFF ONLY SECTION -->
         {% if request.user.is_staff %}
-            <li class="staff-section">
-                <div class="staff-header">
-                    <i class="fas fa-shield-alt"></i> Staff Panel
-                </div>
-            </li>
-            <li class="staff-option">
-                <a href="{% url 'manage_loans' %}">
-                    <i class="fas fa-file-invoice-dollar"></i> Manage Loans
-                </a>
-            </li>
-            <li class="staff-option">
-                <a href="/admin/" target="_blank">
-                    <i class="fas fa-cogs"></i> Django Admin
-                </a>
-            </li>
+            <div class="staff-section">
+                <div class="staff-header"><i class="fas fa-shield-alt"></i>Staff Panel</div>
+                <ul style="list-style:none; padding:0;">
+                    <li><a href="{% url 'manage_loans' %}"><i class="fas fa-file-invoice-dollar"></i>Manage Loans</a></li>
+                    <li><a href="/admin/" target="_blank"><i class="fas fa-cogs"></i>Django Admin</a></li>
+                </ul>
+            </div>
         {% endif %}
-        <!-- END STAFF SECTION -->
+
         <div class="user-row">
             <i class="far fa-user-circle"></i>
             <span>{{ user_profile.first_name }} {{ user_profile.last_name }}</span>
@@ -365,15 +617,15 @@ s0.parentNode.insertBefore(s1,s0);
         <button class="logout-btn" onclick="window.location.href='{% url 'LogOut' %}';">Logout</button>
     </div>
 
-    <!-- MOBILE slide-out menu (left side) – unchanged -->
+    <!-- ─── MOBILE SIDEBAR (left) ─── -->
     <div class="mobile-menu" id="mobileMenu">
-        <div class="close-btn" id="closeMenuBtn">&times;</div>
+        <div class="close-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
         <ul>
-            <li><a href="{% url 'apply_loan' %}">Loan</a></li>
-            <li><a href="{% url 'application_for_credit_card' %}">Apply for Card</a></li>
-            <li><a href="{% url 'create_investment' %}">Investment</a></li>
-            <li><a href="{% url 'card_list' %}">Cards</a></li>
-            <li><a href="{% url 'investment_dashboard' %}">Investment Dashboard</a></li>
+            <li><a href="{% url 'apply_loan' %}"><i class="fas fa-hand-holding-usd"></i>Loan</a></li>
+            <li><a href="{% url 'application_for_credit_card' %}"><i class="fas fa-credit-card"></i>Apply for Card</a></li>
+            <li><a href="{% url 'create_investment' %}"><i class="fas fa-plus-circle"></i>Investment</a></li>
+            <li><a href="{% url 'card_list' %}"><i class="fas fa-credit-card"></i>Cards</a></li>
+            <li><a href="{% url 'investment_dashboard' %}"><i class="fas fa-chart-pie"></i>Investment Dashboard</a></li>
         </ul>
         <div class="user-row">
             <i class="far fa-user-circle"></i>
@@ -382,20 +634,22 @@ s0.parentNode.insertBefore(s1,s0);
         <button class="logout-btn" onclick="window.location.href='{% url 'LogOut' %}';">Logout</button>
     </div>
 
-    <!-- overlay -->
+    <!-- ─── OVERLAY ─── -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- Main content -->
+    <!-- ─── MAIN CONTENT ─── -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer (unchanged) -->
+    <!-- ─── FOOTER ─── -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="logo">
-                    <a href="{% url 'home' %}" style="color: white; background: none; -webkit-background-clip: unset; background-clip: unset; color: #fff;">Apex Trust Bank</a>
+                    <a href="{% url 'home' %}">
+                        <span>Apex</span> Trust Bank
+                    </a>
                 </div>
                 <ul class="footer-links">
                     <li><a href="{% url 'about' %}">About Us</a></li>
@@ -406,12 +660,12 @@ s0.parentNode.insertBefore(s1,s0);
                 </ul>
             </div>
             <div class="copyright">
-                <p>&copy; {% now "Y" %} Apex Trust Bank. All rights reserved. Member FDIC. Equal Housing Lender. <i class="fas fa-dollar-sign" style="margin-left: 6px;"></i> USD balances</p>
+                <p>&copy; {% now "Y" %} Apex Trust Bank. All rights reserved. Member FDIC. Equal Housing Lender. <i class="fas fa-dollar-sign"></i> USD balances</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript for menus -->
+    <!-- ─── SCRIPTS ─── -->
     <script>
         (function() {
             // Mobile menu
@@ -431,6 +685,7 @@ s0.parentNode.insertBefore(s1,s0);
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
+
             function closeMobile() {
                 mobileMenu.classList.remove('open');
                 if (!desktopMenu.classList.contains('open')) {
@@ -444,6 +699,7 @@ s0.parentNode.insertBefore(s1,s0);
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
+
             function closeDesktop() {
                 desktopMenu.classList.remove('open');
                 if (!mobileMenu.classList.contains('open')) {
@@ -467,13 +723,8 @@ s0.parentNode.insertBefore(s1,s0);
 
             if (overlay) overlay.addEventListener('click', closeAll);
 
-            // Close menu when a link is clicked (for both menus)
-            const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', closeAll);
-            });
-            const desktopLinks = desktopMenu ? desktopMenu.querySelectorAll('a') : [];
-            desktopLinks.forEach(link => {
+            // Close menus when a link is clicked
+            document.querySelectorAll('.desktop-menu a, .mobile-menu a').forEach(link => {
                 link.addEventListener('click', closeAll);
             });
 
@@ -487,25 +738,25 @@ s0.parentNode.insertBefore(s1,s0);
             });
         })();
     </script>
-     
+
+    <!-- Service Worker -->
     <script>
- if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'sw.js' %}")
-        .then(registration => {
-            console.log('✅ Service Worker Registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker);
-            });
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
-        });
-    }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'sw.js' %}")
+                .then(registration => {
+                    console.log('✅ Service Worker Registered:', registration);
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 New service worker found:', newWorker);
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker registration failed:', error);
+                });
+        }
     </script>
 
     {% block extra_js %}{% endblock %}
+
 </body>
 </html>
