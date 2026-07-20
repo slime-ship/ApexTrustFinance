@@ -4,338 +4,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
-    <link rel="icon" href="{% static 'images/web_logo.jpg' %}" type="image/x-icon" />
+    <title>Transaction Pending - Apex Trust Bank</title>
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
-    
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="{{ manifest_path }}">
     <meta name="theme-color" content="{{ theme_color }}">
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Google Web Fonts -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <title>Transaction Pending - Apex Trust Bank</title>
-    
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-color: #06A3DA;
-            --secondary-color: #091E3E;
-            --accent-color: #34AD54;
-            --warning-color: #FFC107;
-            --light-color: #F8F9FA;
-            --dark-color: #212529;
-            --text-color: #333333;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        body {
-            font-family: 'Rubik', sans-serif;
-            background: linear-gradient(135deg, #06A3DA 0%, #091E3E 100%);
-            color: var(--text-color);
-            line-height: 1.6;
+        /* ───────── RESET & BASE ───────── */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
             min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1.5rem;
         }
-        
-        .transaction-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            padding: 2.8rem 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
             animation: fadeInUp 0.8s ease-out;
         }
-        
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 48px 100px rgba(0, 0, 0, 0.8);
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ffb900, #ff6b7a);
+            border-radius: 32px 32px 0 0;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(30px) scale(0.97);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
-        
+
+        /* ───────── ICON ───────── */
         .status-icon {
-            font-size: 4rem;
-            color: var(--warning-color);
-            margin-bottom: 1.5rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        
-        .status-title {
-            color: var(--secondary-color);
-            font-weight: 700;
+            font-size: 3.5rem;
+            color: #ffb900;
+            background: rgba(255, 185, 0, 0.06);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 1rem;
+            border: 1px solid rgba(255, 185, 0, 0.08);
+            animation: pulseIcon 2s ease-in-out infinite;
+        }
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* ───────── HEADER ───────── */
+        .status-title {
+            font-weight: 700;
+            color: #fff;
             font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.02em;
         }
-        
+        .status-title span {
+            background: linear-gradient(135deg, #ffb900, #ff6b7a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .status-subtitle {
-            color: #6c757d;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-        
-        .user-greeting {
-            color: var(--secondary-color);
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
             margin-bottom: 1.5rem;
-            font-size: 1.2rem;
         }
-        
+
+        /* ───────── GREETING ───────── */
+        .user-greeting {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+        .user-greeting strong {
+            color: #fff;
+        }
+
+        /* ───────── LOADER ───────── */
+        .loader-wrap {
+            margin: 1.5rem auto;
+            width: 180px;
+            height: 90px;
+        }
+        .loader-wrap svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ───────── MESSAGE ───────── */
         .status-message {
-            color: #6c757d;
-            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
             line-height: 1.7;
+            margin-bottom: 1.8rem;
         }
-        
+        .status-message .highlight {
+            color: #ffb900;
+            font-weight: 500;
+        }
+
+        /* ───────── BUTTONS ───────── */
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 0.8rem;
         }
-        
-        .btn-primary-custom {
-            background-color: var(--primary-color);
-            border: none;
-            color: white;
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
             font-weight: 600;
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: #0489b7;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(6, 163, 218, 0.3);
-        }
-        
-        .btn-secondary-custom {
-            background-color: var(--secondary-color);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             border: none;
-            color: white;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            transition: all 0.3s ease;
+            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        
-        .btn-secondary-custom:hover {
-            background-color: #06162d;
-            color: white;
+        .btn-primary {
+            background: linear-gradient(135deg, #ffb900, #f7a800);
+            color: #fff;
+            box-shadow: 0 8px 28px rgba(255, 185, 0, 0.2);
+        }
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(9, 30, 62, 0.3);
+            box-shadow: 0 12px 40px rgba(255, 185, 0, 0.35);
+            background: linear-gradient(135deg, #ffc42a, #ffb900);
+            color: #fff;
         }
-        
-        .loading-animation {
-            margin: 2rem 0;
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
         }
-        
-        .ip {
-            width: 200px;
-            height: 100px;
-            margin: 0 auto;
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transform: translateY(-2px);
         }
-        
-        .ip__track {
-            stroke: #e9ecef;
-        }
-        
-        .ip__worm1,
-        .ip__worm2 {
-            animation: worm1 2s linear infinite;
-        }
-        
-        .ip__worm2 {
-            animation-name: worm2;
-        }
-        
-        @keyframes worm1 {
-            from {
-                stroke-dashoffset: 0;
-            }
-            50% {
-                animation-timing-function: steps(1);
-                stroke-dashoffset: -358;
-            }
-            50.01% {
-                animation-timing-function: linear;
-                stroke-dashoffset: 358;
-            }
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        
-        @keyframes worm2 {
-            from {
-                stroke-dashoffset: 358;
-            }
-            50% {
-                stroke-dashoffset: 0;
-            }
-            to {
-                stroke-dashoffset: -358;
-            }
-        }
-        
-        /* Telegram Icon */
-        .telegram-icon {
+
+        /* ───────── TELEGRAM FLOAT ───────── */
+        .telegram-float {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #0088cc;
-            color: white;
+            bottom: 25px;
+            left: 25px;
+            z-index: 999;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            box-shadow: var(--box-shadow);
+            background: linear-gradient(135deg, #0088cc, #006699);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.35);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             text-decoration: none;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            animation: telegramBounce 2.5s infinite;
         }
-        
-        .telegram-icon:hover {
-            background: #007ab8;
-            transform: scale(1.1);
+        .telegram-float:hover {
+            transform: scale(1.1) translateY(-3px);
+            color: #fff;
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 576px) {
-            .transaction-container {
+        @keyframes telegramBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+        @media (max-width: 600px) {
+            .glass-card {
                 padding: 2rem 1.5rem;
+                border-radius: 24px;
             }
-            
-            .status-icon {
-                font-size: 3rem;
-            }
-            
             .status-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
-            
-            .action-buttons {
-                flex-direction: column;
+            .status-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 2.5rem;
+            }
+            .telegram-float {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+                bottom: 16px;
+                left: 16px;
+            }
+            .loader-wrap {
+                width: 140px;
+                height: 70px;
+            }
+        }
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 1.5rem 1.2rem;
+            }
+            .status-title {
+                font-size: 1.2rem;
+            }
+            .action-buttons .btn {
+                font-size: 0.85rem;
+                padding: 0.7rem 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="transaction-container">
-        <div class="status-icon">
-            <i class="fas fa-clock"></i>
-        </div>
-        
-        <h1 class="status-title">Transaction Pending</h1>
-        <p class="status-subtitle">We're processing your transaction</p>
-        
-        <div class="user-greeting">
-            Hello, {{ user_profile.first_name }} {{ user_profile.last_name }}
-        </div>
-        
-        <div class="loading-animation">
-            <svg class="ip" viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stop-color="var(--primary-color)" />
-                        <stop offset="100%" stop-color="var(--secondary-color)" />
-                    </linearGradient>
-                    <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
-                        <stop offset="0%" stop-color="var(--secondary-color)" />
-                        <stop offset="100%" stop-color="var(--primary-color)" />
-                    </linearGradient>
-                </defs>
-                <g fill="none" stroke-linecap="round" stroke-width="16">
-                    <g class="ip__track" stroke="#e9ecef">
-                        <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                        <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
-                    </g>
-                    <g stroke-dasharray="180 656">
-                        <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0" d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                        <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358" d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
-                    </g>
-                </g>
-            </svg>
-        </div>
-        
-        <p class="status-message">
-            Your transaction has been placed on pending. To ensure smooth processing of large fund transfers, we recommend upgrading your account.
-        </p>
-        
-        <div class="action-buttons">
-            <a href="{% url 'Upgrade_Account' %}" class="btn btn-primary-custom">
-                <i class="fas fa-arrow-up me-2"></i>Upgrade Your Account
-            </a>
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary-custom">
-                <i class="fas fa-home me-2"></i>Return to Dashboard
-            </a>
-        </div>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
     </div>
-    
-    <!-- Telegram Icon -->
-    <a href="#" class="telegram-icon">
+
+    <!-- ─── TELEGRAM FLOAT ─── -->
+    <a href="#" class="telegram-float" target="_blank" aria-label="Telegram support">
         <i class="fab fa-telegram"></i>
     </a>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="glass-card">
+
+        <div style="text-align: center;">
+            <!-- Icon -->
+            <div class="status-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+
+            <!-- Title -->
+            <h1 class="status-title">Transaction <span>Pending</span></h1>
+            <p class="status-subtitle">We're processing your transaction</p>
+
+            <!-- Greeting -->
+            <div class="user-greeting">
+                Hello, <strong>{{ user_profile.first_name }} {{ user_profile.last_name }}</strong>
+            </div>
+
+            <!-- Loader -->
+            <div class="loader-wrap">
+                <svg viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#ffb900" />
+                            <stop offset="100%" stop-color="#ff6b7a" />
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                            <stop offset="0%" stop-color="#ff6b7a" />
+                            <stop offset="100%" stop-color="#ffb900" />
+                        </linearGradient>
+                    </defs>
+                    <g fill="none" stroke-linecap="round" stroke-width="16">
+                        <g class="ip__track" stroke="rgba(255,255,255,0.04)">
+                            <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                            <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                        </g>
+                        <g stroke-dasharray="180 656">
+                            <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0" d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                            <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358" d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Message -->
+            <p class="status-message">
+                Your transaction has been placed on pending. To ensure smooth processing of large fund transfers, we recommend <span class="highlight">upgrading your account</span>.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{% url 'Upgrade_Account' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-up"></i> Upgrade Your Account
+                </a>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Return to Dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ─── SCRIPTS ─── -->
     <script>
-     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'sw.js' %}")
-        .then(registration => {
-            console.log('✅ Service Worker Registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker);
-            });
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
-        });
-    }
+        // ─── Inject loader keyframes ───
+        (function injectLoaderStyles() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .ip__worm1, .ip__worm2 {
+                    animation: worm1 2s linear infinite;
+                }
+                .ip__worm2 {
+                    animation-name: worm2;
+                }
+                @keyframes worm1 {
+                    from { stroke-dashoffset: 0; }
+                    50% { animation-timing-function: steps(1); stroke-dashoffset: -358; }
+                    50.01% { animation-timing-function: linear; stroke-dashoffset: 358; }
+                    to { stroke-dashoffset: 0; }
+                }
+                @keyframes worm2 {
+                    from { stroke-dashoffset: 358; }
+                    50% { stroke-dashoffset: 0; }
+                    to { stroke-dashoffset: -358; }
+                }
+            `;
+            document.head.appendChild(style);
+        })();
+
+        // ─── Service Worker ───
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'sw.js' %}")
+                .then(registration => {
+                    console.log('✅ Service Worker Registered:', registration);
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 New service worker found:', newWorker);
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker registration failed:', error);
+                });
+        }
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
