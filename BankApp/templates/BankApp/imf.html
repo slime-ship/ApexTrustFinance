@@ -4,254 +4,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMF Code - Apex Trust Bank</title>
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
     <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
-    
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="{{ icons.180 }}">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="{{ manifest_path }}">
     <meta name="theme-color" content="{{ theme_color }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Web Fonts -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <title>IMF Code - Apex Trust Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-color: #06A3DA;
-            --secondary-color: #091E3E;
-            --accent-color: #34AD54;
-            --light-color: #F8F9FA;
-            --dark-color: #212529;
-            --text-color: #333333;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* ───────── RESET & BASE ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Rubik', sans-serif;
-            background-color: #f8f9fa;
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #0b0e1a;
+            background: radial-gradient(ellipse at 20% 50%, #141b3a 0%, #070a14 100%);
             min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1.5rem;
         }
-        
-        .security-container {
-            max-width: 600px;
+
+        /* ───────── ANIMATED BACKGROUND ORBS ───────── */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orbs span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.20;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb1 {
+            width: 600px;
+            height: 600px;
+            background: #2d4bff;
+            top: -200px;
+            left: -200px;
+            animation-duration: 18s;
+        }
+        .bg-orbs .orb2 {
+            width: 500px;
+            height: 500px;
+            background: #00b8d4;
+            bottom: -150px;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .bg-orbs .orb3 {
+            width: 300px;
+            height: 300px;
+            background: #7c4dff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            opacity: 0.12;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(80px, -60px) scale(1.2);
+            }
+        }
+
+        /* ───────── GLASS CARD ───────── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            padding: 2.8rem 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+            max-width: 560px;
             width: 100%;
-            padding: 2rem;
+            margin: 0 auto;
         }
-        
-        .security-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 3rem 2.5rem;
-            text-align: center;
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 48px 100px rgba(0, 0, 0, 0.8);
         }
-        
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4a6cf7, #00d4ff);
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .security-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ───────── HEADER ───────── */
         .security-icon {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 3.5rem;
+            color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin: 0 auto 1rem;
         }
-        
         .security-title {
-            color: var(--secondary-color);
             font-weight: 700;
-            margin-bottom: 1rem;
             font-size: 1.8rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.02em;
         }
-        
+        .security-title span {
+            background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .security-subtitle {
-            color: #6c757d;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-        
-        .user-greeting {
-            color: var(--secondary-color);
-            font-weight: 600;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
             margin-bottom: 1.5rem;
-            font-size: 1.2rem;
         }
-        
+
+        /* ───────── GREETING ───────── */
+        .user-greeting {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+        .user-greeting strong {
+            color: #fff;
+        }
+
+        /* ───────── MESSAGE ───────── */
         .security-message {
-            color: #6c757d;
-            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-bottom: 1.8rem;
             line-height: 1.7;
+            font-size: 0.95rem;
         }
-        
+
+        /* ───────── FORM ELEMENTS ───────── */
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: left;
         }
-        
         .form-label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--secondary-color);
-            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
-        
-        input {
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-container .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            pointer-events: none;
+            transition: color 0.3s;
+            z-index: 2;
+        }
+        .input-container input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            background-color: white;
-        }
-        
-        input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(6, 163, 218, 0.1);
-            outline: none;
-        }
-        
-        .alert {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
-        }
-        
-        .alert-danger {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-        
-        .info-card {
-            background-color: rgba(6, 163, 218, 0.05);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        .info-text {
-            color: #6c757d;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            color: #fff;
             font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+        .input-container input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 300;
+        }
+        .input-container input:focus {
+            border-color: rgba(74, 108, 247, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
+        }
+        .input-container input:focus~.input-icon {
+            color: rgba(74, 108, 247, 0.6);
+        }
+
+        /* ───────── ALERT ───────── */
+        .alert-custom {
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 71, 87, 0.1);
+            background: rgba(255, 71, 87, 0.06);
+            color: #ff6b7a;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+        .alert-custom ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        /* ───────── INFO CARD ───────── */
+        .info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.8rem;
+            text-align: center;
+        }
+        .info-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
             margin: 0;
             line-height: 1.6;
         }
-        
-        .btn-primary-custom {
-            background-color: var(--primary-color);
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 14px 20px;
-            border-radius: var(--border-radius);
-            transition: background-color 0.3s ease;
+        .info-text strong {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ───────── BUTTON ───────── */
+        .btn-verify {
             width: 100%;
-            font-size: 1.1rem;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
         }
-        
-        .btn-primary-custom:hover {
-            background-color: #0489b7;
+        .btn-verify:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            background: linear-gradient(135deg, #5a7aff, #4a6cf7);
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .security-container {
-                padding: 1rem;
-            }
-            
-            .security-card {
+        .btn-verify:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+        @media (max-width: 600px) {
+            .glass-card {
                 padding: 2rem 1.5rem;
+                border-radius: 24px;
             }
-            
-            .security-icon {
-                font-size: 3rem;
-            }
-            
             .security-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+            .security-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 2.5rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 1.5rem 1rem;
+            }
+            .security-title {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- ─── BACKGROUND ORBS ─── -->
+    <div class="bg-orbs">
+        <span class="orb1"></span>
+        <span class="orb2"></span>
+        <span class="orb3"></span>
+    </div>
+
+    <!-- ─── MAIN CONTENT ─── -->
     <div class="security-container">
-        <div class="security-card">
-            <div class="security-icon">
-                <i class="fas fa-lock"></i>
+
+        <div class="glass-card">
+
+            <!-- Icon -->
+            <div style="text-align: center;">
+                <div class="security-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
             </div>
-            
-            <h1 class="security-title">IMF Code Required</h1>
+
+            <!-- Title -->
+            <h1 class="security-title">IMF <span>Verification</span></h1>
             <p class="security-subtitle">Enhanced Security Verification</p>
-            
+
+            <!-- Greeting -->
             <div class="user-greeting">
-                Dear {{ user_profile.first_name }} {{ user_profile.last_name }}
+                Dear <strong>{{ user_profile.first_name }} {{ user_profile.last_name }}</strong>
             </div>
-            
+
+            <!-- Message -->
             <p class="security-message">
-                To ensure secure and compliant transactions, we require an IMF code for high-value or international transfers. 
-                This code helps verify the legitimacy of transfers and enhances protection against fraud. 
+                To ensure secure and compliant transactions, we require an IMF code for high-value or international transfers.
+                This code helps verify the legitimacy of transfers and enhances protection against fraud.
                 Thank you for your cooperation in keeping your transactions secure.
             </p>
-            
+
+            <!-- Form -->
             <form method="post" class="security-form">
                 {% csrf_token %}
-                
+
                 <div class="form-group">
-                    <label for="id_vat" class="form-label">Enter IMF Code:</label>
-                    <div class="input-group">
+                    <label for="id_vat" class="form-label">Enter IMF Code</label>
+                    <div class="input-container">
                         {{ form.imf }}
+                        <span class="input-icon"><i class="bi bi-key"></i></span>
                     </div>
                 </div>
-                
+
                 {% if form.errors %}
-                    <div class="alert alert-danger">
-                        {% for error in form.non_field_errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+                    <div class="alert-custom">
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 {% endif %}
-                
+
+                <!-- Info Card -->
                 <div class="info-card">
                     <p class="info-text">
                         Thank you for your cooperation.<br>
                         <strong>Best regards,<br>Apex Trust Bank Security Team</strong>
                     </p>
                 </div>
-                
-                <button type="submit" class="btn btn-primary-custom">Verify IMF Code</button>
+
+                <button type="submit" class="btn-verify">
+                    <i class="bi bi-check-circle me-2"></i> Verify IMF Code
+                </button>
             </form>
+
         </div>
+
     </div>
+
+    <!-- ─── SCRIPTS ─── -->
     <script>
-     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'sw.js' %}")
-        .then(registration => {
-            console.log('✅ Service Worker Registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker);
-            });
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
-        });
-    }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'sw.js' %}")
+                .then(registration => {
+                    console.log('✅ Service Worker Registered:', registration);
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 New service worker found:', newWorker);
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker registration failed:', error);
+                });
+        }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
