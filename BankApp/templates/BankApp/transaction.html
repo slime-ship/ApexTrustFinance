@@ -5,40 +5,83 @@
 
 {% block extra_css %}
 <style>
-    .dashboard { padding: 2rem 0 3rem; }
-    /* Balance card (same as dashboard) */
+    /* ───────── RESET & BASE ───────── */
+    .dashboard {
+        padding: 2rem 0 3rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px) saturate(1.4);
+        -webkit-backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ───────── BALANCE CARD ───────── */
     .balance-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 24px;
         padding: 1.8rem 2rem;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-        border: 1px solid #eef2f6;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         margin-bottom: 2rem;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .balance-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
     }
     .balance-info h2 {
         font-size: 1rem;
         font-weight: 500;
-        color: #5e6f88;
+        color: rgba(255, 255, 255, 0.4);
         letter-spacing: 0.3px;
         margin-bottom: 0.3rem;
+    }
+    .balance-info h2 i {
+        color: rgba(255, 255, 255, 0.2);
+        margin-left: 8px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .balance-info h2 i:hover {
+        color: rgba(255, 255, 255, 0.5);
     }
     .balance-amount {
         font-size: 2.8rem;
         font-weight: 700;
-        color: #0a1c2f;
+        color: #fff;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
-    .balance-amount span { font-size: 2rem; color: #2c4b74; }
-    .arrow-icon { font-size: 1.8rem; color: #839ab7; cursor: default; }
+    .balance-amount span {
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .arrow-icon {
+        font-size: 1.8rem;
+        color: rgba(255, 255, 255, 0.1);
+        cursor: default;
+    }
     .add-money-btn {
-        background: #e4eef9;
-        color: #0a4b7a;
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
         padding: 0.9rem 2.2rem;
         border-radius: 40px;
         font-weight: 600;
@@ -48,20 +91,32 @@
         align-items: center;
         gap: 8px;
         cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+        font-family: 'Inter', sans-serif;
     }
-    .add-money-btn:hover { background: #cde1f2; }
-    #toggle-balance { cursor: pointer; transition: opacity 0.2s; }
-    #toggle-balance:hover { opacity: 0.8; }
+    .add-money-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+    }
 
-    /* Page heading */
+    /* ───────── PAGE HEADING ───────── */
     .page-heading {
         font-size: 1.8rem;
-        font-weight: 600;
-        color: #0a2b44;
+        font-weight: 700;
+        color: #fff;
         margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+    }
+    .page-heading span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 
-    /* Filter bar */
+    /* ───────── FILTER BAR ───────── */
     .filter-bar {
         display: flex;
         flex-wrap: wrap;
@@ -75,12 +130,20 @@
         min-width: 250px;
         display: flex;
         align-items: center;
-        background: white;
+        background: rgba(255, 255, 255, 0.04);
         border-radius: 40px;
-        padding: 0.3rem 1rem;
-        border: 1px solid #e6ecf3;
+        padding: 0.3rem 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .search-box i { color: #839ab7; margin-right: 8px; }
+    .search-box:focus-within {
+        border-color: rgba(74, 108, 247, 0.4);
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
+    }
+    .search-box i {
+        color: rgba(255, 255, 255, 0.2);
+        margin-right: 10px;
+    }
     .search-box input {
         border: none;
         outline: none;
@@ -88,45 +151,71 @@
         width: 100%;
         font-size: 1rem;
         background: transparent;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
     }
-    .date-filter, .type-filter {
+    .search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+    }
+    .date-filter,
+    .type-filter {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        background: white;
+        background: rgba(255, 255, 255, 0.04);
         border-radius: 40px;
         padding: 0.3rem 1rem;
-        border: 1px solid #e6ecf3;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .date-filter i, .type-filter i { color: #0a4b7a; }
-    .date-filter select, .type-filter select {
+    .date-filter:focus-within,
+    .type-filter:focus-within {
+        border-color: rgba(74, 108, 247, 0.4);
+    }
+    .date-filter i,
+    .type-filter i {
+        color: rgba(255, 255, 255, 0.2);
+    }
+    .date-filter select,
+    .type-filter select {
         border: none;
         outline: none;
         padding: 0.7rem 0;
         background: transparent;
         font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Inter', sans-serif;
+    }
+    .date-filter select option,
+    .type-filter select option {
+        background: #1a1f30;
+        color: #fff;
     }
 
-    /* Transaction list */
+    /* ───────── TRANSACTION LIST ───────── */
     .transaction-list {
-        background: white;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 20px;
-        border: 1px solid #edf2f7;
         overflow: hidden;
         margin-bottom: 1.5rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
     .transaction-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 1.2rem 1.5rem;
-        border-bottom: 1px solid #f0f4fa;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         transition: background 0.2s;
     }
     .transaction-item:hover {
-        background: #f9fcff;
+        background: rgba(255, 255, 255, 0.02);
     }
-    .transaction-item:last-child { border-bottom: none; }
+    .transaction-item:last-child {
+        border-bottom: none;
+    }
     .transaction-info {
         display: flex;
         flex-direction: column;
@@ -134,86 +223,273 @@
     }
     .transaction-title {
         font-weight: 600;
-        color: #1e2f40;
+        color: #fff;
         font-size: 1rem;
     }
     .transaction-meta {
         font-size: 0.8rem;
-        color: #7b8ba3;
+        color: rgba(255, 255, 255, 0.3);
         display: flex;
         gap: 12px;
         align-items: center;
     }
     .status-success {
-        color: #1e9c50;
-        background: #e0f5e9;
+        color: #5ee0ff;
+        background: rgba(0, 212, 255, 0.04);
         padding: 0.2rem 0.8rem;
         border-radius: 30px;
         font-size: 0.7rem;
         font-weight: 600;
         display: inline-block;
+        border: 1px solid rgba(0, 212, 255, 0.04);
     }
     .transaction-amount {
         font-weight: 700;
         font-size: 1.25rem;
         margin: 0 1rem;
     }
-    .amount-positive { color: #1e9c50; }
-    .amount-negative { color: #c83a3a; }
+    .amount-positive {
+        color: #5ee0ff;
+    }
+    .amount-negative {
+        color: #ff6b7a;
+    }
     .transaction-actions {
         flex-shrink: 0;
     }
     .view-btn {
-        background: linear-gradient(145deg, #1e4b7a, #0a2f4f);
-        color: white;
-        padding: 6px 14px;
+        background: rgba(74, 108, 247, 0.08);
+        color: #4a6cf7;
+        padding: 6px 16px;
         border-radius: 30px;
         text-decoration: none;
         font-size: 0.8rem;
         font-weight: 500;
-        transition: all 0.2s;
+        transition: all 0.3s ease;
         display: inline-block;
+        border: 1px solid rgba(74, 108, 247, 0.06);
     }
     .view-btn:hover {
-        background: #1e4b7a;
-        color:aliceblue;
-        text-decoration:none;
+        background: rgba(74, 108, 247, 0.15);
+        color: #4a6cf7;
         transform: translateY(-2px);
+        text-decoration: none;
     }
 
-    /* Load more button */
+    /* ───────── SHOW MORE ───────── */
     .show-more {
         text-align: center;
         margin: 2rem 0;
     }
     .show-more .btn {
-        background: white;
-        color: #0a4b7a;
-        border: 2px solid #0a4b7a;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 0.8rem 3rem;
         border-radius: 40px;
         font-weight: 600;
         cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s ease;
     }
     .show-more .btn:hover {
-        background: #0a4b7a;
-        color: white;
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* No transactions */
+    /* ───────── NO TRANSACTIONS ───────── */
     .no-transactions {
         text-align: center;
-        padding: 3rem;
-        color: #7b8ba3;
+        padding: 3rem 1.5rem;
+        color: rgba(255, 255, 255, 0.2);
+    }
+    .no-transactions i {
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.03);
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .no-transactions p {
+        margin: 0;
     }
 
-    /* Responsive */
+    /* ───────── MODAL ───────── */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        align-items: center;
+        justify-content: center;
+    }
+    .modal.show {
+        display: flex;
+    }
+    .modal-content {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 32px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+        position: relative;
+        color: #fff;
+        animation: modalFadeIn 0.3s ease;
+    }
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    .modal-content .close-modal {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 1.8rem;
+        color: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: color 0.3s;
+        background: none;
+        border: none;
+    }
+    .modal-content .close-modal:hover {
+        color: #fff;
+    }
+    .modal-content h3 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+    }
+    .modal-option {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        text-align: center;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .modal-option:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(74, 108, 247, 0.15);
+        color: #fff;
+    }
+    .modal-option i {
+        font-size: 2rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #4a6cf7;
+    }
+    .modal-message {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.6);
+    }
+    .modal-message i {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #4a6cf7;
+    }
+    .crypto-address {
+        font-family: monospace;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.8rem;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        word-break: break-all;
+        margin: 0.5rem 0;
+        color: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .back-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
+        padding: 0.7rem 1.5rem;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        margin-top: 0.5rem;
+        font-family: 'Inter', sans-serif;
+    }
+    .back-btn:hover {
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ───────── RESPONSIVE ───────── */
     @media (max-width: 768px) {
-        .balance-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
-        .transaction-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-        .transaction-amount { align-self: flex-end; margin: 0; }
-        .transaction-actions { align-self: flex-end; }
-        .filter-bar { flex-direction: column; align-items: stretch; }
+        .balance-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        .balance-amount {
+            font-size: 2.2rem;
+        }
+        .transaction-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .transaction-amount {
+            align-self: flex-end;
+            margin: 0;
+        }
+        .transaction-actions {
+            align-self: flex-end;
+        }
+        .filter-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .search-box {
+            min-width: 100%;
+        }
+        .page-heading {
+            font-size: 1.4rem;
+        }
+        .add-money-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    @media (max-width: 480px) {
+        .balance-amount {
+            font-size: 1.8rem;
+        }
+        .transaction-item {
+            padding: 1rem;
+        }
+        .modal-content {
+            padding: 1.5rem;
+        }
     }
 </style>
 {% endblock %}
@@ -222,10 +498,11 @@
 <br><br>
 <div class="dashboard">
     <div class="container">
-        <!-- Balance card -->
+
+        <!-- Balance Card -->
         <div class="balance-card">
             <div class="balance-info">
-                <h2>Available Balance <i class="far fa-eye" id="toggle-balance" style="margin-left: 8px; opacity: 0.6;"></i></h2>
+                <h2>Available Balance <i class="far fa-eye" id="toggle-balance"></i></h2>
                 <div class="balance-amount">
                     <span id="balance-value">{{ currency }}{{ balance|intcomma }}</span>
                     <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
@@ -234,7 +511,8 @@
             <button class="add-money-btn" id="addMoneyBtn"><i class="fas fa-plus-circle"></i> Add Money</button>
         </div>
 
-        <h2 class="page-heading">Transaction History</h2>
+        <!-- Page Heading -->
+        <h2 class="page-heading">Transaction <span>History</span></h2>
 
         <!-- Filters -->
         <div class="filter-bar">
@@ -262,7 +540,7 @@
             </div>
         </div>
 
-        <!-- Transactions list -->
+        <!-- Transactions List -->
         <div class="transaction-list" id="transactionList">
             {% for tx in transactions %}
             <div class="transaction-item"
@@ -286,25 +564,26 @@
             </div>
             {% empty %}
             <div class="no-transactions">
-                <i class="fas fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 1rem;"></i>
+                <i class="fas fa-inbox"></i>
                 <p>No transactions yet.</p>
             </div>
             {% endfor %}
         </div>
 
-        <!-- Load more button (pagination) -->
+        <!-- Load More -->
         {% if transactions.has_next %}
         <div class="show-more">
             <button class="btn" id="loadMoreBtn" data-page="2">Load more transactions</button>
         </div>
         {% endif %}
+
     </div>
 </div>
 
-<!-- Add Money Modal (same as dashboard) -->
+<!-- Add Money Modal -->
 <div id="addMoneyModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal">&times;</span>
+        <button class="close-modal" id="closeModalBtn">&times;</button>
         <div id="modalBody" class="modal-body"></div>
     </div>
 </div>
@@ -313,40 +592,53 @@
 {% block extra_js %}
 <script>
     (function() {
-        // Balance toggle
+        // ─── Balance Toggle ───
         const balanceSpan = document.getElementById('balance-value');
         const eyeIcon = document.getElementById('toggle-balance');
         let isBalanceVisible = true;
         const originalBalance = balanceSpan.innerText;
-        eyeIcon.addEventListener('click', function() {
-            if (isBalanceVisible) {
-                balanceSpan.innerText = '****';
-            } else {
-                balanceSpan.innerText = originalBalance;
-            }
-            isBalanceVisible = !isBalanceVisible;
-        });
 
-        // Add Money Modal (copy from dashboard)
+        if (eyeIcon) {
+            eyeIcon.addEventListener('click', function() {
+                if (isBalanceVisible) {
+                    balanceSpan.innerText = '****';
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    balanceSpan.innerText = originalBalance;
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
+                isBalanceVisible = !isBalanceVisible;
+            });
+        }
+
+        // ─── Add Money Modal ───
         const modal = document.getElementById('addMoneyModal');
         const modalBody = document.getElementById('modalBody');
         const addMoneyBtn = document.getElementById('addMoneyBtn');
-        const closeModalBtn = document.querySelector('.close-modal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
         function showModalContent(html) {
             modalBody.innerHTML = html;
             modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
         }
 
         function showOptions() {
             const optionsHtml = `
-                <h3 style="font-size: 1.6rem; font-weight: 600; color: #0a2b44; margin-bottom: 1rem;">Add Money</h3>
+                <h3>Add Money</h3>
                 <div class="modal-option" id="cryptoOption">
-                    <i class="fab fa-bitcoin" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    <i class="fab fa-bitcoin"></i>
                     Add money through Crypto
                 </div>
                 <div class="modal-option" id="bankOption">
-                    <i class="fas fa-university" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    <i class="fas fa-university"></i>
                     Add money through Bank
                 </div>
             `;
@@ -357,12 +649,12 @@
 
         function showCrypto() {
             const cryptoHtml = `
-                <h3 style="font-size: 1.6rem; font-weight: 600; color: #0a2b44; margin-bottom: 0.5rem;">Crypto Address</h3>
+                <h3>Crypto Address</h3>
                 <div class="modal-message">
-                    <i class="fab fa-bitcoin" style="font-size: 2.5rem; color: #f7931a; margin-bottom: 0.5rem;"></i>
-                    <p style="margin-bottom: 0.8rem; font-weight: 500;">Send funds to this BTC address:</p>
+                    <i class="fab fa-bitcoin"></i>
+                    <p style="font-weight: 500;">Send funds to this BTC address:</p>
                     <div class="crypto-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
-                    <p style="font-size: 0.85rem; color: #5e6f88;">Minimum deposit: $10</p>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">Minimum deposit: $10</p>
                 </div>
                 <button class="back-btn" id="backFromCrypto"><i class="fas fa-arrow-left"></i> Back</button>
             `;
@@ -372,10 +664,10 @@
 
         function showBank() {
             const bankHtml = `
-                <h3 style="font-size: 1.6rem; font-weight: 600; color: #0a2b44; margin-bottom: 0.5rem;">Bank Transfer</h3>
+                <h3>Bank Transfer</h3>
                 <div class="modal-message">
-                    <i class="fas fa-headset" style="font-size: 2.5rem; color: #0a4b7a; margin-bottom: 0.5rem;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 500;">Contact support to get account details</p>
+                    <i class="fas fa-headset"></i>
+                    <p style="font-weight: 500;">Contact support to get account details</p>
                     <p style="margin-top: 0.8rem;"><i class="fas fa-phone-alt"></i> 1-800-555-0199</p>
                     <p><i class="fas fa-envelope"></i> support@apextrustbank.com</p>
                 </div>
@@ -385,12 +677,17 @@
             document.getElementById('backFromBank').addEventListener('click', showOptions);
         }
 
-        addMoneyBtn.addEventListener('click', showOptions);
-        closeModalBtn.addEventListener('click', () => modal.classList.remove('show'));
-        window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
-        window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('show')) modal.classList.remove('show'); });
+        if (addMoneyBtn) addMoneyBtn.addEventListener('click', showOptions);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
 
-        // Filtering (client-side)
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) hideModal();
+        });
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) hideModal();
+        });
+
+        // ─── Filtering ───
         const searchInput = document.getElementById('searchInput');
         const dateFilter = document.getElementById('dateFilter');
         const typeFilter = document.getElementById('typeFilter');
@@ -405,37 +702,37 @@
 
             items.forEach(item => {
                 let show = true;
-                // Search
+
                 if (searchTerm) {
                     const description = item.dataset.description || '';
                     if (!description.includes(searchTerm)) show = false;
                 }
-                // Date
+
                 if (show && !isNaN(filterDays)) {
                     const timestamp = parseInt(item.dataset.timestamp, 10);
                     const itemDate = new Date(timestamp * 1000);
                     const diffDays = (now - itemDate) / (1000 * 60 * 60 * 24);
                     if (diffDays > filterDays) show = false;
                 }
-                // Type
+
                 if (show && filterType !== 'all') {
                     const type = item.dataset.type;
                     if (type !== filterType) show = false;
                 }
+
                 item.style.display = show ? 'flex' : 'none';
             });
         }
 
-        searchInput.addEventListener('input', filterTransactions);
-        dateFilter.addEventListener('change', filterTransactions);
-        typeFilter.addEventListener('change', filterTransactions);
-        filterTransactions(); // initial
+        if (searchInput) searchInput.addEventListener('input', filterTransactions);
+        if (dateFilter) dateFilter.addEventListener('change', filterTransactions);
+        if (typeFilter) typeFilter.addEventListener('change', filterTransactions);
+        filterTransactions();
 
-        // Load more (AJAX placeholder – you can implement server-side pagination)
+        // ─── Load More ───
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         if (loadMoreBtn) {
             loadMoreBtn.addEventListener('click', function() {
-                // In a real app, you'd fetch next page via AJAX and append to list
                 alert('Load more functionality can be implemented with AJAX.');
             });
         }
