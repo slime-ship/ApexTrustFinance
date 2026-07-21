@@ -19,10 +19,11 @@ COPY . .
 RUN mkdir -p /app/staticfiles && \
     python -c "import os, shutil; from django.contrib import admin; source = os.path.join(os.path.dirname(admin.__file__), 'static', 'admin'); dest = '/app/staticfiles/admin'; shutil.copytree(source, dest) if os.path.exists(source) else print('Source not found')"
 
-# Run collectstatic
-RUN python manage.py collectstatic --no-input
-RUN python manage.py makemigrations
-RUN python manage.py migrate
+# Django setup
+RUN python manage.py collectstatic --no-input && \
+    python manage.py makemigrations && \
+    python manage.py migrate && \
+    python manage.py create_admin || echo "Admin user creation skipped."
 
 EXPOSE 8000
 
