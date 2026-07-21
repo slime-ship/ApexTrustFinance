@@ -5,26 +5,28 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Python dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
+# Copy project files
 COPY . .
 
-# Create staticfiles directory and copy Django admin static files
+# Create staticfiles directory and copy Django admin static assets
 RUN mkdir -p /app/staticfiles && \
-    python -c "import os, shutil; from django.contrib import admin; source = os.path.join(os.path.dirname(admin.__file__), 'static', 'admin'); dest = '/app/staticfiles/admin'; shutil.copytree(source, dest) if os.path.exists(source) else print('Source not found')"
+    python -c "import os, shutil; from django.contrib import admin; source = os.path.join(os.path.dirname(admin.__file__), 'static', 'admin'); dest = '/app/staticfiles/admin'; shutil.copytree(source, dest, dirs_exist_ok=True) if os.path.exists(source) else print('Admin static source not found')"
 
-# Django setup
-RUN python manage.py collectstatic --no-input && \
-    python manage.py makemigrations && \
-    python manage.py migrate && \
-    python manage.py create_admin || echo "Admin user creation skipped."
+# Copy and make entrypoint executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["gunicorn", "bank_site.wsgi:application", "--bind", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]
