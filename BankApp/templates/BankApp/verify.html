@@ -2,178 +2,364 @@
 {% load static %}
 
 {% block title %}Security Verification | Apex Trust Bank{% endblock %}
-{% block content %}
-    {% block extra_css %}
-<style>
-        /* === Copy all styles from index.html exactly (including header/footer) === */
-       
-        .container { width:90%; max-width:1200px; margin:0 auto; padding:0 15px; }
-        .btn { display:inline-block; background:#0a4b7a; color:white; padding:10px 24px; border-radius:5px; text-decoration:none; font-weight:600; transition:background 0.3s; border:none; cursor:pointer; }
-        .btn:hover { background:#0e5f9e; }
-        .btn-outline { background:transparent; border:2px solid #0a4b7a; color:#0a4b7a; }
-        .btn-outline:hover { background:#0a4b7a; color:white; }
-        .section-title { font-size:2rem; color:#0a4b7a; margin-bottom:1rem; text-align:center; }
-        .section-subtitle { text-align:center; color:#555; max-width:700px; margin:0 auto 3rem auto; }
-        
 
-        /* Page-specific styles for verification */
-        .page-content { padding:4rem 0; min-height:60vh; }
-        .verify-card {
-            max-width: 550px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            padding: 2.5rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border: 1px solid #eaeef2;
-            text-align: center;
+{% block extra_css %}
+<style>
+    /* ───────── RESET & BASE ───────── */
+    .page-content {
+        padding: 4rem 1.5rem;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(24px) saturate(1.4);
+        -webkit-backdrop-filter: blur(24px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 32px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+        padding: 2.5rem 2.5rem;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        max-width: 560px;
+        width: 100%;
+        margin: 0 auto;
+        animation: fadeInUp 0.8s ease-out;
+        text-align: center;
+    }
+    .glass-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 48px 100px rgba(0, 0, 0, 0.8);
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #4a6cf7, #00d4ff);
+        border-radius: 32px 32px 0 0;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* ───────── HEADER ───────── */
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0.2rem;
+        letter-spacing: -0.02em;
+    }
+    .section-title span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .section-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.95rem;
+        max-width: 400px;
+        margin: 0 auto 1.8rem auto;
+        line-height: 1.7;
+    }
+
+    /* ───────── CODE DISPLAY ───────── */
+    .code-display {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin: 1.8rem 0;
+        font-family: 'Inter', monospace;
+        font-size: 2rem;
+        letter-spacing: 4px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 700;
+        position: relative;
+        user-select: all;
+    }
+    .code-display .code-line {
+        display: block;
+        line-height: 1.4;
+        font-weight: 600;
+    }
+    .code-display .code-line:first-child {
+        color: #5ee0ff;
+    }
+    .code-display .code-line:last-child {
+        color: #4a6cf7;
+    }
+
+    /* ───────── INPUT ───────── */
+    .input-group {
+        margin: 1.5rem 0 1.2rem;
+    }
+    .input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .input-container .input-icon {
+        position: absolute;
+        left: 1rem;
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 1rem;
+        pointer-events: none;
+        transition: color 0.3s;
+        z-index: 2;
+    }
+    .input-container input {
+        width: 100%;
+        padding: 0.9rem 1rem 0.9rem 2.8rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        color: #fff;
+        font-size: 1.1rem;
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+        letter-spacing: 2px;
+        outline: none;
+        transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+    .input-container input::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+    }
+    .input-container input:focus {
+        border-color: rgba(74, 108, 247, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
+    }
+    .input-container input:focus~.input-icon {
+        color: rgba(74, 108, 247, 0.6);
+    }
+
+    /* ───────── BUTTONS ───────── */
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+        width: 100%;
+        padding: 0.9rem;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+    }
+    .btn-primary:active {
+        transform: translateY(0) scale(0.98);
+    }
+    .btn-primary i {
+        margin-right: 0.5rem;
+    }
+
+    .refresh-btn {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.85rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        padding: 0.3rem 0.8rem;
+        transition: color 0.3s;
+        font-family: 'Inter', sans-serif;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+    .refresh-btn:hover {
+        color: #4a6cf7;
+    }
+
+    /* ───────── MESSAGE ───────── */
+    .message {
+        margin-top: 1.2rem;
+        font-weight: 500;
+        min-height: 2rem;
+        font-size: 0.95rem;
+    }
+    .message .success {
+        color: #5ee0ff;
+    }
+    .message .error {
+        color: #ff6b7a;
+    }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 600px) {
+        .glass-card {
+            padding: 2rem 1.5rem;
+            border-radius: 24px;
+        }
+        .section-title {
+            font-size: 1.6rem;
         }
         .code-display {
-            background: #f0f4f8;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 2.2rem;
-            letter-spacing: 4px;
-            border: 1px dashed #0a4b7a;
-            color: #0a4b7a;
-            font-weight: bold;
+            font-size: 1.6rem;
+            padding: 1.2rem;
         }
-        .code-display span {
-            display: block;
-            line-height: 1.4;
+        .input-container input {
+            font-size: 1rem;
+            padding: 0.8rem 1rem 0.8rem 2.4rem;
         }
-        .input-group {
-            margin: 2rem 0 1.5rem;
+    }
+    @media (max-width: 400px) {
+        .glass-card {
+            padding: 1.5rem 1rem;
         }
-        .input-group input {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2rem;
-            text-align: center;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            transition: border 0.3s;
+        .section-title {
+            font-size: 1.3rem;
         }
-        .input-group input:focus {
-            border-color: #0a4b7a;
-            outline: none;
+        .code-display {
+            font-size: 1.3rem;
+            padding: 1rem;
         }
-        .message {
-            margin-top: 1.5rem;
-            font-weight: 600;
-            min-height: 2rem;
-        }
-        .success { color: #2e7d32; }
-        .error { color: #c62828; }
-        .refresh-btn {
-            background: none;
-            border: none;
-            color: #0a4b7a;
-            font-size: 0.9rem;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-        .refresh-btn:hover {
-            color: #0e5f9e;
-        }
-
-        @media (max-width:768px) {
-            .verify-card { padding:1.5rem; }
-            .code-display { font-size:1.8rem; }
-        }
-    </style>
+    }
+</style>
 {% endblock %}
-    <main>
-        <section class="page-content">
-            <div class="container">
-                <div class="verify-card">
-                    <!-- Main heading exactly as in the screenshot -->
-                    <h1 class="section-title">Apex Trust Bank</h1>
-                    <p class="section-subtitle" style="margin-bottom:1rem;">Please confirm you are not a robot by entering the generated code below. This security verification step ensures safe access to your Apex Trust Bank account.</p>
 
-                    <!-- Dynamic code display area -->
-                    <div class="code-display">
-                        <span id="codePart1">YBNL04</span>
-                        <span id="codePart2">VHYCGO</span>
-                    </div>
+{% block content %}
+<main>
+    <section class="page-content">
+        <div class="container">
+            <div class="glass-card">
 
-                    <!-- Input field and verify button -->
-                    <div class="input-group">
-                        <input type="text" id="verifyInput" placeholder="Enter the code exactly as shown" autocomplete="off">
-                    </div>
-                    <button class="btn" id="verifyBtn">Verify Code</button>
-                    <button class="refresh-btn" id="refreshBtn">⟳ Generate new code</button>
+                <!-- Title -->
+                <h1 class="section-title">Apex <span>Trust</span> Bank</h1>
+                <p class="section-subtitle">Please confirm you are not a robot by entering the generated code below. This security verification step ensures safe access to your Apex Trust Bank account.</p>
 
-                    <!-- Message area for verification result -->
-                    <div id="message" class="message"></div>
+                <!-- Code Display -->
+                <div class="code-display">
+                    <span class="code-line" id="codePart1">YBNL04</span>
+                    <span class="code-line" id="codePart2">VHYCGO</span>
                 </div>
+
+                <!-- Input -->
+                <div class="input-group">
+                    <div class="input-container">
+                        <input type="text" id="verifyInput" placeholder="Enter the code exactly as shown" autocomplete="off">
+                        <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    </div>
+                </div>
+
+                <!-- Verify Button -->
+                <button class="btn btn-primary" id="verifyBtn">
+                    <i class="fas fa-check-circle"></i> Verify Code
+                </button>
+
+                <!-- Refresh Link -->
+                <button class="refresh-btn" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i> Generate new code
+                </button>
+
+                <!-- Message -->
+                <div id="message" class="message"></div>
+
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 
-  {% block extra_js %}
-    <script>
-        // Function to generate a random alphanumeric string (uppercase letters + digits)
-        function generateRandomCode(length = 6) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
+{% block extra_js %}
+<script>
+    // ─── Generate random alphanumeric code ───
+    function generateRandomCode(length = 6) {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
         }
+        return result;
+    }
 
-        // Initialize or refresh codes
-        function refreshCodes() {
-            const part1 = generateRandomCode(6);
-            const part2 = generateRandomCode(6);
-            document.getElementById('codePart1').textContent = part1;
-            document.getElementById('codePart2').textContent = part2;
-            // Clear input and message
+    // ─── Refresh codes ───
+    function refreshCodes() {
+        const part1 = generateRandomCode(6);
+        const part2 = generateRandomCode(6);
+        document.getElementById('codePart1').textContent = part1;
+        document.getElementById('codePart2').textContent = part2;
+        document.getElementById('verifyInput').value = '';
+        document.getElementById('message').innerHTML = '';
+        document.getElementById('verifyInput').focus();
+    }
+
+    // ─── Verify code ───
+    function verifyCode() {
+        const part1 = document.getElementById('codePart1').textContent;
+        const part2 = document.getElementById('codePart2').textContent;
+        const expectedCode = part1 + part2;
+        const enteredCode = document.getElementById('verifyInput').value.trim().toUpperCase();
+
+        const messageDiv = document.getElementById('message');
+        if (enteredCode === expectedCode) {
+            messageDiv.innerHTML = '<span class="success"><i class="fas fa-check-circle"></i> Verification successful! Redirecting...</span>';
+            setTimeout(() => {
+                window.location.href = "{% url 'home' %}";
+            }, 1500);
+        } else {
+            messageDiv.innerHTML = '<span class="error"><i class="fas fa-exclamation-circle"></i> Incorrect code. Please try again.</span>';
             document.getElementById('verifyInput').value = '';
-            document.getElementById('message').innerHTML = '';
+            document.getElementById('verifyInput').focus();
         }
+    }
 
-        // Verify entered code
-        function verifyCode() {
-            const part1 = document.getElementById('codePart1').textContent;
-            const part2 = document.getElementById('codePart2').textContent;
-            const expectedCode = part1 + part2; // combine exactly as displayed
-            const enteredCode = document.getElementById('verifyInput').value.trim();
+    // ─── Event listeners ───
+    document.addEventListener('DOMContentLoaded', function() {
+        // Randomize codes on load (optional)
+        // refreshCodes();
 
-            const messageDiv = document.getElementById('message');
-            if (enteredCode === expectedCode) {
-                messageDiv.innerHTML = '<span class="success">✓ Verification successful! Redirecting...</span>';
-                // Simulate redirect or further action (e.g., to dashboard)
-                setTimeout(() => {
-                    window.location.href = "{% url 'home' %}"; // or wherever successful verification leads
-                }, 1500);
-            } else {
-                messageDiv.innerHTML = '<span class="error">✗ Incorrect code. Please try again.</span>';
+        document.getElementById('verifyBtn').addEventListener('click', verifyCode);
+        document.getElementById('refreshBtn').addEventListener('click', refreshCodes);
+
+        document.getElementById('verifyInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyCode();
             }
-        }
-
-        // Attach event listeners after DOM loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set initial codes (optional, already in HTML but we can randomize on load)
-            // Uncomment next line if you want random codes on every page load:
-            // refreshCodes();
-
-            document.getElementById('verifyBtn').addEventListener('click', verifyCode);
-            document.getElementById('refreshBtn').addEventListener('click', refreshCodes);
-
-            // Also allow Enter key in input field
-            document.getElementById('verifyInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    verifyCode();
-                }
-            });
         });
-    </script>
-   {% endblock %}
 
+        // Auto-uppercase input
+        document.getElementById('verifyInput').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    });
+</script>
 {% endblock %}
- 
+{% endblock %}
