@@ -5,21 +5,59 @@
 
 {% block extra_css %}
 <style>
-    /* Profile page specific styles */
-    .page-content { padding: 4rem 0; }
-    .profile-card {
+    /* ───────── RESET & BASE ───────── */
+    .page-content {
+        padding: 4rem 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ───────── GLASS CARD ───────── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px) saturate(1.4);
+        -webkit-backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        padding: 2.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         max-width: 900px;
         margin: 0 auto;
-        background: white;
-        border-radius: 10px;
-        padding: 2.5rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        border: 1px solid #eaeef2;
     }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ───────── SECTION TITLES ───────── */
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0.3rem;
+        letter-spacing: -0.02em;
+    }
+    .section-title span {
+        background: linear-gradient(135deg, #4a6cf7, #00d4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .section-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+        max-width: 600px;
+        margin: 0 auto 2rem auto;
+        font-size: 1rem;
+    }
+
+    /* ───────── FORM SECTIONS ───────── */
     .form-section {
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
         padding-bottom: 1.5rem;
-        border-bottom: 1px solid #eaeef2;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
     .form-section:last-child {
         border-bottom: none;
@@ -27,48 +65,73 @@
         padding-bottom: 0;
     }
     .form-section h2 {
-        color: #0a4b7a;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
+    .form-section h2 i {
+        color: #4a6cf7;
+    }
+
+    /* ───────── FORM ROWS ───────── */
     .form-row {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        gap: 1.2rem;
+        margin-bottom: 0.8rem;
     }
     .form-group {
         display: flex;
         flex-direction: column;
     }
     .form-group label {
-        font-weight: 600;
-        color: #0a4b7a;
-        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 0.3rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
     }
     .form-group input,
     .form-group select,
     .form-group textarea {
-        padding: 10px 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 1rem;
-        transition: border 0.3s;
+        padding: 0.8rem 1rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        color: #fff;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+        outline: none;
+        width: 100%;
     }
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-        outline: none;
-        border-color: #0a4b7a;
-        box-shadow: 0 0 0 3px rgba(10,75,122,0.1);
+        border-color: rgba(74, 108, 247, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.06);
+    }
+    .form-group select option {
+        background: #1a1f30;
+        color: #fff;
     }
     .form-group textarea {
         resize: vertical;
         min-height: 80px;
     }
+    .form-group .text-danger {
+        color: #ff6b7a;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+    }
+
+    /* ───────── FILE UPLOAD ───────── */
     .file-upload {
         display: flex;
         align-items: center;
@@ -76,11 +139,73 @@
         flex-wrap: wrap;
     }
     .file-upload input[type="file"] {
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background: #f9f9f9;
+        padding: 0.6rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        width: 100%;
+        cursor: pointer;
     }
+    .file-upload input[type="file"]::file-selector-button {
+        background: rgba(74, 108, 247, 0.15);
+        border: none;
+        border-radius: 8px;
+        padding: 0.4rem 1.2rem;
+        color: #fff;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-family: 'Inter', sans-serif;
+    }
+    .file-upload input[type="file"]::file-selector-button:hover {
+        background: rgba(74, 108, 247, 0.25);
+    }
+
+    /* ───────── CHECKBOX ───────── */
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin: 0.8rem 0;
+    }
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #4a6cf7;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        appearance: none;
+        -webkit-appearance: none;
+        flex-shrink: 0;
+        position: relative;
+        transition: all 0.3s;
+    }
+    .checkbox-group input[type="checkbox"]:checked {
+        background: #4a6cf7;
+        border-color: #4a6cf7;
+    }
+    .checkbox-group input[type="checkbox"]:checked::after {
+        content: '✓';
+        color: #fff;
+        font-size: 0.7rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .checkbox-group label {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    /* ───────── Toggle Group ───────── */
     .toggle-group {
         display: flex;
         align-items: center;
@@ -92,49 +217,143 @@
         align-items: center;
         justify-content: space-between;
         flex: 1;
+        gap: 1rem;
+    }
+    .toggle-switch label {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin: 0;
     }
     .toggle-switch select {
-        padding: 10px 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 1rem;
-        transition: border 0.3s;
+        padding: 0.6rem 1rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        color: #fff;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        outline: none;
+        min-width: 120px;
     }
-    .checkbox-group {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin: 1rem 0;
+    .toggle-switch select option {
+        background: #1a1f30;
+        color: #fff;
     }
-    .checkbox-group input {
-        width: 18px;
-        height: 18px;
-    }
+
+    /* ───────── ACTION BUTTONS ───────── */
     .action-buttons {
         display: flex;
         gap: 1rem;
         justify-content: center;
         margin-top: 2rem;
+        flex-wrap: wrap;
     }
     .action-buttons .btn {
-        min-width: 150px;
+        min-width: 140px;
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        text-decoration: none;
+        text-align: center;
     }
-    /* Error styling */
-    .text-danger {
-        color: #c62828;
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6cf7, #3b5de7);
+        color: #fff;
+        box-shadow: 0 8px 28px rgba(74, 108, 247, 0.25);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+        background: linear-gradient(135deg, #5a7aff, #4a6cf7);
+    }
+    .btn-outline {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
+    }
+    .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* ───────── PARTNER LOGOS ───────── */
+    .partner-logos {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 3rem;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .partner-logos span {
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.2);
         font-size: 0.9rem;
-        margin-top: 0.3rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: color 0.3s;
     }
-    .errorlist {
-        list-style: none;
-        color: #c62828;
-        font-size: 0.9rem;
-        margin-top: 0.3rem;
-        padding-left: 0;
+    .partner-logos span:hover {
+        color: rgba(255, 255, 255, 0.5);
     }
-    @media (max-width:768px) {
-        .profile-card { padding:1.5rem; }
-        .form-row { grid-template-columns:1fr; }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 768px) {
+        .glass-card {
+            padding: 1.5rem;
+        }
+        .section-title {
+            font-size: 1.6rem;
+        }
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        .action-buttons {
+            flex-direction: column;
+        }
+        .action-buttons .btn {
+            width: 100%;
+        }
+        .toggle-group {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .toggle-switch {
+            width: 100%;
+        }
+        .partner-logos {
+            gap: 1rem;
+            padding: 1.5rem 0;
+        }
+        .partner-logos span {
+            font-size: 0.75rem;
+        }
+    }
+    @media (max-width: 480px) {
+        .glass-card {
+            padding: 1.2rem;
+        }
+        .section-title {
+            font-size: 1.3rem;
+        }
+        .form-section h2 {
+            font-size: 1.1rem;
+        }
     }
 </style>
 {% endblock %}
@@ -142,8 +361,9 @@
 {% block content %}
 <section class="page-content">
     <div class="container">
-        <div class="profile-card">
-            <h1 class="section-title">Update Profile</h1>
+        <div class="glass-card">
+
+            <h1 class="section-title">Update <span>Profile</span></h1>
             <p class="section-subtitle">Keep your information up‑to‑date to ensure secure and seamless banking.</p>
 
             <form method="post" action="{% url 'reset_profile' %}" enctype="multipart/form-data">
@@ -151,7 +371,7 @@
 
                 <!-- Personal Information -->
                 <div class="form-section">
-                    <h2>👤 Personal Information</h2>
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="{{ form.first_name.id_for_label }}">First name</label>
@@ -202,7 +422,7 @@
 
                 <!-- Additional Details -->
                 <div class="form-section">
-                    <h2>📋 Additional Details</h2>
+                    <h2><i class="fas fa-clipboard-list"></i> Additional Details</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="{{ form.status.id_for_label }}">Status</label>
@@ -253,7 +473,7 @@
 
                 <!-- Security & Address -->
                 <div class="form-section">
-                    <h2>🔐 Security & Address</h2>
+                    <h2><i class="fas fa-shield-alt"></i> Security & Address</h2>
                     <div class="toggle-group">
                         <div class="toggle-switch">
                             <label for="{{ form.two_factor_auth.id_for_label }}">2FAUTH</label>
@@ -288,7 +508,7 @@
 
                 <!-- Profile Picture & Preferences -->
                 <div class="form-section">
-                    <h2>🖼️ Profile & Preferences</h2>
+                    <h2><i class="fas fa-camera"></i> Profile & Preferences</h2>
                     <div class="form-group">
                         <label for="{{ form.profile_pic.id_for_label }}">Profile pic</label>
                         <div class="file-upload">
@@ -304,22 +524,22 @@
                     </div>
                 </div>
 
-                <!-- Form Actions -->
+                <!-- Actions -->
                 <div class="action-buttons">
-                    <button type="submit" class="btn">Update Profile</button>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
                     <button type="reset" class="btn btn-outline">Cancel</button>
                 </div>
             </form>
         </div>
 
         <!-- Partner Logos -->
-        <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; padding: 2rem 0; border-top: 1px solid #eaeef2;">
-            <span style="font-weight: 600; color: #0a4b7a;">LOGO</span>
-            <span style="font-weight: 600; color: #0a4b7a;">SAMSUNG</span>
-            <span style="font-weight: 600; color: #0a4b7a;">SoundWave</span>
-            <span style="font-weight: 600; color: #0a4b7a;">SAMPLE COMPANY</span>
-            <span style="font-weight: 600; color: #0a4b7a;">FRUITY PEBBLES</span>
-            <span style="font-weight: 600; color: #0a4b7a;">INTERNATIONAL HEARTS</span>
+        <div class="partner-logos">
+            <span>LOGO</span>
+            <span>SAMSUNG</span>
+            <span>SoundWave</span>
+            <span>SAMPLE COMPANY</span>
+            <span>FRUITY PEBBLES</span>
+            <span>INTERNATIONAL HEARTS</span>
         </div>
     </div>
 </section>
