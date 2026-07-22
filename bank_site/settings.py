@@ -82,42 +82,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bank_site.wsgi.application'
 # Database configuration
-import sys
+import os
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
-IS_COLLECTSTATIC = 'collectstatic' in sys.argv
+DATABASE_URL = os.environ["DATABASE_URL"]  # Raises an error if not set
 
-if DATABASE_URL and not IS_COLLECTSTATIC:
-    # Production database configuration
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
-    # Add connection options after config
-    DATABASES['default']['OPTIONS'] = {
-        'client_encoding': 'UTF8',
-        'connect_timeout': 10,
-    }
-elif IS_COLLECTSTATIC:
-    # During collectstatic, use temporary database
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
-        }
-    }
-else:
-    # Local development fallback
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+DATABASES = {
+    "default": dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
+
+DATABASES["default"]["OPTIONS"] = {
+    "client_encoding": "UTF8",
+    "connect_timeout": 10,
+}
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
