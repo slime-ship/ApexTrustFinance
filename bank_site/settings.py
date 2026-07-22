@@ -2,7 +2,9 @@
 Django settings for bank_site project.
 """
 
-import os
+import os 
+from dotenv import load_dotenv
+load_dotenv()
 import django
 from pathlib import Path
 import sys
