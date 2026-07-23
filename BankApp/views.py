@@ -939,62 +939,29 @@ def loan_approved(request, loan_id):
     loan = Loan.objects.get(id=loan_id, user=request.user)
     return render(request, 'loan_approved.html', {'loan': loan})
 
-
 @unauthenticated_user
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Create user but DON'T activate yet
+            # Create user and activate immediately
             user = form.save(commit=False)
-            user.is_active = False  # ← CRITICAL: Set to False initially
+            user.is_active = True  # User is active immediately
             user.save()
 
             # Create user profile
             profile, created = UserProfile.objects.get_or_create(
                 user=user,
-                defaults={'is_email_verified': False}
+                defaults={'is_email_verified': True}  # Auto-verified
             )
             
-            # Always set to False for new registrations
-            profile.is_email_verified = False
+            # Always set to True for new registrations
+            profile.is_email_verified = True
             profile.save()
-
-            # Generate signed token
-            signed_value = signer.sign(user.pk)
-
-            # Verification link
-            verification_link = request.build_absolute_uri(
-                reverse('verify_email', args=[signed_value])
-            )
-
-            # Email content
-            email_body = f"""
-Hi {user.email},
-
-Your Apex Trust Bank account has been successfully created.
-
-Please verify your email by clicking the link below:
-{verification_link}
-
-This link is valid for 7 days.
-
-If you did not create this account, simply ignore this message.
-
-Apex Trust Bank Security Team
-"""
-
-            send_mail(
-                subject="🎉 Welcome to Apex Trust Bank – Verify Your Email",
-                message=email_body,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[user.email],
-                fail_silently=False,
-            )
 
             messages.success(
                 request,
-                "Registration successful! A verification link has been sent to your email."
+                "Registration successful! You can now log in to your account."
             )
             return redirect('user_login')
 
