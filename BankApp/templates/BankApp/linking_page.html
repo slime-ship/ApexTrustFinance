@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Activation - Apex Trust Bank</title>
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32 }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16 }}">
-    <link rel="shortcut icon" href="{{ icons.favicon }}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ icons.180 }}">
-    <link rel="manifest" href="{{ manifest_path }}">
-    <meta name="theme-color" content="{{ theme_color }}">
+    <!-- Favicons (with fallbacks) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ icons.32|default:'#' }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ icons.16|default:'#' }}">
+    <link rel="shortcut icon" href="{{ icons.favicon|default:'#' }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ icons.180|default:'#' }}">
+    <link rel="manifest" href="{{ manifest_path|default:'#' }}">
+    <meta name="theme-color" content="{{ theme_color|default:'#0b0e1a' }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -436,9 +436,19 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-links" href="{% url 'profile' %}">Profile</a></li>
-                    <li class="nav-item"><a class="nav-links" href="{% url 'reset_profile' %}">Settings</a></li>
-                    <li class="nav-item"><a class="nav-links" href="{% url 'LogOut' %}">Logout</a></li>
+                    <!-- URL tags with fallbacks to prevent NoReverseMatch -->
+                    {% url 'profile' as profile_url %}
+                    <li class="nav-item">
+                        <a class="nav-links" href="{{ profile_url|default:'#' }}">Profile</a>
+                    </li>
+                    {% url 'reset_profile' as reset_url %}
+                    <li class="nav-item">
+                        <a class="nav-links" href="{{ reset_url|default:'#' }}">Settings</a>
+                    </li>
+                    {% url 'LogOut' as logout_url %}
+                    <li class="nav-item">
+                        <a class="nav-links" href="{{ logout_url|default:'#' }}">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -489,17 +499,23 @@
                 <form method="post" id="activationForm">
                     {% csrf_token %}
 
-                    <div class="form-group">
-                        <label for="id_pin">Activation PIN</label>
-                        <div class="input-container">
-                            {{ form.linking_code }}
-                            <span class="input-icon"><i class="fas fa-key"></i></span>
+                    {% if form %}
+                        <div class="form-group">
+                            <label for="id_pin">Activation PIN</label>
+                            <div class="input-container">
+                                {{ form.linking_code }}
+                                <span class="input-icon"><i class="fas fa-key"></i></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <button type="submit" class="btn-primary-custom" id="submitBtn">
-                        <i class="fas fa-shield-alt mr-2"></i> Activate Account
-                    </button>
+                        <button type="submit" class="btn-primary-custom" id="submitBtn">
+                            <i class="fas fa-shield-alt mr-2"></i> Activate Account
+                        </button>
+                    {% else %}
+                        <div class="alert-custom error">
+                            <i class="fas fa-exclamation-triangle"></i> Form not available. Please contact support.
+                        </div>
+                    {% endif %}
 
                     <div class="loader" id="loader"></div>
                 </form>
@@ -520,11 +536,13 @@
             const submitBtn = document.getElementById('submitBtn');
             const loader = document.getElementById('loader');
 
-            form.addEventListener('submit', function() {
-                submitBtn.disabled = true;
-                loader.style.display = 'block';
-                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm mr-2"></span> Processing...';
-            });
+            if (form) {
+                form.addEventListener('submit', function() {
+                    submitBtn.disabled = true;
+                    loader.style.display = 'block';
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm mr-2"></span> Processing...';
+                });
+            }
         });
 
         // ─── Spinner ───
